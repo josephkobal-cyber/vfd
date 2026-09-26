@@ -7,7 +7,7 @@ once the Synthesia voice lines are recorded.
 
 | Topic | Decision |
 |---|---|
-| Station | Neat Frame (VFD is an official Neat partner, branding allowed) |
+| Station | Neat Frame (VFD is an official Neat partner, branding allowed). 15.6" portrait touchscreen, 445 mm tall × 222 mm wide × 111 mm deep, screen reclined 8°. On a ~1 m counter its top sits around mid-chest of a standing adult. See `references/station-front-screen-off.jpg`, `references/station-dimensions.jpg` |
 | Placement | On the reception counter: light oak cabinet, stone top, waist height |
 | Visitor | "Julia Smith", Synthesia avatar (see `references/julia-synthesia-avatar.webp`) — pale-yellow polo sweater over striped collar shirt, brown belt, clear glasses, slicked-back blonde hair. Outfit never changes. |
 | Receptionist | Synthesia avatar (to be picked) |
@@ -32,7 +32,7 @@ once the Synthesia voice lines are recorded.
 
 | Plate | Used in |
 |---|---|
-| **P1 — Station close-up**, straight-on, locked-off, blank screen, counter + soft lobby behind. Framing reference: the front-facing Hiveworks product shot (station centered on counter, shallow depth of field) — restyled to the clinic look | 2B, 4A, 5A, 6C, 7A |
+| **P1 — Station close-up**, straight-on, locked-off, blank screen, counter + soft lobby behind. Framing reference: the front-facing Hiveworks product shot (station centered on counter, shallow depth of field) — restyled to the clinic look. Camera slightly above screen center, tilted down ~8° so it is perpendicular to the reclined glass → screen reads as a clean rectangle for the overlay | 2B, 4A, 5A, 6C, 7A |
 | **P2 — Lobby background from station POV**, soft focus, subtle ambient movement | 2A, 4E, 6B, 7B (behind SYN-J) |
 | **P3 — Wide over-shoulder**, Julia beside station, screen straight-on and unobstructed | 7C |
 | **P4 — Hero**, station on counter, beautiful light | 8A, 8C background |
@@ -136,7 +136,7 @@ below, thin black footer bar, language pill top-right. Restyle for "Northgate Cl
 - [ ] Sound rings overlay (transparent)
 
 ## Still needed from you
-- [x] Straight-on front photo of the station (received in chat — the image file still needs adding to `references/`)
+- [x] Straight-on front photo of the station, screen off, plus dimensions
 - [ ] Confirm the clinic look
 - [ ] VFD logo, neat. logo (SVG / transparent PNG)
 - [ ] UI screenshots of the real interface
