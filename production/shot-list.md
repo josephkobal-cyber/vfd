@@ -13,7 +13,7 @@ once the Synthesia voice lines are recorded.
 | Receptionist | Synthesia avatar (to be picked) |
 | Voices | All voice lines recorded in Synthesia (AI assistant, Julia, receptionist) |
 | Final edit | Synthesia (overlays, VO, music, titles) |
-| Clinic look | *Assumed, please confirm:* warm white walls, light oak, stone counter, plants, soft daylight through large windows — matches Julia's avatar lighting |
+| Clinic look | See `clinic-look.md` (draft for approval) |
 | AI-speaking motif | White concentric sound rings around the station whenever the AI speaks and the screen isn't visible |
 
 ## Method key
@@ -32,7 +32,7 @@ once the Synthesia voice lines are recorded.
 
 | Plate | Used in |
 |---|---|
-| **P1 — Station close-up**, straight-on, locked-off, blank screen, counter + soft lobby behind. Framing reference: the front-facing Hiveworks product shot (station centered on counter, shallow depth of field) — restyled to the clinic look. Camera slightly above screen center, tilted down ~8° so it is perpendicular to the reclined glass → screen reads as a clean rectangle for the overlay | 2B, 4A, 5A, 6C, 7A |
+| **P1 — Station close-up**, straight-on, locked-off, blank screen, counter + soft lobby behind. Framing reference: the front-facing Hiveworks product shot (station centered on counter, shallow depth of field) — restyled to the clinic look. Camera slightly above screen center, tilted down ~8° so it is perpendicular to the reclined glass → screen reads as a clean rectangle for the overlay | 2B, 4A, 4C, 5A, 6B, 7A |
 | **P2 — Lobby background from station POV**, soft focus, subtle ambient movement | 2A, 4E, 6B, 7B (behind SYN-J) |
 | **P3 — Wide over-shoulder**, Julia beside station, screen straight-on and unobstructed | 7C |
 | **P4 — Hero**, station on counter, beautiful light | 8A, 8C background |
@@ -44,7 +44,7 @@ once the Synthesia voice lines are recorded.
 | # | Shot | Dur | Method | Screen / overlay | Audio |
 |---|---|---|---|---|---|
 | 1A | Wide: clinic entrance, Julia walks through the front door; reception area attractive but unattended | 4s | HF | — | Music in, ambience |
-| 1B | Tracking from behind Julia as she approaches the counter; station visible ahead | 4s | HF | Soft generated welcome glow, no readable UI (moving camera) | AI: "Welcome to Northgate Clinic. I'm here to answer questions, |
+| 1B | Tracking from behind Julia (shoulders / back) as she walks through the lobby toward reception — **station kept out of frame** | 4s | HF | — | AI: "Welcome to Northgate Clinic. I'm here to answer questions, |
 | 1C | Medium side view (like `station-side-counter-sound-rings`): Julia stops at the counter | 6s | HF | RINGS | …help you check in, or connect you with reception at any time. How can I help you today?" |
 
 ## Scene 2 — Natural question (~10.5s)
@@ -64,29 +64,33 @@ once the Synthesia voice lines are recorded.
 
 ## Scene 4 — Guided check-in (~10.5s)
 
+**Reverse angle (4B, 4D):** camera behind the station, Julia faces camera; device back/edge soft in the foreground, **screen never visible**. Same camera setup for both shots so they cut together.
+
 | # | Shot | Dur | Method | Screen / overlay | Audio |
 |---|---|---|---|---|---|
 | 4A | Screen close-up, "Check In" option highlights | 3s | HF-PLATE (P1) + MG | Check-in UI, button pulse · LOGO FIX | AI: "Please enter your name on the screen, or scan the QR code |
-| 4B | Over-shoulder macro: Julia's finger taps the screen | 2s | HF | Shallow focus, screen content soft/unreadable (finger over screen can't take an overlay) | …to check in from your phone. |
-| 4C | **Option A:** name typed on screen | 2s | MG (full frame, no hand) | Keyboard, "Julia Smith" typing in, tap ripples | Let me know when you're done." |
-| 4D | **Option B:** Julia raises her phone to the QR code | 2s | HF + MG | Phone and station softly focused → MG "✓" pop | (VO tail) |
+| 4B | **Option A** — reverse angle: Julia reaches out and taps the screen | 2s | HF | — (device foreground blurred) | …to check in from your phone. |
+| 4C | Screen close-up: QR code appears | 2s | HF-PLATE (P1) + MG | QR code + "Scan to check in from your phone" · LOGO FIX | Let me know when you're done." |
+| 4D | **Option B** — reverse angle: Julia raises her phone toward the screen and scans | 2s | HF | — (device foreground blurred, phone screen faces away) | (VO tail) |
 | 4E | Julia close-up | 1.5s | SYN-J on P2 | — | Julia: "Okay, I'm done." |
 
-## Scene 5 — VFD takes action (~9.5s)
+⚠️ Script check: the AI line says "enter your name on the screen". Confirm with the product team how on-screen check-in actually works (name entry? tap your appointment?) and adjust the line to match.
+
+## Scene 5 — VFD takes action (~9s)
 
 | # | Shot | Dur | Method | Screen / overlay | Audio |
 |---|---|---|---|---|---|
 | 5A | Screen close-up | 4s | HF-PLATE (P1) + MG | "Julia Smith — Checked In ✓" → "Notifying Dr. Jackson's team…" · LOGO FIX | AI: "Great, thank you. You can take a seat. |
-| 5B | Back office: staff desk, notification appears | 2.5s | HF (locked-off, blank monitor/phone) + MG | Notification: "Julia Smith has arrived — Dr. Jackson" | I'll let Dr. Jackson's team know you've arrived, |
-| 5C | Julia smiles, walks toward the waiting area | 3s | HF | RINGS (subtle) | …and they'll come get you when they're ready." |
+| 5B | Reverse angle (same setup as 4B/4D): Julia listens, smiles and nods — stays at the counter | 5s | HF | RINGS (subtle) · device foreground blurred | I'll let Dr. Jackson's team know you've arrived, and they'll come get you when they're ready." |
 
-## Scene 6 — One more question (~9.5s)
+## Scene 6 — One more question (~7.5s)
+
+Julia doesn't walk away — still at the counter, she remembers something.
 
 | # | Shot | Dur | Method | Screen / overlay | Audio |
 |---|---|---|---|---|---|
-| 6A | Before sitting, Julia turns back and steps to the counter | 2s | HF | — | — |
-| 6B | Julia close-up | 3.5s | SYN-J on P2 | — | Julia: "Actually, I have a question about my next appointment." |
-| 6C | Station close-up: thinking beat → answer | 4s | HF-PLATE (P1) + MG | Thinking shimmer (1s) → "Connecting you with reception…" · LOGO FIX | AI: "Of course. Let me connect you with reception." |
+| 6A | Julia close-up, "oh, one more thing" beat | 3.5s | SYN-J on P2 | — | Julia: "Oh — actually, I have a question about my next appointment." |
+| 6B | Station close-up: thinking beat → answer | 4s | HF-PLATE (P1) + MG | Thinking shimmer (1s) → "Connecting you with reception…" · LOGO FIX | AI: "Of course. Let me connect you with reception." |
 
 ## Scene 7 — Human handoff (~9s)
 
@@ -104,7 +108,7 @@ once the Synthesia voice lines are recorded.
 | 8B | Quick montage: delivery person, employee, another patient each approach the station | 4.5s (3 × 1.5s) | HF | RINGS | Music |
 | 8C | End card over soft P4 | 5s | MG | "Virtual Front Desk AI receptionist" / "AI when it can. Human when needed." (VFD logo added by client in Synthesia if needed) | Music out |
 
-**Estimated total: ~80s** → the remaining ~10s is breathing room once the real VO timing is known.
+**Estimated total: ~78s** → the remaining ~10s is breathing room once the real VO timing is known.
 
 ---
 
@@ -114,11 +118,11 @@ once the Synthesia voice lines are recorded.
 - [ ] Julia character reference (from avatar screenshot, same outfit)
 - [ ] Clinic look style frame (approve before anything else)
 - [ ] Plates P1–P4
-- [ ] HF shots: 1A, 1B, 1C, 3A, 4B, 4D, 5B, 5C, 6A, 8B ×3
+- [ ] HF shots: 1A, 1B, 1C, 3A, 4B, 4D, 5B, 8B ×3 (4B, 4D, 5B share one reverse-angle setup)
 
 **Synthesia**
 - [ ] All VO lines (AI, Julia, receptionist) — record first, export audio
-- [ ] SYN-J clips: 2A, 4E, 6B, 7B
+- [ ] SYN-J clips: 2A, 4E, 6A, 7B
 - [ ] SYN-R receptionist clip (7A, 7C)
 
 **Motion graphics (MP4, 1080×1920 portrait — the Neat Frame screen is 9:16)**
@@ -129,9 +133,9 @@ below, thin black footer bar, language pill top-right. Restyle for "Northgate Cl
 
 - [ ] Listening/voice visualizer + parking answer card (2B)
 - [ ] Check-in UI + button pulse (4A)
-- [ ] Name typing (4C), QR ✓ (4D)
-- [ ] Checked In → Notifying (5A), staff notification (5B)
-- [ ] Thinking → Connecting (6C), AI → video-call transition (7A)
+- [ ] QR code screen (4C)
+- [ ] Checked In → Notifying (5A)
+- [ ] Thinking → Connecting (6B), AI → video-call transition (7A)
 - [ ] Welcome screen (8A), end card (8C)
 - [ ] Sound rings overlay (transparent)
 
