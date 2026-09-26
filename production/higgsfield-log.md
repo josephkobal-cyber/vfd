@@ -26,4 +26,4 @@ Note: element generations only injected the element's first image (front view) �
 | 2026-09-26 | 4ecbc599 | nano_banana_2 | Station test 4 — 3/4 view on counter, element | ✅ good · ❌ side-view details wrong |
 | 2026-09-26 | 1cf74196, 2e85a6d4 | nano_banana_2 2K | Round 2 — front close-up, direct refs: front UI render hi-res + front screen-off + 3/4 render hi-res; logo orientation in prompt | pending review |
 | 2026-09-26 | 3f74a008, 83de59bc | nano_banana_2 2K | Round 2 — 3/4 view, direct refs: 3/4 render hi-res + dimension drawing (side profile) + back + 3/4 shadow | pending review |
-| 2026-09-26 | b6b0f3ef, c44f4b9e | nano_banana_2 2K | Round 3 — 3/4 view, refs: neat_studio_frame_key_call (primary) + 3/4 render hi-res; logo top→bottom | pending review |
+| 2026-09-26 | b6b0f3ef, c44f4b9e | nano_banana_2 2K | Round 3 — 3/4 view, refs: neat_studio_frame_key_call (primary) + 3/4 render hi-res; logo top→bottom | ✅ approved station replica |
