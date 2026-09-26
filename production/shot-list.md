@@ -102,7 +102,7 @@ once the Synthesia voice lines are recorded.
 |---|---|---|---|---|---|
 | 8A | Clean hero shot of the station on the counter | 3s | HF-PLATE (P4) + MG | VFD welcome screen · LOGO FIX | Music |
 | 8B | Quick montage: delivery person, employee, another patient each approach the station | 4.5s (3 × 1.5s) | HF | RINGS | Music |
-| 8C | End card over soft P4 | 5s | MG | "Virtual Front Desk AI receptionist" / "AI when it can. Human when needed." / VFD logo | Music out |
+| 8C | End card over soft P4 | 5s | MG | "Virtual Front Desk AI receptionist" / "AI when it can. Human when needed." (VFD logo added by client in Synthesia if needed) | Music out |
 
 **Estimated total: ~80s** → the remaining ~10s is breathing room once the real VO timing is known.
 
@@ -138,6 +138,6 @@ below, thin black footer bar, language pill top-right. Restyle for "Northgate Cl
 ## Still needed from you
 - [x] Straight-on front photo of the station, screen off, plus dimensions
 - [ ] Confirm the clinic look
-- [ ] VFD logo, neat. logo (SVG / transparent PNG)
+- [ ] neat. logo SVG → `references/` (VFD logo not needed)
 - [ ] UI screenshots of the real interface
 - [ ] Receptionist avatar pick
