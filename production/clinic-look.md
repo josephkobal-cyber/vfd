@@ -71,3 +71,9 @@ and the black station stand out.
 
 Reference images to attach: `references/julia-synthesia-avatar.webp` (lighting/mood),
 `references/station-side-counter-sound-rings.webp` (counter), `references/station-front-screen-off.jpg` (device).
+
+## Exterior
+- Modern four-storey building, warm white plaster facade, softly rounded corners, rows of large windows.
+- Entrance: glass door in thin matte black metal frame.
+- Sign above entrance: NORTHGATE CLINIC, clean black sans-serif capitals (the only allowed signage).
+- Sunlit stone path, olive trees and grasses in stone planters.

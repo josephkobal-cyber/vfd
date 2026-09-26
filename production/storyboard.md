@@ -5,7 +5,7 @@ Model: nano_banana_2, 2K, 16:9. Status: **draft for approval**.
 
 | # | Shot | Frame (job id) | How it's made in the final video |
 |---|---|---|---|
-| 1 | 1A — OUTSIDE: follow Julia from behind walking toward the entrance, sunny | v2 options: `f4c446ab` (path), `3f22a8c4` (steps) — pending pick | HF video, tracking |
+| 1 | 1A — OUTSIDE: follow Julia from behind walking toward the entrance, sunny | base `f4c446ab` (path) ✅ · v3 (4 storeys, black entrance frame, NORTHGATE CLINIC sign): `7c69d17d`, `1040a343` — pending pick | HF video, tracking |
 | 1b | 1A2 — Wide: Julia enters the clinic from OUTSIDE (door opening inward) | redo pending (old `d3eb2974` ❌ looked like leaving) | HF video |
 | 2 | 1B — Behind Julia walking through lobby | `683629fb` (J1) | HF video |
 | 3 | 1C — Wide side view, Julia stops at counter (screen hidden) | `567000e7` | HF video + sound rings |
