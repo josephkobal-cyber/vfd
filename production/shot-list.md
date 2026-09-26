@@ -59,7 +59,7 @@ once the Synthesia voice lines are recorded.
 
 | # | Shot | Dur | Method | Screen / overlay | Audio |
 |---|---|---|---|---|---|
-| 3A | Side view, Julia standing at the counter | 4.5s | HF (lip-sync driven by Synthesia audio) | RINGS on AI line | Julia: "Yes, with Dr. Jackson." · AI: "Perfect. Let's get you checked in." |
+| 3A | Side view, Julia standing at the counter — station in pure side profile, **screen never visible** | 4.5s | HF (lip-sync driven by Synthesia audio) | RINGS on AI line | Julia: "Yes, with Dr. Jackson." · AI: "Perfect. Let's get you checked in." |
 
 ⚠️ Only on-camera Julia line not covered by Synthesia. Profile angle + short line keeps risk low; fallback = angle from slightly behind.
 

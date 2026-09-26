@@ -35,4 +35,5 @@ Note: element generations only injected the element's first image (front view) �
 | 2026-09-26 | a914ec19 | nano_banana_2 2K | Julia J3 — reverse angle behind station (4B/4D/5B) | ❌ device too small |
 | 2026-09-26 | 2284fc0a | nano_banana_2 2K | Julia J2 v2 — side view, scale refs added | ❌ device too big |
 | 2026-09-26 | 019b9db2 | nano_banana_2 2K | Julia J3 v2 — reverse angle, scale ref added | ✅ face matches avatar; raised counter section approved |
-| 2026-09-26 | e1ecd80f, 8d6aa2fc | nano_banana_2 2K | Julia J2 v3 — side view, exact dimensions as body proportions | pending review |
+| 2026-09-26 | e1ecd80f, 8d6aa2fc | nano_banana_2 2K | Julia J2 v3 — side view, exact dimensions as body proportions | ❌ screen visible (rule: side views must hide the screen) |
+| 2026-09-26 | 5ec56484, 9e257995 | nano_banana_2 2K | Julia J2 v4 — pure side profile, screen hidden; composition ref `station-side-counter-sound-rings` (`71db3503-c0d0-46a2-b552-7987152e52e4`) | pending review |
