@@ -142,6 +142,6 @@ below, thin black footer bar, language pill top-right. Restyle for "Northgate Cl
 ## Still needed from you
 - [x] Straight-on front photo of the station, screen off, plus dimensions
 - [ ] Confirm the clinic look
-- [ ] neat. logo SVG → `references/` (VFD logo not needed)
+- [x] neat. logo SVG → `production/neat.svg` (VFD logo not needed)
 - [ ] UI screenshots of the real interface
 - [ ] Receptionist avatar pick
