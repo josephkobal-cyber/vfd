@@ -8,9 +8,9 @@ Model: nano_banana_2, 2K, 16:9. Status: **draft for approval**.
 | 1 | 1A — OUTSIDE: follow Julia from behind walking toward the entrance, sunny | ✅ LOCKED `7c69d17d` (4 storeys, black entrance, NORTHGATE CLINIC sign) | HF video, tracking |
 | 1b | 1A2 — Wide interior: Julia enters from outside, no counter in frame | ✅ LOCKED (user approved; option to confirm: `9d74a7c2` or `2e7ac1a4`) | HF video |
 | 2 | 1B — Short wide follow-shot from behind toward the counter; counter mostly hidden by her body, station not visible | ref `references/shot-1B-ref.webp` · ✅ LOCKED `d9488ff3` | HF video, tracking |
-| 3 | 1C/3A — Side view at counter, screen hidden | ref `references/shot-side-view-ref.webp` · base `e07161df` ✅ · station-on-raised-block options `b0f0d3e4`, `2cfa78e1` — pending pick | HF video + sound rings |
+| 3 | 1C/3A — Side view at counter, screen hidden | ref `references/shot-side-view-ref.webp` · ✅ LOCKED `b0f0d3e4` (station on raised block) | HF video + sound rings |
 | 4 | 2A / 4E / 6A / 7B — Lobby background from station POV (P2) | `5df2aeea` | Background for Synthesia Julia close-ups |
-| 5 | 2B / 4A / 4C / 5A / 6B / 7A — Station front close-up, blank screen (P1) | `6c42add0` | Locked-off HF video + screen UI overlay in Synthesia |
+| 5 | 2B / 4A / 4C / 5A / 6B / 7A — Station front close-up, blank screen (P1) | base `6c42add0` ✅ · locked counter + wall background: `d8baed49`, `d106110b` — pending pick | Locked-off HF video + screen UI overlay in Synthesia |
 | 6 | 3A — Side view at counter (screen hidden) | `5ec56484` (J2 v4) | HF video + sound rings |
 | 7 | 4B — Reverse angle, Julia taps the screen | `019b9db2` (J3 v2) | HF video |
 | 8 | 4D — Reverse angle, Julia scans QR with phone | `d0a434b4` | HF video |
