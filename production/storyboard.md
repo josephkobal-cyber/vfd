@@ -9,8 +9,8 @@ Model: nano_banana_2, 2K, 16:9. Status: **draft for approval**.
 | 1b | 1A2 — Wide interior: Julia enters from outside, no counter in frame | ✅ LOCKED (user approved; option to confirm: `9d74a7c2` or `2e7ac1a4`) | HF video |
 | 2 | 1B — Short wide follow-shot from behind toward the counter; counter mostly hidden by her body, station not visible | ref `references/shot-1B-ref.webp` · ✅ LOCKED `d9488ff3` | HF video, tracking |
 | 3 | 1C/3A — Side view at counter, screen hidden | ref `references/shot-side-view-ref.webp` · ✅ LOCKED `b0f0d3e4` (station on raised block) | HF video + sound rings |
-| 4 | 2A / 4E / 6A / 7B — Lobby background from station POV (P2) | `5df2aeea` | Background for Synthesia Julia close-ups |
-| 5 | 2B / 4A / 4C / 5A / 6B / 7A — Station front close-up, blank screen (P1) | base `6c42add0` ✅ · locked counter + wall background: `d8baed49`, `d106110b` — pending pick | Locked-off HF video + screen UI overlay in Synthesia |
+| 4 | 2A0 (NEW, before 2B) — Julia medium shot responding to the welcome; black-framed window + olive trees behind | pair A: Julia `49517e2a` + empty plate `fe33e193` · pair B: Julia `c6ffaaf1` + empty plate `8a528d63` — pending pick | Storyboard frame = Julia version; Synthesia uses the empty plate as background for the Julia avatar (lip-sync) |
+| 5 | 2B / 4A / 4C / 5A / 6B / 7A — Station front close-up, blank screen (P1) | base `6c42add0` ✅ · ✅ LOCKED `d106110b` (raised block, wall behind) | Locked-off HF video + screen UI overlay in Synthesia |
 | 6 | 3A — Side view at counter (screen hidden) | `5ec56484` (J2 v4) | HF video + sound rings |
 | 7 | 4B — Reverse angle, Julia taps the screen | `019b9db2` (J3 v2) | HF video |
 | 8 | 4D — Reverse angle, Julia scans QR with phone | `d0a434b4` | HF video |
