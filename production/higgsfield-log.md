@@ -7,6 +7,7 @@ Project: **VFD AI Receptionist Explainer** — project/folder id `662ee2f5-1a7d-
 |---|---|---|
 | Uploaded media | 3/4 render hi-res `6442d77e-2bfb-4d2e-b91d-9cccc88359a7`, front UI render hi-res `ab85687f-d561-43b8-8bf3-b0a8261af6de`, dimensions `0832fee2-365e-48b4-bcc7-a26fb89a772a`, front screen-off `17598705-cea3-47ea-bb57-d82dc2e309e9`, back `347a1323-08f4-465f-901e-fc4cabedd532`, 3/4 shadow `eb2fb8b2-a330-45f4-a0dd-0d766b1de5ea` | |
 | 3/4 master reference (use for all 3/4 shots) | `references/neat_studio_frame_key_call.jpg` → media `8018012e-fd11-4307-9f2d-b9db2fb62ae0` | also the logo placement/orientation reference |
+| Julia media | full body `b75cca24-31c6-4a2d-b82c-03594f029f45` (`references/julia-full-body.webp`), avatar close-up `844b7a30-38e8-46ff-b2fe-c0327899a80a` | outfit: butter-yellow knit polo over blue/white striped shirt, brown belt gold buckle, light wide-leg jeans, white leather sneakers |
 | Neat-Frame (prop) | `4abbc040-b69a-4f88-afdc-41aae0a058b8` | front screen-off, 3/4 screen-off ×2, 3/4 screen-on, back (from `references/`) |
 
 **Model choice:** `nano_banana_2` (2K = 2 credits/image). Pass references directly via `medias` (role `image_references`) rather than the element.
@@ -27,3 +28,6 @@ Note: element generations only injected the element's first image (front view) �
 | 2026-09-26 | 1cf74196, 2e85a6d4 | nano_banana_2 2K | Round 2 — front close-up, direct refs: front UI render hi-res + front screen-off + 3/4 render hi-res; logo orientation in prompt | pending review |
 | 2026-09-26 | 3f74a008, 83de59bc | nano_banana_2 2K | Round 2 — 3/4 view, direct refs: 3/4 render hi-res + dimension drawing (side profile) + back + 3/4 shadow | pending review |
 | 2026-09-26 | b6b0f3ef, c44f4b9e | nano_banana_2 2K | Round 3 — 3/4 view, refs: neat_studio_frame_key_call (primary) + 3/4 render hi-res; logo top→bottom | ✅ approved station replica |
+| 2026-09-26 | 683629fb | nano_banana_2 2K | Julia J1 — from behind walking through lobby (1B) | pending review |
+| 2026-09-26 | 9c016559 | nano_banana_2 2K | Julia J2 — side view at counter with station (3A) | pending review |
+| 2026-09-26 | a914ec19 | nano_banana_2 2K | Julia J3 — reverse angle behind station (4B/4D/5B) | pending review |
