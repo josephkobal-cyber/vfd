@@ -5,9 +5,12 @@ Project: **VFD AI Receptionist Explainer** — project/folder id `662ee2f5-1a7d-
 ## Reference elements
 | Element | id | Source images |
 |---|---|---|
+| Uploaded media | 3/4 render hi-res `6442d77e-2bfb-4d2e-b91d-9cccc88359a7`, front UI render hi-res `ab85687f-d561-43b8-8bf3-b0a8261af6de`, dimensions `0832fee2-365e-48b4-bcc7-a26fb89a772a`, front screen-off `17598705-cea3-47ea-bb57-d82dc2e309e9`, back `347a1323-08f4-465f-901e-fc4cabedd532`, 3/4 shadow `eb2fb8b2-a330-45f4-a0dd-0d766b1de5ea` | |
 | Neat-Frame (prop) | `4abbc040-b69a-4f88-afdc-41aae0a058b8` | front screen-off, 3/4 screen-off ×2, 3/4 screen-on, back (from `references/`) |
 
-Note: generations only injected the element's first image (front view) — for other angles, pass the matching reference directly.
+**Model choice:** `nano_banana_2` (2K = 2 credits/image). Pass references directly via `medias` (role `image_references`) rather than the element.
+
+Note: element generations only injected the element's first image (front view) — for other angles, pass the matching reference directly.
 
 ## Generations
 | Date | Job | Model | What | Verdict |
@@ -16,7 +19,9 @@ Note: generations only injected the element's first image (front view) — for o
 | 2026-09-26 | 3a79c733 | gpt_image_2_5 | A2 station close-up (text only) | ❌ station inaccurate |
 | 2026-09-26 | 24225d06 | gpt_image_2_5 | A3 waiting area | ✅ look approved |
 | 2026-09-26 | b02cff8d | gpt_image_2_5 | B1 medical alternative | not chosen |
-| 2026-09-26 | f4cd0c91 | nano_banana_2 | Station test 1 — front close-up, Neat-Frame element | pending review |
-| 2026-09-26 | 50dc2291 | gpt_image_2 (high) | Station test 2 — front close-up, element | pending review |
-| 2026-09-26 | 041687dd | seedream_v4_5 | Station test 3 — front close-up, element | pending review |
-| 2026-09-26 | 4ecbc599 | nano_banana_2 | Station test 4 — 3/4 view on counter, element | pending review |
+| 2026-09-26 | f4cd0c91 | nano_banana_2 | Station test 1 — front close-up, Neat-Frame element | ✅ best · ❌ neat. logo reads bottom→top (must read top→bottom) |
+| 2026-09-26 | 50dc2291 | gpt_image_2 (high) | Station test 2 — front close-up, element | ❌ |
+| 2026-09-26 | 041687dd | seedream_v4_5 | Station test 3 — front close-up, element | ❌ |
+| 2026-09-26 | 4ecbc599 | nano_banana_2 | Station test 4 — 3/4 view on counter, element | ✅ good · ❌ side-view details wrong |
+| 2026-09-26 | 1cf74196, 2e85a6d4 | nano_banana_2 2K | Round 2 — front close-up, direct refs: front UI render hi-res + front screen-off + 3/4 render hi-res; logo orientation in prompt | pending review |
+| 2026-09-26 | 3f74a008, 83de59bc | nano_banana_2 2K | Round 2 — 3/4 view, direct refs: 3/4 render hi-res + dimension drawing (side profile) + back + 3/4 shadow | pending review |
