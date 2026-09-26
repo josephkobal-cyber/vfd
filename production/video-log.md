@@ -6,4 +6,4 @@ Workflow: one scene at a time — generate, iterate, lock, then move on.
 | Scene | Status | Approved job id | Duration | Start frame | Notes / iterations |
 |---|---|---|---|---|---|
 | 01 | ✅ LOCKED | `efcf18c9-c735-405e-a9ef-cc070a9ecb8d` | 5s | clean/scene-01.png | Chosen over Cinema Studio test `096d751e` (1344×768) |
-| 02 | ⏳ review | — | 5s | clean/scene-02.png | v1 `dceef3c9-b2c4-43c7-953b-e15ec49541a0` — door swings closed behind her, walks in toward right |
+| 02 | ⏳ review | — | 5s | clean/scene-02.png | v1 `dceef3c9` ❌ too slow (felt slow-mo), unnatural eye rolling, not dynamic · v2a `bf10a1cc-e669-4dd3-bf11-dd4004057bc0` real-time brisk walk + lateral tracking dolly · v2b `55a81e9c-7ea8-48ff-abcc-da170de3dd18` brisk walk toward camera + push-in/follow pan |
