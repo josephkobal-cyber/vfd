@@ -42,6 +42,7 @@ and the black station stand out.
 - Clean, natural color grade, slight warmth, very fine film grain. No heavy teal/orange.
 
 ## Set dressing
+- **Raised counter section:** the station sits on a raised light-oak block with the stone top (~105 cm), stepping up from the main counter (approved).
 - **Reception counter:** only the Neat Frame and one small ceramic vase with a sprig of greenery.
   No papers, no pens, no monitors, no staff behind it (reception is unattended).
 - **Waiting area:** 3–4 lounge chairs, low oak side table, a couple of neutral art books, one

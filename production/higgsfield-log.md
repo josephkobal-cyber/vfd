@@ -9,6 +9,7 @@ Project: **VFD AI Receptionist Explainer** — project/folder id `662ee2f5-1a7d-
 | 3/4 master reference (use for all 3/4 shots) | `references/neat_studio_frame_key_call.jpg` → media `8018012e-fd11-4307-9f2d-b9db2fb62ae0` | also the logo placement/orientation reference |
 | Julia media | full body `b75cca24-31c6-4a2d-b82c-03594f029f45` (`references/julia-full-body.webp`), avatar close-up `844b7a30-38e8-46ff-b2fe-c0327899a80a` | outfit: butter-yellow knit polo over blue/white striped shirt, brown belt gold buckle, light wide-leg jeans, white leather sneakers |
 | Scale refs | `references/scale-ref-counter-wide.jpg` → `7dd25404-71eb-4c2a-abf0-9c4b4454073a`, `references/scale-ref-touch-closeup.jpg` → `cbed0cee-9e1f-47ad-9c71-4e551b142f1f` | device is large vs. person: top at ~chin/shoulder height, screen taller than head+neck; raised counter section |
+| Dimensions hi-res | `references/station-dimensions-hires.png` → `1f8ef61b-1888-4c48-94d2-c1e6f30493f0` | 44.5 × 22.2 × 11.1 cm, 8° recline → vs. a 168 cm person: ~2 head-heights tall, ~1.5 head-widths wide, top at shoulder/collarbone on a ~105 cm counter |
 | Neat-Frame (prop) | `4abbc040-b69a-4f88-afdc-41aae0a058b8` | front screen-off, 3/4 screen-off ×2, 3/4 screen-on, back (from `references/`) |
 
 **Model choice:** `nano_banana_2` (2K = 2 credits/image). Pass references directly via `medias` (role `image_references`) rather than the element.
@@ -32,5 +33,6 @@ Note: element generations only injected the element's first image (front view) �
 | 2026-09-26 | 683629fb | nano_banana_2 2K | Julia J1 — from behind walking through lobby (1B) | pending review |
 | 2026-09-26 | 9c016559 | nano_banana_2 2K | Julia J2 — side view at counter with station (3A) | ❌ device too small |
 | 2026-09-26 | a914ec19 | nano_banana_2 2K | Julia J3 — reverse angle behind station (4B/4D/5B) | ❌ device too small |
-| 2026-09-26 | 2284fc0a | nano_banana_2 2K | Julia J2 v2 — side view, scale refs added | pending review |
-| 2026-09-26 | 019b9db2 | nano_banana_2 2K | Julia J3 v2 — reverse angle, scale ref added | pending review |
+| 2026-09-26 | 2284fc0a | nano_banana_2 2K | Julia J2 v2 — side view, scale refs added | ❌ device too big |
+| 2026-09-26 | 019b9db2 | nano_banana_2 2K | Julia J3 v2 — reverse angle, scale ref added | ✅ face matches avatar; raised counter section approved |
+| 2026-09-26 | e1ecd80f, 8d6aa2fc | nano_banana_2 2K | Julia J2 v3 — side view, exact dimensions as body proportions | pending review |
