@@ -20,5 +20,12 @@ Start frames for video: `production/storyboard-frames/clean/scene-XX.png` (cropp
 | 13 | clean/scene-13.png | Station close-up → live video call | Receptionist: "Hello Julia, how can I help you today?" | Station clip + Synthesia receptionist on screen |
 | 14 | clean/scene-14.png | Wide from behind, Julia talking, doctor & patients pass; slow pull-back | Conversation under music | Higgsfield video |
 | 15 | clean/scene-15.png | Julia close-up | Julia: "Oh — one more thing. Where's the restroom?" | Synthesia |
+| 16 | clean/scene-06.png (reuse station clip) | Cut back to station — AI answers | AI: "Down the hall, second door on your left." | Station clip + UI |
 
 Station close-ups 06/07/10/12/13 share ONE locked-off Higgsfield clip (subtle light drift only); screen content is overlaid in Synthesia.
+
+## Decisions (2026-09-26)
+- Scene 6b lip-sync: handled by the client in Synthesia (no audio provided for Higgsfield).
+- Clip durations: estimated; client trims in Synthesia.
+- Ending: after scene 15 the AI answers (scene 16, reusing the station clip). Final hero/end card handled by the client.
+- Video model: test on scene 1 — Cinema Studio Video pro vs Seedance 2.5 (1080p).
