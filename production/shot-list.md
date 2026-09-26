@@ -44,7 +44,8 @@ once the Synthesia voice lines are recorded.
 
 | # | Shot | Dur | Method | Screen / overlay | Audio |
 |---|---|---|---|---|---|
-| 1A | Wide: clinic entrance, Julia walks through the front door; reception area attractive but unattended | 4s | HF | — | Music in, ambience |
+| 1A | Outside, sunny: camera follows Julia from behind as she walks toward the clinic entrance | 3s | HF | — | Music in |
+| 1A2 | Wide interior: Julia enters through the front door from outside; reception attractive but unattended | 3s | HF | — | Ambience |
 | 1B | Tracking from behind Julia (shoulders / back) as she walks through the lobby toward reception — **station kept out of frame** | 4s | HF | — | AI: "Welcome to Northgate Clinic. I'm here to answer questions, |
 | 1C | Medium side view (like `station-side-counter-sound-rings`): Julia stops at the counter | 6s | HF | RINGS | …help you check in, or connect you with reception at any time. How can I help you today?" |
 
