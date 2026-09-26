@@ -1,6 +1,6 @@
 # Northgate Clinic — Look Bible v1
 
-Status: **draft for approval**. One look for every shot, so Higgsfield scenes and the
+Status: **direction approved** (Higgsfield style frames A1 — reception wide, A3 — waiting area). 16:9. One look for every shot, so Higgsfield scenes and the
 Synthesia Julia close-ups read as the same room.
 
 ## Mood in one line

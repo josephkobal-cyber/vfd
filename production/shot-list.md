@@ -7,13 +7,14 @@ once the Synthesia voice lines are recorded.
 
 | Topic | Decision |
 |---|---|
+| Format | 16:9 for the whole video |
 | Station | Neat Frame (VFD is an official Neat partner, branding allowed). 15.6" portrait touchscreen, 445 mm tall × 222 mm wide × 111 mm deep, screen reclined 8°. On a ~1 m counter its top sits around mid-chest of a standing adult. See `references/station-front-screen-off.jpg`, `references/station-dimensions.jpg` |
 | Placement | On the reception counter: light oak cabinet, stone top, waist height |
 | Visitor | "Julia Smith", Synthesia avatar (see `references/julia-synthesia-avatar.webp`) — pale-yellow polo sweater over striped collar shirt, brown belt, clear glasses, slicked-back blonde hair. Outfit never changes. |
 | Receptionist | Synthesia avatar (to be picked) |
 | Voices | All voice lines recorded in Synthesia (AI assistant, Julia, receptionist) |
 | Final edit | Synthesia (overlays, VO, music, titles) |
-| Clinic look | See `clinic-look.md` (draft for approval) |
+| Clinic look | See `clinic-look.md` — direction A approved (style frames A1 reception + A3 waiting area) |
 | AI-speaking motif | White concentric sound rings around the station whenever the AI speaks and the screen isn't visible |
 
 ## Method key
