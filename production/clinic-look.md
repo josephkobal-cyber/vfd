@@ -78,3 +78,6 @@ Reference images to attach: `references/julia-synthesia-avatar.webp` (lighting/m
 - Entrance: glass door in thin matte black metal frame.
 - Sign above entrance: NORTHGATE CLINIC, clean black sans-serif capitals (the only allowed signage).
 - Sunlit stone path, olive trees and grasses in stone planters.
+
+## Windows
+- Panoramic floor-to-ceiling glazing: huge panes, only one or two slim matte black vertical separators, thin black frame at floor/ceiling. No grids, no small cells, no handles on fixed glazing.
