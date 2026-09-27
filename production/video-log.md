@@ -26,6 +26,7 @@ Line: "Hello Julia. How can I help you today?" — lip-sync added by the client 
 
 | Step | Status | Job | Notes |
 |---|---|---|---|
-| Still A | ⏳ review | `4f327da3-387c-4a13-a695-0b092ed21d19` | curly shoulder-length hair, sage scrub top, single-ear headset |
-| Still B | ⏳ review | `e2bd5492-798c-4894-9321-74de51969a81` | low bun, cream top + oak-brown cardigan, headset |
+| Still A | ❌ not picked | `4f327da3-387c-4a13-a695-0b092ed21d19` | curly shoulder-length hair, sage scrub top, single-ear headset |
+| Still B | ✅ picked | `e2bd5492-798c-4894-9321-74de51969a81` | low bun, cream top + oak-brown cardigan, headset |
+| Still B2 (reframe) | ⏳ review | `b63f7ae1-5fbf-4063-87cf-1c3752e0df74` | B reframed: less headroom above her head |
 | Video | — | — | Seedance 2.5, 9:16, 5s, start frame = approved still |
