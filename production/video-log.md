@@ -12,6 +12,7 @@ Workflow: one scene at a time — generate, iterate, lock, then move on.
 | 06 · 07 · 10 · 12 · 13 · 16 (shared station clip) | ✅ LOCKED | `7f4c0f84-f904-4d05-8d22-b7ae8b32ecee` (v1) | 10s | clean/scene-06.png | v1 `7f4c0f84-f904-4d05-8d22-b7ae8b32ecee` — locked-off tripod, device & black screen perfectly still (for UI overlay), only soft light drift / leaf shadows on wall |
 | 06b | ✅ LOCKED | `38f85881-7527-4c21-9bf3-9c6c55067d52` (v1) | 5s | clean/scene-06b.png | v1 `38f85881-7527-4c21-9bf3-9c6c55067d52` — Julia says "Yes, with Dr. Jackson" (~2s mouth movement, nod), then listens; final lip-sync done by client in Synthesia |
 | 08 | ✅ LOCKED | `844ee651-76e6-4e82-bd5b-c401bca80c4b` (v2) | 8s | start frame `fa707823` (couple close behind glass) | v1 `321a70b7` ❌ background must match the panoramic window of her close-ups · new start frame `204297bc-fabf-4dd5-bfa0-30d01d9d6bff` = scene-08 with panoramic window + garden + 2 blurred people outside (ref clean/scene-05.png) → frame v2 `fa707823-33e6-462b-ba86-37db4b7964f8` couple just behind the glass, left · v2 video `844ee651-76e6-4e82-bd5b-c401bca80c4b` — couple walks L→R blurred, slight camera arc, trees sway |
+| 14 | ⏳ review | `dc34461d-5765-4d6b-8c44-d5e6d2008139` | 5s | start frame = clean/scene-14.png uploaded as `ec070922-ad3e-40be-ac2d-4abc6e6cc6de`; Julia talks with gestures from behind, couple exits left, doctor exits right, nobody crosses Julia, slow pull-back |
 
 ## Extra assets (not Higgsfield)
 
@@ -29,4 +30,4 @@ Line: "Hello Julia. How can I help you today?" — lip-sync added by the client 
 | Still A | ❌ not picked | `4f327da3-387c-4a13-a695-0b092ed21d19` | curly shoulder-length hair, sage scrub top, single-ear headset |
 | Still B | ✅ picked | `e2bd5492-798c-4894-9321-74de51969a81` | low bun, cream top + oak-brown cardigan, headset |
 | Still B2 (reframe) | ✅ approved | `b63f7ae1-5fbf-4063-87cf-1c3752e0df74` | B reframed: less headroom above her head |
-| Video v1 | ⏳ review | `f83b171e-c368-4837-b54b-39dd4aa612f1` | Seedance 2.5, 9:16, 1080p, 5s, start frame B2 `b63f7ae1`; locked-off webcam, speaks the line, then listens smiling |
+| Video v1 | ✅ LOCKED | `f83b171e-c368-4837-b54b-39dd4aa612f1` | Seedance 2.5, 9:16, 1080p, 5s, start frame B2 `b63f7ae1`; locked-off webcam, speaks the line, then listens smiling |
