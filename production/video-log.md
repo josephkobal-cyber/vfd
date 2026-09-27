@@ -12,7 +12,7 @@ Workflow: one scene at a time — generate, iterate, lock, then move on.
 | 06 · 07 · 10 · 12 · 13 · 16 (shared station clip) | ✅ LOCKED | `7f4c0f84-f904-4d05-8d22-b7ae8b32ecee` (v1) | 10s | clean/scene-06.png | v1 `7f4c0f84-f904-4d05-8d22-b7ae8b32ecee` — locked-off tripod, device & black screen perfectly still (for UI overlay), only soft light drift / leaf shadows on wall |
 | 06b | ✅ LOCKED | `38f85881-7527-4c21-9bf3-9c6c55067d52` (v1) | 5s | clean/scene-06b.png | v1 `38f85881-7527-4c21-9bf3-9c6c55067d52` — Julia says "Yes, with Dr. Jackson" (~2s mouth movement, nod), then listens; final lip-sync done by client in Synthesia |
 | 08 | ✅ LOCKED | `844ee651-76e6-4e82-bd5b-c401bca80c4b` (v2) | 8s | start frame `fa707823` (couple close behind glass) | v1 `321a70b7` ❌ background must match the panoramic window of her close-ups · new start frame `204297bc-fabf-4dd5-bfa0-30d01d9d6bff` = scene-08 with panoramic window + garden + 2 blurred people outside (ref clean/scene-05.png) → frame v2 `fa707823-33e6-462b-ba86-37db4b7964f8` couple just behind the glass, left · v2 video `844ee651-76e6-4e82-bd5b-c401bca80c4b` — couple walks L→R blurred, slight camera arc, trees sway |
-| 14 | ⏳ review | `1e018188-4474-4cab-b880-046d1c3fb05f` (v5) | 8s | start `ec070922` → end `918ecfed` (wide empty-lobby plate); Julia gestures/talks the whole time, continuous pull-back, exactly 4 people each once, couple L→R + doctor R→L exit in 0–5s, only Julia 5–8s · v4 `f4f35ef3` ❌ Julia static · v3 `3658d6c0` no pull-back · v2 `bc6adb6c` ❌ people reappeared · v1 `dc34461d` ❌ walked backwards
+| 14 | ✅ LOCKED | `1e018188-4474-4cab-b880-046d1c3fb05f` (v5) | 8s | start `ec070922` → end `918ecfed` (wide empty-lobby plate); Julia gestures/talks the whole time, continuous pull-back, exactly 4 people each once, couple L→R + doctor R→L exit in 0–5s, only Julia 5–8s · v4 `f4f35ef3` ❌ Julia static · v3 `3658d6c0` no pull-back · v2 `bc6adb6c` ❌ people reappeared · v1 `dc34461d` ❌ walked backwards
 
 ## Extra assets (not Higgsfield)
 
@@ -20,6 +20,7 @@ Workflow: one scene at a time — generate, iterate, lock, then move on.
 |---|---|---|---|
 | AI voice bubble — speaking loop | ⏳ review | **Synthesia: `ui-assets/out/ai-bubble-speaking.gif`** (transparent GIF, 400px, 20fps) · `ui-assets/out/ai-bubble-speaking-720.mov` (ProRes 4444 + alpha), `ai-bubble-speaking.webm` (VP9 + alpha, 1080), `ai-bubble-speaking-preview.mp4` | Exact artwork `ui-assets/ai-bubble-ref.webp`, 8s seamless loop, 30fps: spins, liquid swirl, voice-like pulse + glow. Rendered in code (`ui-assets/animate_bubble.py`), 0 credits |
 | AI voice bubble — idle loop | ⏳ review | **Synthesia: `ai-bubble-idle.gif`** · `ai-bubble-idle-720.mov`, `ai-bubble-idle.webm`, `ai-bubble-idle-preview.mp4` | Same artwork, slow breathing + gentle swirl, no spin (for listening / thinking beats) |
+| Synthesia window background — alive loop | ⏳ review | `ui-assets/out/window-bg-loop.mp4` (1920×1080, 25fps, 10s seamless loop, H.264) | Exact plate `references/synthesia-window-bg.webp`; foliage sways gently (≈5px), dappled light breathes ±2.5 %, wildflowers at the bottom sway, lawn and window bars perfectly still. Rendered in code (`ui-assets/animate_window_bg.py`), 0 credits |
 
 ## Receptionist — live video call (portrait 9:16, scene 13)
 
