@@ -19,3 +19,13 @@ Workflow: one scene at a time — generate, iterate, lock, then move on.
 |---|---|---|---|
 | AI voice bubble — speaking loop | ⏳ review | **Synthesia: `ui-assets/out/ai-bubble-speaking.gif`** (transparent GIF, 400px, 20fps) · `ui-assets/out/ai-bubble-speaking-720.mov` (ProRes 4444 + alpha), `ai-bubble-speaking.webm` (VP9 + alpha, 1080), `ai-bubble-speaking-preview.mp4` | Exact artwork `ui-assets/ai-bubble-ref.webp`, 8s seamless loop, 30fps: spins, liquid swirl, voice-like pulse + glow. Rendered in code (`ui-assets/animate_bubble.py`), 0 credits |
 | AI voice bubble — idle loop | ⏳ review | **Synthesia: `ai-bubble-idle.gif`** · `ai-bubble-idle-720.mov`, `ai-bubble-idle.webm`, `ai-bubble-idle-preview.mp4` | Same artwork, slow breathing + gentle swirl, no spin (for listening / thinking beats) |
+
+## Receptionist — live video call (portrait 9:16, scene 13)
+
+Line: "Hello Julia. How can I help you today?" — lip-sync added by the client in Synthesia.
+
+| Step | Status | Job | Notes |
+|---|---|---|---|
+| Still A | ⏳ review | `4f327da3-387c-4a13-a695-0b092ed21d19` | curly shoulder-length hair, sage scrub top, single-ear headset |
+| Still B | ⏳ review | `e2bd5492-798c-4894-9321-74de51969a81` | low bun, cream top + oak-brown cardigan, headset |
+| Video | — | — | Seedance 2.5, 9:16, 5s, start frame = approved still |
