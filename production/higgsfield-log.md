@@ -40,3 +40,4 @@ Note: element generations only injected the element's first image (front view) �
 | 2026-09-26 | 096d751e | cinematic_studio_video_v2 pro, 5s | VIDEO TEST scene 01 — output 1344×768 | pending review |
 | 2026-09-26 | efcf18c9 | seedance_2_5 omni_reference 1080p, 5s | VIDEO TEST scene 01 — output 1920×1080 | pending review |
 | 2026-09-29 | dc0c98da, b343ca79 | nano_banana_2 2K | Station full side profile (90°), refs: dimensions 1f8ef61b + replica b6b0f3ef (+ side-counter 71db3503 for A). A = on clinic counter, B = studio | pending review |
+| 2026-09-29 | 74658b38 | nano_banana_2 2K | Side profile B2 — edit of B (b343ca79): fabric only on bottom-front speaker, lower back/side = black plastic (ref back view 347a1323) | pending review · B picked over A |
