@@ -39,3 +39,4 @@ Note: element generations only injected the element's first image (front view) �
 | 2026-09-26 | 5ec56484, 9e257995 | nano_banana_2 2K | Julia J2 v4 — pure side profile, screen hidden; composition ref `station-side-counter-sound-rings` (`71db3503-c0d0-46a2-b552-7987152e52e4`) | pending review |
 | 2026-09-26 | 096d751e | cinematic_studio_video_v2 pro, 5s | VIDEO TEST scene 01 — output 1344×768 | pending review |
 | 2026-09-26 | efcf18c9 | seedance_2_5 omni_reference 1080p, 5s | VIDEO TEST scene 01 — output 1920×1080 | pending review |
+| 2026-09-29 | dc0c98da, b343ca79 | nano_banana_2 2K | Station full side profile (90°), refs: dimensions 1f8ef61b + replica b6b0f3ef (+ side-counter 71db3503 for A). A = on clinic counter, B = studio | pending review |
