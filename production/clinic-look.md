@@ -81,3 +81,9 @@ Reference images to attach: `references/julia-synthesia-avatar.webp` (lighting/m
 
 ## Windows
 - Panoramic floor-to-ceiling glazing: huge panes, only one or two slim matte black vertical separators, thin black frame at floor/ceiling. No grids, no small cells, no handles on fixed glazing.
+
+## Neat Frame anatomy (strict, for every shot)
+- Front: black glass screen with a solid BLACK rim on all sides — never silver/grey/metallic.
+- Bottom front (full width, below the screen): speaker covered in heather-grey woven fabric.
+- Side: ultra-thin black slab; only the bottom flares into a thick curved black foot (ref `references/neat-side-profile-real.png`).
+- Back: matte black plastic (no fabric on the back).
