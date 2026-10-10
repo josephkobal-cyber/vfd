@@ -6,6 +6,7 @@ Project: **VFD AI Receptionist Explainer** — project/folder id `662ee2f5-1a7d-
 | Element | id | Source images |
 |---|---|---|
 | Uploaded media | 3/4 render hi-res `6442d77e-2bfb-4d2e-b91d-9cccc88359a7`, front UI render hi-res `ab85687f-d561-43b8-8bf3-b0a8261af6de`, dimensions `0832fee2-365e-48b4-bcc7-a26fb89a772a`, front screen-off `17598705-cea3-47ea-bb57-d82dc2e309e9`, back `347a1323-08f4-465f-901e-fc4cabedd532`, 3/4 shadow `eb2fb8b2-a330-45f4-a0dd-0d766b1de5ea` | |
+| Real side-profile reference (use for any side / rear-3/4 angle) | `references/neat-side-profile-real.png` → media `7e55f3ca-f1a8-4720-8169-94894c92f6c1` | thin blade body, thick curved black foot only at the bottom |
 | 3/4 master reference (use for all 3/4 shots) | `references/neat_studio_frame_key_call.jpg` → media `8018012e-fd11-4307-9f2d-b9db2fb62ae0` | also the logo placement/orientation reference |
 | Julia media | full body `b75cca24-31c6-4a2d-b82c-03594f029f45` (`references/julia-full-body.webp`), avatar close-up `844b7a30-38e8-46ff-b2fe-c0327899a80a` | outfit: butter-yellow knit polo over blue/white striped shirt, brown belt gold buckle, light wide-leg jeans, white leather sneakers |
 | Scale refs | `references/scale-ref-counter-wide.jpg` → `7dd25404-71eb-4c2a-abf0-9c4b4454073a`, `references/scale-ref-touch-closeup.jpg` → `cbed0cee-9e1f-47ad-9c71-4e551b142f1f` | device is large vs. person: top at ~chin/shoulder height, screen taller than head+neck; raised counter section |
@@ -50,3 +51,4 @@ Note: element generations only injected the element's first image (front view) �
 | 2026-10-10 | 84f50943 (+ 9b137ae4 on A2, not used) | nano_banana_2 2K | Visitor + call screen: base = A3 24e41cfc (user pick) with black monitor behind the device removed | pending review |
 | 2026-10-10 | 9dd4f880, 58d64fb4 | nano_banana_2 2K | Thumbnail: wider cinematic version of 84f50943 (+ UI ref 961a5797). A = medium-wide, title space left third; B = low-angle hero, golden backlight, title space top | pending review |
 | 2026-10-10 | bb4306e1, bb227ab9 | nano_banana_2 2K | Thumbnail B (58d64fb4 picked) — device turned toward the visitor: B2 ~60° (screen oblique, UI readable), B3 almost square to her (screen at steep angle, back/side prominent) | pending review |
+| 2026-10-10 | f04bffa3, f9eaa88d | nano_banana_2 2K | Thumbnail B3 (bb227ab9 picked) — device shape fixed to real side profile (ref neat-side-profile-real.png → media 7e55f3ca): thin blade body, thick curved foot only at the bottom | pending review |
