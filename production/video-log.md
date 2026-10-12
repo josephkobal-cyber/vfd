@@ -33,3 +33,9 @@ Line: "Hello Julia. How can I help you today?" — lip-sync added by the client 
 | Still B | ✅ picked | `e2bd5492-798c-4894-9321-74de51969a81` | low bun, cream top + oak-brown cardigan, headset |
 | Still B2 (reframe) | ✅ approved | `b63f7ae1-5fbf-4063-87cf-1c3752e0df74` | B reframed: less headroom above her head |
 | Video v1 | ✅ LOCKED | `f83b171e-c368-4837-b54b-39dd4aa612f1` | Seedance 2.5, 9:16, 1080p, 5s, start frame B2 `b63f7ae1`; locked-off webcam, speaks the line, then listens smiling |
+
+## Thumbnail / promo clip — elderly visitor at the Neat Frame (hospital reception)
+
+| Version | Status | Job | Length | Notes |
+|---|---|---|---|---|
+| v1 | ⏳ review | `a30f28d1-9295-4e50-8ac7-079bcebf83ba` | 5s | Seedance 2.5, 1080p, no audio; start frame = approved still `references/thumbnail-final.png` (media `03d61a40`). Woman talks + light hand gestures; receptionist on screen listens/nods/speaks; device locked; very slow push-in. 8s version possible after top-up (96 cr) |
