@@ -94,3 +94,23 @@ card panel here. Instead, layer a tour tooltip over the existing screen.
 - Proposed sign-in tour: 1 Start sign-in → 2 Enter visitor details → 3 Choose
   who you're visiting → 4 Take a photo → 5 Sign documents → 6 Print badge →
   7 Host gets notified.
+
+## G. Station screen inside a tablet mockup (hero sections)
+Dark hero sections show an `iPad Pro 11 Inches` mockup instance (485×673) whose
+screen is 435×624 (`Screen Mask`, radius ~9.5). Screens are built as **editable
+layers in a frame on top of the instance, inside the same group**, not as an
+image in "Screen (replace here)". Put new screens in the standalone mockup
+next to the section unless the user says to edit the section itself.
+- Station UI language: the blurred dark leaf photo from the welcome screen
+  (copy the `IMAGE` fill hash from that screen's "Screen (replace here)"), a dark
+  vertical shade, an optional soft green glow, Manrope, a glass back button
+  plus the cloned "English" language pill in the top bar.
+- Hierarchy: one bright white primary action card (green gradient icon tile,
+  dark chevron) and frosted-glass secondary cards (white 9% fill, 1px white 14%
+  stroke, background blur 30). A progress bar with "STEP 1 OF 4" above a
+  left-aligned 30px Bold heading.
+- The section fades the tablet's bottom to black, so keep key content in the
+  top ~65% of the screen and add a `Gradient fade (bottom)` layer (black 0 →
+  95%, bottom ~230px) so the preview matches.
+- Example: "Screen design / Visitor sign-in" (How would you like to sign in? →
+  Sign in at the station / I'm pre-registered · FASTEST / Need help? Call reception).
