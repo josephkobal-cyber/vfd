@@ -155,3 +155,10 @@ green, 6px outside the element) → `Wizard / step N` tooltip.
   start 16px below the bar at 18px side margins (399 wide). The last step
   (calling the host) has no Next; the Call button in the selected row is the
   action. Clone the bar from step 4 and edit its text rather than redrawing it.
+- **Use real app copy for documents.** The NDA on the "Review documents" step uses
+  the exact text from the real VFD app (intro paragraph plus sections 1–8:
+  Confidential Information, Confidentiality Obligations, Permitted Disclosure,
+  Documents and Property, Security and Privacy, Duration, No Licence or Other
+  Rights, Acceptance). Show it as a full page that runs off the bottom of the
+  screen (Bold 11.5 headings, Medium 10.5 / 145% body). Don't use grey
+  placeholder bars when real copy exists.
