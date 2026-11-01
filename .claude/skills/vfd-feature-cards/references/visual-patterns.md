@@ -177,3 +177,23 @@ green ring here, the lift is enough. Shipped examples:
   top bar, Next CTA) with Yes/No question cards. The "restricted areas →
   Requires security approval" card is lifted above the fade, and an "Approval
   requested" toast floats bottom-right.
+
+## I. Isometric glowing layer stack (dark hero illustrations)
+Used on "Security compliance / Audit-ready records" (Webflow-style "platform
+stack", recolored to VFD green). Built fully as vectors: `Visual / Audit-ready
+records stack` (700×640) on the right of the 1440×721 black hero.
+- Projection: P(x,y,z) = (cx + (x−y)·0.866, cy + (x+y)·0.5 − z). The rounded-
+  square outline (s=270, r=44) is sampled and projected. Side faces = the
+  front arc at top z + the same arc reversed at bottom z, split at the front
+  vertex into a left face and a right face. Layers t=50 thick, 34 apart, drawn
+  bottom to top.
+- Look: faces in dark-green vertical gradients (`#0F4A34→#03100B`), top face
+  gradient `#145C41→#05160F`, 1.6px `#3EE0A4` top stroke with a green drop-
+  shadow glow, an inner rim, a glowing bottom edge. Behind the stack, faint
+  `#15B87A` circuit traces at ±30° with node dots, plus a blurred green halo.
+- Labels are live text skewed onto the left face with
+  `relativeTransform = [[0.866,0,x],[0.5,1,y]]` (Figma keeps the skew).
+- Logo on top: SVG path with `matrix(0.866 0.5 −0.866 0.5 cx cy) rotate(−45)`
+  so it stands upright along the stack axis. Without the rotate, a check mark
+  reads as an "L". Add a dark copy 8px lower for depth.
+- Labels used: Visitor records / Signed agreements / Audit exports (top → bottom).
