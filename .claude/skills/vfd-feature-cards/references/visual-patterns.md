@@ -136,3 +136,14 @@ green, 6px outside the element) → `Wizard / step N` tooltip.
   buttons. One selected element per screen.
 - Designers edit these frames by hand too. Read the current layers before a
   rebuild, and never clear a group you didn't create in this run.
+- **Two screen styles in one flow.** Use the station look (leaf photo, glass)
+  only for the attract and choice screens (steps 1–3). Once the visitor starts
+  entering data (step 4 on), switch to a calm, light, professional app style:
+  page `#F4F5F7`, white app bar (back button, "Visitor sign-in", English pill)
+  with a hairline bottom border, a 7-segment green progress bar plus "Step x of
+  7", a 24px Bold dark heading with a 14px `#6B6E72` sub, white cards (1px
+  `#E6E8EB` stroke, radius 12–16, soft shadow), real input fields (label above,
+  `#F7F8F9` box, focused field with a 1.5px green border and cursor) and green
+  primary buttons with a 12px radius. No decorative backgrounds there. Rebuild
+  the UI as editable layers; never paste app screenshots onto the station
+  background.
