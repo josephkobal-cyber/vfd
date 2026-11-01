@@ -91,9 +91,12 @@ card panel here. Instead, layer a tour tooltip over the existing screen.
 - Step 1 hides Back. The last step sets `Next label` to "Done".
 - Name layers `Wizard / step N` and `Wizard / step N focus ring` so steps can be
   found and wired up later in prototype mode (Next → step N+1, Back → step N−1).
-- Proposed sign-in tour: 1 Start sign-in → 2 Enter visitor details → 3 Choose
-  who you're visiting → 4 Take a photo → 5 Sign documents → 6 Print badge →
-  7 Host gets notified.
+- Real VFD sign-in flow (confirmed with the team, use this order): 1 Start
+  sign-in (welcome screen) → 2 Choose visitor type → 3 Choose how to sign in
+  (at station / pre-registered) → 4 Enter details (name, company, email,
+  mobile) → 5 Review documents → 6 Sign documents → 7 Take a photo → 8 Call
+  your host (visitor calls the right employee). Don't invent steps such as
+  host search or badge printing; ask for the flow if it isn't known.
 
 ## G. Station screen inside a tablet mockup (hero sections)
 Dark hero sections show an `iPad Pro 11 Inches` mockup instance (485×673) whose
