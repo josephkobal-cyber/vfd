@@ -103,6 +103,17 @@ used, and link the node. Expect them to adjust things in Figma. When they do,
 read back what changed before editing again, and keep their changes. Their
 edits show you what to do next time.
 
+## Tag chips (the grey pill above each card title)
+Every card gets its own tag. Never leave a copied one ("Express arrival" on four
+cards) or a placeholder ("Lorem ipsum"). A tag is a 1–2 word category that
+**complements** the title rather than repeating it, and it should be true of
+what the visual shows. Examples: Pre-registration & QR → *Express arrival*,
+Custom sign-in workflows → *Visitor types*, Required fields → *Visitor
+details*, Documents & acknowledgments → *E-signatures*, Visitor screening →
+*Approvals*, Multilingual sign-in → *Localization*. Check the whole row so
+tags don't repeat. The pills are auto-layout, so they resize when the text
+changes.
+
 ## Icons
 The kit ships Lucide-style stroke icons for speed. The team's own visuals use
 **specific Phosphor-style icons** (e.g. a designer swapped a generic file icon
