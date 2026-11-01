@@ -193,10 +193,11 @@ records stack` (700×640) on the right of the 1440×721 black hero.
   `#15B87A` circuit traces at ±30° with node dots, plus a blurred green halo.
 - Labels are live text skewed onto the left face with
   `relativeTransform = [[0.866,0,x],[0.5,1,y]]` (Figma keeps the skew).
-- Logo on top: a **lock** (designer's choice over the shield; a database version
-  is kept as a hidden alternative). Lay it flat with `matrix(0.866 0.5 −0.866
+- Logo on top: the **shield** (final designer choice; lock and database versions
+  are kept as hidden alternatives). Lay it flat with `matrix(0.866 0.5 −0.866
   0.5 cx cy) scale(6.6) translate(−12 −12)`, with no extra rotation, so it lines
-  up with the face edges like the Webflow logo. Add a dark copy 8px lower for
-  depth, and give the glyph a green glow.
+  up with the face edges like the Webflow logo. In this orientation the check
+  mark reads like an "L". Use `rotate(−45)` after the matrix if the check must
+  read upright. Add a dark copy 8px lower for depth, and a green glow.
 - Labels read bottom-up as a build: Visitor records (base) → Signed agreements →
   Audit exports (top, next to the shield = the outcome). The designer chose this order.
