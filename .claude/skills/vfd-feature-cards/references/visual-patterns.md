@@ -196,4 +196,5 @@ records stack` (700×640) on the right of the 1440×721 black hero.
 - Logo on top: SVG path with `matrix(0.866 0.5 −0.866 0.5 cx cy) rotate(−45)`
   so it stands upright along the stack axis. Without the rotate, a check mark
   reads as an "L". Add a dark copy 8px lower for depth.
-- Labels used: Visitor records / Signed agreements / Audit exports (top → bottom).
+- Labels read bottom-up as a build: Visitor records (base) → Signed agreements →
+  Audit exports (top, next to the shield = the outcome). The designer chose this order.
