@@ -117,3 +117,22 @@ next to the section unless the user says to edit the section itself.
   95%, bottom ~230px) so the preview matches.
 - Example: "Screen design / Visitor sign-in" (How would you like to sign in? →
   Sign in at the station / I'm pre-registered · FASTEST / Need help? Call reception).
+
+### Wizard step screens (how the steps are layered)
+Each `step N` frame layers, bottom to top: device group (iPad instance) →
+`Screen / Step N` (editable screen design on the device screen) → black
+vertical gradient (`Rectangle 2857`; designers tune its start per step) →
+`Highlight / step N` (a **clone of the selected element**, same position, placed
+above the gradient so it stays bright) → `Wizard / step N focus ring` (2px
+green, 6px outside the element) → `Wizard / step N` tooltip.
+- Make the selected element a solid white surface (or a solid dark camera view)
+  so its copy looks identical above the gradient. Frosted glass would pick up
+  the gradient behind it.
+- Tooltip goes to the right of the element (Pointer=Left), 12px from the ring,
+  vertically centered on it, clamped inside the frame.
+- Screen language: blurred leaf photo + shade + green glow, back button,
+  cloned "English" pill, 7-segment green progress bar, 26px Bold heading, 14px
+  sub, 387-wide content column, 18–22 radius surfaces, green primary pill
+  buttons. One selected element per screen.
+- Designers edit these frames by hand too. Read the current layers before a
+  rebuild, and never clear a group you didn't create in this run.
