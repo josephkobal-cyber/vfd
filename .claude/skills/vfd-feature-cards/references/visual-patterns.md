@@ -162,3 +162,18 @@ green, 6px outside the element) → `Wizard / step N` tooltip.
   Rights, Acceptance). Show it as a full page that runs off the bottom of the
   screen (Bold 11.5 headings, Medium 10.5 / 145% body). Don't use grey
   placeholder bars when real copy exists.
+
+## H. Tablet feature cards (Core sign-in flow row)
+Cards in this row put the same iPad mockup (330×458 at ~32,36 in the 393×455
+panel, screen 296×425) behind a panel-colored fade (`#EDEFF1` 0→100%, panel
+y 276–455). The focus element or a floating detail sits above the fade. No
+green ring here, the lift is enough. Shipped examples:
+- *Pre-registration & QR*: the dark station screen cloned from "Custom sign-in
+  workflows", re-titled "Express sign-in", with a QR scanner (corner brackets,
+  green scan line and glow). A white **visitor pass** floats over the fade
+  ("Pre-registered" chip, name, time and site, host, QR code drawn as one
+  SVG path).
+- *Visitor screening*: light data-entry screen ("Screening questions" in the
+  top bar, Next CTA) with Yes/No question cards. The "restricted areas →
+  Requires security approval" card is lifted above the fade, and an "Approval
+  requested" toast floats bottom-right.
