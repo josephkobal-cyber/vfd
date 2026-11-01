@@ -147,3 +147,11 @@ green, 6px outside the element) → `Wizard / step N` tooltip.
   primary buttons with a 12px radius. No decorative backgrounds there. Rebuild
   the UI as editable layers; never paste app screenshots onto the station
   background.
+- **Data-entry top bar (designer-approved on step 4, used on steps 4–8):** one
+  white bar (62px, hairline bottom border) holding the back button, the step
+  title (Manrope Bold ~16) with its description under it (Medium 12, 62%
+  black), and the screen's **single CTA, a green "Next" pill, on the right**.
+  No separate page heading, no progress bar, no bottom buttons. Content cards
+  start 16px below the bar at 18px side margins (399 wide). The last step
+  (calling the host) has no Next; the Call button in the selected row is the
+  action. Clone the bar from step 4 and edit its text rather than redrawing it.
