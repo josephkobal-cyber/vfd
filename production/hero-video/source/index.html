@@ -1,0 +1,321 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>VFD sign-in flow</title>
+<style>
+@font-face{font-family:Manrope;font-weight:400;src:url(assets/manrope-latin-400-normal.woff2)}
+@font-face{font-family:Manrope;font-weight:500;src:url(assets/manrope-latin-500-normal.woff2)}
+@font-face{font-family:Manrope;font-weight:600;src:url(assets/manrope-latin-600-normal.woff2)}
+@font-face{font-family:Manrope;font-weight:700;src:url(assets/manrope-latin-700-normal.woff2)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:transparent;width:506px;height:694px;overflow:hidden;font-family:Manrope,sans-serif;-webkit-font-smoothing:antialiased}
+.abs{position:absolute}
+/* ---------- iPad ---------- */
+#ipad{position:absolute;left:11px;top:11px;width:484px;height:671px;border-radius:34px;background:#0b0b0b;
+  box-shadow:0 0 0 2.5px #9fa3a8, 0 0 0 3.5px #d9dcdf, inset 0 0 0 1px #2a2a2a}
+#cam{position:absolute;left:238px;top:9px;width:8px;height:8px;border-radius:50%;background:radial-gradient(circle at 40% 40%,#2b3550,#0b0f18 70%)}
+.sideBtn{position:absolute;background:linear-gradient(90deg,#c9ccd0,#8d9196);border-radius:2px}
+#screen{position:absolute;left:24px;top:24px;width:435px;height:624px;border-radius:10px;overflow:hidden;background:#000;isolation:isolate}
+/* ---------- shared ---------- */
+.layer{position:absolute;inset:0}
+.glass{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(30px)}
+.white{background:rgba(255,255,255,.97);box-shadow:0 14px 40px rgba(20,184,120,.25),0 2px 6px rgba(0,0,0,.25)}
+.backBtn{position:absolute;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.lang{position:absolute;right:24px;top:26px;height:30px;padding:0 13px;border-radius:999px;display:flex;gap:6px;align-items:center;color:#fff;font-size:11px;font-weight:600;background:rgba(255,255,255,.25);backdrop-filter:blur(20px)}
+.dkTitle{position:absolute;left:70px;top:22px;color:#fff;font-weight:700;font-size:16px;letter-spacing:-.2px}
+.dkSub{position:absolute;left:70px;top:44px;color:rgba(255,255,255,.65);font-size:12px;font-weight:500}
+.row{position:absolute;left:24px;width:387px;border-radius:18px;display:flex;align-items:center;gap:14px;padding:12px 16px 12px 14px}
+.tile{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex:none}
+.tileG{background:linear-gradient(135deg,#2BD99A,#0E9A66)}
+.tileD{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16)}
+.rt{font-size:15px;font-weight:700;color:#fff;line-height:20px}
+.rd{font-size:12.5px;font-weight:500;color:rgba(255,255,255,.6);line-height:17px}
+.row.sel .rt{color:#0A0A0A}.row.sel .rd{color:#5A5D60}
+.radio{width:22px;height:22px;border-radius:50%;flex:none;margin-left:auto;border:1.5px solid rgba(255,255,255,.35)}
+.radioOn{width:22px;height:22px;border-radius:50%;flex:none;margin-left:auto;background:#15B87A;display:flex;align-items:center;justify-content:center}
+.go{width:30px;height:30px;border-radius:50%;margin-left:auto;flex:none;display:flex;align-items:center;justify-content:center}
+/* light */
+.lbar{position:absolute;left:0;top:0;width:435px;height:62px;background:#fff;border-bottom:1px solid #E6E8EB}
+.lbar .bk{position:absolute;left:18px;top:13px;width:36px;height:36px;border-radius:50%;background:#F1F2F4;display:flex;align-items:center;justify-content:center}
+.lbar .tt{position:absolute;left:64px;top:12px;font-size:16px;font-weight:700;color:#0A0A0A;letter-spacing:-.2px;white-space:nowrap}
+.lbar .ts{position:absolute;left:64px;top:34px;font-size:12px;font-weight:500;color:rgba(0,0,0,.62);white-space:nowrap}
+.lbar .nx{position:absolute;right:19px;top:12px;width:72px;height:38px;border-radius:999px;background:#15B878;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:600;color:#0A0A0A}
+.card{position:absolute;left:18px;width:399px;background:#fff;border:1px solid #E6E8EB;border-radius:16px;box-shadow:0 1px 2px rgba(15,20,31,.04),0 8px 24px rgba(15,20,31,.06)}
+.lbl{position:absolute;left:16px;font-size:12px;font-weight:600;color:#3A3D40}
+.inp{position:absolute;left:16px;width:365px;height:41px;border-radius:10px;background:#F7F8F9;border:1px solid #DFE2E6;display:flex;align-items:center;padding:0 12px;font-size:14px;font-weight:600;color:#0A0A0A}
+.inp .ph{color:rgba(10,10,10,.4)}
+.cur{display:inline-block;width:1.5px;height:17px;background:#15B87A;margin-left:1px;vertical-align:middle}
+.ok{position:absolute;right:12px;top:11px;width:18px;height:18px;border-radius:50%;background:#15B878;display:flex;align-items:center;justify-content:center}
+.doc p{font-size:10.5px;line-height:1.45;color:#4A4D50;font-weight:500}
+.doc h4{font-size:11.5px;line-height:1.3;color:#0A0A0A;font-weight:700;margin-bottom:3px}
+.doc .sec{margin-bottom:10px}
+.person{position:absolute;left:18px;width:399px;height:66px;background:#fff;border:1px solid #E6E8EB;border-radius:14px;display:flex;align-items:center;gap:12px;padding:0 14px}
+.av{width:40px;height:40px;border-radius:50%;flex:none;background-size:cover;background-position:center}
+.pn{font-size:15px;font-weight:700;color:#0A0A0A;line-height:20px}
+.pd{font-size:12.5px;font-weight:500;color:#6B6E72;line-height:17px}
+.call{margin-left:auto;height:34px;padding:0 14px;border-radius:999px;display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700}
+#tap{position:absolute;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;background:rgba(255,255,255,.55);box-shadow:0 0 0 1px rgba(0,0,0,.08),0 4px 14px rgba(0,0,0,.25);pointer-events:none;opacity:0}
+#ripple{position:absolute;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;border:2px solid rgba(255,255,255,.9);opacity:0}
+</style></head>
+<body>
+<div id="ipad">
+  <div id="cam"></div>
+  <div class="sideBtn" style="left:405px;top:-3px;width:33px;height:2.5px"></div>
+  <div class="sideBtn" style="left:485px;top:52px;width:2.5px;height:28px"></div>
+  <div class="sideBtn" style="left:485px;top:86px;width:2.5px;height:26px"></div>
+  <div id="screen">
+    <!-- backgrounds -->
+    <div class="layer" id="bgDark" style="overflow:hidden">
+      <img id="leaf" src="assets/leaf.jpg" style="position:absolute;left:-30px;top:-30px;width:495px;height:744px;object-fit:cover">
+      <div class="layer" id="shadeWelcome" style="background:linear-gradient(180deg,rgba(0,0,0,.10),rgba(0,0,0,.18) 60%,rgba(0,0,0,.35))"></div>
+      <div class="layer" id="shadeDark" style="background:linear-gradient(180deg,rgba(4,8,6,.55),rgba(2,4,3,.72) 45%,rgba(0,0,0,.9));opacity:0"></div>
+      <div id="glow" style="position:absolute;left:-110px;top:-140px;width:320px;height:320px;border-radius:50%;background:rgba(21,184,122,.26);filter:blur(80px);opacity:0"></div>
+    </div>
+    <div class="layer" id="bgLight" style="background:#F4F5F7;opacity:0"></div>
+
+    <!-- S1 welcome -->
+    <div class="layer" id="s1">
+      <div class="lang" style="right:25px;top:25px;background:rgba(255,255,255,.28)">English <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+      <div style="position:absolute;left:0;width:435px;top:160px;text-align:center;color:#fff;font-weight:700;font-size:33px;line-height:1.08;letter-spacing:-.5px">How can we<br>help you today?</div>
+      <div class="w1btn" id="s1b1" style="position:absolute;left:56px;top:322px;width:322px;height:60px;border-radius:999px;background:rgba(255,255,255,.82);backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:center;font-size:21px;font-weight:500;color:#0A0A0A" data-press="1.35">Visitor Sign in</div>
+      <div style="position:absolute;left:56px;top:404px;width:322px;height:60px;border-radius:999px;background:rgba(255,255,255,.82);display:flex;align-items:center;justify-content:center;font-size:21px;font-weight:500;color:#0A0A0A">Call Receptionist</div>
+      <div style="position:absolute;left:56px;top:486px;width:322px;height:60px;border-radius:999px;background:rgba(255,255,255,.82);display:flex;align-items:center;justify-content:center;font-size:21px;font-weight:500;color:#0A0A0A">Parcel Delivery</div>
+    </div>
+
+    <!-- S2 visitor type -->
+    <div class="layer" id="s2">
+      <div data-in="2.15">
+        <div class="backBtn glass" style="left:22px;top:22px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg></div>
+        <div class="dkTitle">What brings you in?</div><div class="dkSub">Choose your visitor type.</div>
+        <div class="lang">English <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+      </div>
+      <div id="rows2"></div>
+    </div>
+
+    <!-- S3 sign-in method -->
+    <div class="layer" id="s3">
+      <div data-in="4.3">
+        <div class="backBtn glass" style="left:22px;top:22px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg></div>
+        <div class="dkTitle">How would you like to sign in?</div><div class="dkSub">Choose an option to get started</div>
+        <div class="lang">English <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+      </div>
+      <div id="rows3"></div>
+    </div>
+
+    <!-- S4 details -->
+    <div class="layer" id="s4">
+      <div class="lbar" data-in="6.45"><div class="bk"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#0A0A0A" stroke-width="2" stroke-linecap="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg></div>
+        <div class="tt">Please enter your details</div><div class="ts">We'll share these with your host.</div><div class="nx" data-press="11.0">Next</div></div>
+      <div class="card" style="top:78px;height:372px" data-in="6.6" id="form"></div>
+    </div>
+
+    <!-- S5/S6 documents -->
+    <div class="layer" id="s5">
+      <div class="lbar" data-in="11.5"><div class="bk"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#0A0A0A" stroke-width="2" stroke-linecap="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg></div>
+        <div class="tt" id="t5a">Review documents</div><div class="ts" id="t5b">Please read before signing.</div>
+        <div class="tt" id="t6a" style="opacity:0">Sign the agreement</div><div class="ts" id="t6b" style="opacity:0">Use your finger to sign below.</div>
+        <div class="nx" id="nx5">Next</div></div>
+      <div class="card doc" style="top:78px;height:560px;overflow:hidden" data-in="11.6">
+        <div style="position:absolute;left:16px;top:14px;width:36px;height:36px;border-radius:10px;background:#E3F6EE;display:flex;align-items:center;justify-content:center"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#15B87A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><path d="M14 2v6h6"/></svg></div>
+        <div style="position:absolute;left:62px;top:22px;font-size:15px;font-weight:700;color:#0A0A0A">Non-Disclosure Agreement</div>
+        <div style="position:absolute;left:0;top:62px;width:399px;height:1px;background:#E6E8EB"></div>
+        <div style="position:absolute;left:0;top:63px;width:399px;bottom:0;overflow:hidden">
+          <div id="docBody" style="position:absolute;left:16px;top:14px;width:367px"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S7 photo -->
+    <div class="layer" id="s7">
+      <div class="lbar" data-in="17.0"><div class="bk"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#0A0A0A" stroke-width="2" stroke-linecap="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg></div>
+        <div class="tt">Take a photo</div><div class="ts">Take a photo for your visitor badge</div><div class="nx" data-press="19.0">Next</div></div>
+      <div data-in="17.1" style="position:absolute;left:18px;top:78px;width:399px;height:280px;border-radius:16px;overflow:hidden;background:linear-gradient(135deg,#3A4440,#151918);box-shadow:0 8px 24px rgba(15,20,31,.12)">
+        <div id="feed" style="position:absolute;inset:0;opacity:0">
+          <div style="position:absolute;inset:-40px;background:url(assets/shelley.jpg) center 40%/150% no-repeat;filter:blur(18px) brightness(.85)"></div>
+          <div id="feedFace" style="position:absolute;left:50%;top:50%;width:330px;height:330px;margin:-150px 0 0 -165px;background:url(assets/shelley.jpg) center/cover;-webkit-mask:radial-gradient(ellipse 46% 52% at 50% 47%,#000 70%,transparent 100%)"></div>
+        </div>
+        <svg id="oval" style="position:absolute;left:125px;top:40px" width="149" height="196" viewBox="0 0 149 196"><ellipse id="ovalE" cx="74.5" cy="98" rx="73" ry="96.5" fill="none" stroke="rgba(255,255,255,.85)" stroke-width="2" stroke-dasharray="8 8"/></svg>
+        <div id="camChip" style="position:absolute;left:14px;top:14px;height:24px;padding:0 10px;border-radius:999px;background:rgba(0,0,0,.45);display:flex;align-items:center;gap:6px;color:#fff;font-size:11px;font-weight:700"><span id="camDot" style="width:7px;height:7px;border-radius:50%;background:#EB4D4E"></span><span id="camTxt">Camera on</span></div>
+        <div id="flash" style="position:absolute;inset:0;background:#fff;opacity:0"></div>
+      </div>
+      <div data-in="17.2" id="shutter" data-press="18.0" style="position:absolute;left:187px;top:372px;width:60px;height:60px;border-radius:50%;background:#fff;box-shadow:0 8px 24px rgba(15,20,31,.12);display:flex;align-items:center;justify-content:center">
+        <div style="width:46px;height:46px;border-radius:50%;background:#15B87A;display:flex;align-items:center;justify-content:center"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg></div></div>
+      <div id="captured" style="position:absolute;left:0;width:435px;top:448px;display:flex;justify-content:center;opacity:0"><div style="height:30px;padding:0 12px;border-radius:999px;background:#E3F6EE;color:#0E9A66;font-size:12.5px;font-weight:700;display:flex;align-items:center;gap:6px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0E9A66" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Photo captured</div></div>
+    </div>
+
+    <!-- S8 host -->
+    <div class="layer" id="s8">
+      <div class="lbar" data-in="19.5"><div class="bk"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#0A0A0A" stroke-width="2" stroke-linecap="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg></div>
+        <div class="tt">Who are you visiting?</div><div class="ts">Search for your host and call them.</div></div>
+      <div data-in="19.6" style="position:absolute;left:18px;top:78px;width:399px;height:47px;border-radius:12px;background:#fff;border:1.5px solid #15B87A;display:flex;align-items:center;gap:10px;padding:0 14px">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#8B8D8F" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <span style="font-size:15px;font-weight:600;color:#0A0A0A"><span data-type="Sarah" data-ts="19.85" data-te="20.3"></span><span class="cur" data-cur="19.6,21.1"></span></span>
+        <span data-ph="19.85" style="position:absolute;left:41px;font-size:15px;font-weight:500;color:rgba(10,10,10,.35)">Search by name or team</span>
+      </div>
+      <div data-in="20.4" style="position:absolute;left:18px;top:140px;font-size:12px;font-weight:600;color:#8B8D8F">3 people found</div>
+      <div id="people"></div>
+      <!-- calling overlay -->
+      <div id="calling" class="layer" style="background:#F4F5F7;opacity:0">
+        <div style="position:absolute;left:0;width:435px;top:110px;display:flex;justify-content:center">
+          <div style="position:relative;width:110px;height:110px">
+            <div class="ring" style="position:absolute;inset:0;border-radius:50%;background:rgba(21,184,122,.25)"></div>
+            <div class="ring" style="position:absolute;inset:0;border-radius:50%;background:rgba(21,184,122,.25)"></div>
+            <div style="position:absolute;inset:0;border-radius:50%;background:#F6D9C6;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:700;color:#3A3D40;box-shadow:0 0 0 4px #fff,0 10px 30px rgba(15,20,31,.12)">ST</div>
+          </div>
+        </div>
+        <div style="position:absolute;left:0;width:435px;top:250px;text-align:center;font-size:22px;font-weight:700;color:#0A0A0A;letter-spacing:-.3px">Sarah Thompson</div>
+        <div style="position:absolute;left:0;width:435px;top:282px;text-align:center;font-size:13px;font-weight:500;color:#6B6E72">Marketing · 4th floor</div>
+        <div style="position:absolute;left:0;width:435px;top:318px;display:flex;justify-content:center"><div style="height:30px;padding:0 14px;border-radius:999px;background:#E3F6EE;color:#0E9A66;font-size:12.5px;font-weight:700;display:flex;align-items:center;gap:7px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0E9A66" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Calling<span id="dots">…</span></div></div>
+        <div style="position:absolute;left:0;width:435px;top:420px;display:flex;justify-content:center;gap:22px">
+          <div style="width:56px;height:56px;border-radius:50%;background:#fff;border:1px solid #E6E8EB;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3A3D40" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/></svg></div>
+          <div style="width:56px;height:56px;border-radius:50%;background:#EB4D4E;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(235,77,78,.35)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g transform="rotate(135 12 12)"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></g></svg></div>
+          <div style="width:56px;height:56px;border-radius:50%;background:#fff;border:1px solid #E6E8EB;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3A3D40" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 8-6 4 6 4V8Z"/><rect x="2" y="6" width="14" height="12" rx="2"/></svg></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="tap"></div><div id="ripple"></div>
+  </div>
+</div>
+
+<script>
+// ---------- build repeated content ----------
+const ICON = {
+  users: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+  briefcase: '<rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>',
+  wrench: '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>',
+  calendar: '<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/>',
+  pen: '<path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/>',
+  qr: '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 20h4v-3"/>',
+  check: '<path d="M20 6 9 17l-5-5"/>', chev: '<path d="m9 18 6-6-6-6"/>',
+  phone: '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/>',
+};
+const svg = (n, s, c, w = 2) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round">${ICON[n]}</svg>`;
+function rowHTML({ y, h, title, desc, icon, right, selT, inT, press }) {
+  // unselected glass row + selected white overlay that fades in at selT
+  const base = (sel) => `<div class="row ${sel ? 'sel white' : 'glass'}" style="top:${y}px;height:${h}px;${sel ? 'opacity:0' : ''}" ${sel ? `data-sel="${selT}"` : ''}>
+    <div class="tile ${sel ? 'tileG' : 'tileD'}">${svg(icon, 20, '#fff')}</div>
+    <div style="min-width:0"><div class="rt">${title}</div><div class="rd">${desc}</div></div>
+    ${right(sel)}</div>`;
+  return `<div data-in="${inT}" ${press ? `data-press="${press}" style="position:absolute;inset:0;transform-origin:217px ${y + h / 2}px"` : ''}>${base(false)}${selT ? base(true) : ''}</div>`;
+}
+const radio = (sel) => sel ? `<div class="radioOn" data-pop-sel>${svg('check', 13, '#fff', 3)}</div>` : '<div class="radio"></div>';
+document.getElementById('rows2').innerHTML = [
+  { y: 176, h: 64, title: 'Visitor', desc: 'Meeting someone here', icon: 'users', selT: 3.45, inT: 2.3, press: 3.4 },
+  { y: 248, h: 64, title: 'Interview', desc: 'Here for a job interview', icon: 'briefcase', inT: 2.38 },
+  { y: 320, h: 64, title: 'Contractor', desc: 'On-site work or maintenance', icon: 'wrench', inT: 2.46 },
+  { y: 392, h: 64, title: 'Event', desc: 'Attending an event', icon: 'calendar', inT: 2.54 },
+].map((r) => rowHTML({ ...r, right: radio })).join('');
+const goBtn = (sel) => `<div class="go" style="background:${sel ? '#0A0A0A' : 'rgba(255,255,255,.12)'}">${svg('chev', 15, '#fff', 2.4)}</div>`;
+document.getElementById('rows3').innerHTML = [
+  { y: 207, h: 76, title: 'Sign in at the station', desc: 'Fill in your details right here.', icon: 'pen', selT: 5.55, inT: 4.45, press: 5.5 },
+  { y: 295, h: 93, title: "I'm pre-registered", desc: 'Scan your QR code or enter your<br>confirmation code.', icon: 'qr', inT: 4.55 },
+].map((r) => rowHTML({ ...r, right: goBtn })).join('');
+// form
+const FIELDS = [
+  ['Full name', 'Shelley Covington', 7.1, 7.85, 8.0], ['Company', 'Northwind Ltd', 8.15, 8.65, 8.8],
+  ['Email', 'shelley@northwind.com', 8.95, 9.7, 9.85], ['Mobile number', '+1 (555) 014-2290', 10.0, 10.6, 10.75],
+];
+document.getElementById('form').innerHTML = FIELDS.map(([l, v, ts, te, ok], i) => {
+  const y = 18 + i * 85;
+  return `<div class="lbl" style="top:${y}px">${l}</div>
+  <div class="inp" style="top:${y + 22}px" data-focus="${ts - 0.15},${ok + 0.05}"><span data-type="${v}" data-ts="${ts}" data-te="${te}"></span><span class="cur" data-cur="${ts - 0.15},${ok}"></span>
+  ${i === 3 ? `<span class="ph" data-ph="${ts}" style="position:absolute;left:12px">+1</span>` : ''}
+  <div class="ok" data-pop="${ok}" style="transform:scale(0)">${svg('check', 11, '#fff', 3)}</div></div>`;
+}).join('');
+// NDA
+const NDA = [['', 'This sample Non-Disclosure Agreement (the "Agreement") applies to any visitor, guest, contractor, client, or other individual who may receive or observe confidential information while accessing a workspace, attending a meeting, or participating in a business discussion.'],
+ ['1. Confidential Information', 'Confidential Information includes any non-public information relating to business operations, clients, tenants, pricing, technology, designs, documents, security procedures, financial information, strategies, or other proprietary matters that may be disclosed, discussed, displayed, or observed.'],
+ ['2. Confidentiality Obligations', 'The recipient agrees to keep all Confidential Information private and secure, to use it only for the purpose of the relevant visit, meeting, or business discussion, and not to disclose it to any third party without prior written permission.'],
+ ['3. Permitted Disclosure', 'Confidential Information does not include information that is already publicly available, was lawfully known before disclosure, is independently developed without use of Confidential Information, or is lawfully received from a third party without a confidentiality obligation.'],
+ ['4. Documents and Property', 'Any documents, files, badges, access cards, samples, records, or other materials provided during the visit or meeting remain the property of their owner and must be returned, deleted, or destroyed upon request.'],
+ ['5. Security and Privacy', 'The recipient agrees not to photograph, record, copy, remove, transmit, or otherwise capture confidential materials, screens, conversations, documents, or restricted areas unless expressly authorized.'],
+ ['6. Duration', 'The confidentiality obligations in this Agreement continue for two (2) years from the date of acceptance, except where applicable law or a separate written agreement requires a longer period.'],
+ ['7. No Licence or Other Rights', 'Nothing in this Agreement grants any licence, ownership right, tenancy, employment relationship, partnership, or other legal interest in any confidential information, intellectual property, premises, or materials.'],
+ ['8. Acceptance', 'By accepting this Agreement electronically, the recipient confirms that they have read, understood, and agreed to the terms above.']];
+document.getElementById('docBody').innerHTML = NDA.map(([h, p], i) => `<div class="sec">${h ? `<h4>${h}</h4>` : ''}<p>${p}</p></div>${i === 0 ? '<div style="height:1px;background:#E6E8EB;margin:0 0 10px"></div>' : ''}`).join('') +
+ `<div id="sigBlock" style="margin-top:8px;border:1px solid #E6E8EB;border-radius:12px;height:170px;position:relative;background:#FAFBFB">
+   <div style="position:absolute;left:14px;top:12px;font-size:11.5px;font-weight:600;color:#8B8D8F">Sign here</div>
+   <div style="position:absolute;right:14px;top:12px;font-size:11.5px;font-weight:700;color:#15B87A">Clear</div>
+   <svg style="position:absolute;left:83px;top:40px" width="200" height="72" viewBox="0 0 110 40" fill="none"><path id="sig" d="M4 30c8-2 12-20 18-22s-2 24 6 22 10-16 15-14-3 14 4 13 9-9 14-9 3 7 9 7 12-6 18-8 10 2 16 1" stroke="#0A0A0A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+   <div style="position:absolute;left:14px;right:14px;top:122px;height:1px;background:#C9CCD0"></div>
+   <div style="position:absolute;left:14px;top:132px;font-size:11.5px;font-weight:600;color:#8B8D8F">Shelley Covington · Nov 4, 2026</div></div><div style="height:16px"></div>`;
+// people
+const P = [['Sarah Thompson', 'Marketing · 4th floor', null, true], ['Sarah Bishop', 'Finance · 2nd floor', 'assets/bishop.jpg'], ['Sarah Steward', 'IT Support · 3rd floor', 'assets/steward.jpg']];
+document.getElementById('people').innerHTML = P.map(([n, d, img, sel], i) => `<div class="person" data-in="${20.45 + i * 0.1}" style="top:${163 + i * 74}px;${sel ? 'box-shadow:0 8px 24px rgba(15,20,31,.08)' : ''}">
+  <div class="av" style="${img ? `background-image:url(${img})` : 'background:#F6D9C6;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#3A3D40'}">${img ? '' : 'ST'}</div>
+  <div><div class="pn">${n}</div><div class="pd">${d}</div></div>
+  <div class="call" ${sel ? 'data-press="21.2"' : ''} style="background:${sel ? '#15B87A' : '#F1F2F4'};color:${sel ? '#fff' : '#3A3D40'}">${svg('phone', 14, sel ? '#fff' : '#3A3D40')}Call</div></div>`).join('');
+
+// ---------- timeline ----------
+const L = 24;
+const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
+const seg = (t, a, b) => clamp((t - a) / (b - a));
+const eo = (p) => 1 - Math.pow(1 - p, 3);
+const eio = (p) => (p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2);
+const back = (p) => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(p - 1, 3) + c1 * Math.pow(p - 1, 2); };
+const SCREENS = { s2: [2.05, 4.1], s3: [4.25, 6.1], s4: [6.35, 11.3], s5: [11.4, 16.8], s7: [16.9, 19.3], s8: [19.4, 23.3] };
+const TAPS = [[1.35, 217, 352], [3.4, 200, 208], [5.5, 200, 245], [11.0, 380, 31], [13.75, 380, 31], [16.5, 380, 31], [18.0, 217, 402], [19.0, 380, 31], [21.2, 372, 196]];
+const $ = (id) => document.getElementById(id);
+const sig = $('sig'); const sigLen = sig.getTotalLength(); sig.style.strokeDasharray = sigLen;
+const docBody = $('docBody');
+
+function render(t) {
+  // backgrounds
+  const toDark = eio(seg(t, 1.75, 2.45)), backToWelcome = eio(seg(t, 23.35, 24));
+  const dark = toDark * (1 - backToWelcome);
+  $('leaf').style.filter = `blur(${(10 * dark).toFixed(2)}px)`;
+  $('leaf').style.transform = `scale(${(1 + 0.04 * dark).toFixed(4)})`;
+  $('shadeDark').style.opacity = dark; $('glow').style.opacity = dark;
+  $('bgLight').style.opacity = eio(seg(t, 6.15, 6.6)) * (1 - eio(seg(t, 23.3, 23.8)));
+  // welcome screen
+  const s1 = t < 12 ? 1 - eo(seg(t, 1.75, 2.1)) : eo(seg(t, 23.45, 24));
+  $('s1').style.opacity = s1; $('s1').style.transform = `translateY(${t < 12 ? -10 * (1 - s1) : 10 * (1 - s1)}px)`;
+  for (const [id, [a, b]] of Object.entries(SCREENS)) {
+    const o = eo(seg(t, a, a + 0.35)) * (1 - eo(seg(t, b, b + 0.35)));
+    $(id).style.opacity = o; $(id).style.visibility = o > 0.001 ? 'visible' : 'hidden';
+  }
+  // staggered element entrances
+  document.querySelectorAll('[data-in]').forEach((el) => { const p = eo(seg(t, +el.dataset.in, +el.dataset.in + 0.45)); el.style.opacity = p; el.style.transform = `translateY(${(1 - p) * 14}px)`; });
+  // selection crossfades
+  document.querySelectorAll('[data-sel]').forEach((el) => { el.style.opacity = eo(seg(t, +el.dataset.sel, +el.dataset.sel + 0.25)); });
+  document.querySelectorAll('[data-pop-sel]').forEach((el) => { const s = el.closest('[data-sel]'); el.style.transform = `scale(${back(seg(t, +s.dataset.sel + 0.05, +s.dataset.sel + 0.35)).toFixed(3)})`; });
+  // presses (scale dip around tap time)
+  document.querySelectorAll('[data-press]').forEach((el) => { const d = t - +el.dataset.press; const k = d > -0.08 && d < 0.22 ? Math.sin(clamp((d + 0.08) / 0.3) * Math.PI) : 0; el.style.transform = (el.style.transform && el.dataset.in ? el.style.transform + ' ' : '') + `scale(${(1 - 0.045 * k).toFixed(4)})`; });
+  // typing
+  document.querySelectorAll('[data-type]').forEach((el) => { const s = el.dataset.type; const n = Math.round(s.length * seg(t, +el.dataset.ts, +el.dataset.te)); el.textContent = s.slice(0, n); });
+  document.querySelectorAll('[data-ph]').forEach((el) => { el.style.opacity = t < +el.dataset.ph ? 1 : 0; });
+  document.querySelectorAll('[data-cur]').forEach((el) => { const [a, b] = el.dataset.cur.split(',').map(Number); const on = t >= a && t <= b && (Math.floor((t - a) * 2.2) % 2 === 0 || isTypingNear(el, t)); el.style.opacity = on ? 1 : 0; });
+  document.querySelectorAll('[data-focus]').forEach((el) => { const [a, b] = el.dataset.focus.split(',').map(Number); const f = t >= a && t <= b; el.style.borderColor = f ? '#15B87A' : '#DFE2E6'; el.style.borderWidth = f ? '1.5px' : '1px'; el.style.background = f ? '#fff' : '#F7F8F9'; });
+  document.querySelectorAll('[data-pop]').forEach((el) => { el.style.transform = `scale(${back(seg(t, +el.dataset.pop, +el.dataset.pop + 0.3)).toFixed(3)})`; });
+  // documents: scroll, title swap, signature
+  const maxScroll = docBody.offsetHeight - (560 - 63) + 4;
+  const scroll = -(eio(seg(t, 12.2, 13.55)) * (maxScroll * 0.62) + eio(seg(t, 14.05, 14.75)) * (maxScroll * 0.38));
+  docBody.style.transform = `translateY(${scroll.toFixed(1)}px)`;
+  const sw = eo(seg(t, 13.85, 14.15));
+  $('t5a').style.opacity = $('t5b').style.opacity = 1 - sw; $('t6a').style.opacity = $('t6b').style.opacity = sw;
+  sig.style.strokeDashoffset = (sigLen * (1 - eio(seg(t, 14.95, 16.1)))).toFixed(2);
+  const nx = $('nx5'); { const d1 = t - 13.75, d2 = t - 16.5; const k = Math.max(d1 > -0.08 && d1 < 0.22 ? Math.sin(clamp((d1 + 0.08) / 0.3) * Math.PI) : 0, d2 > -0.08 && d2 < 0.22 ? Math.sin(clamp((d2 + 0.08) / 0.3) * Math.PI) : 0); nx.style.transform = `scale(${1 - 0.045 * k})`; }
+  // camera
+  $('feed').style.opacity = eo(seg(t, 17.35, 17.8));
+  $('feedFace').style.transform = `scale(${(1 + 0.012 * Math.sin(t * 2.4)).toFixed(4)}) translateX(${(1.5 * Math.sin(t * 1.3)).toFixed(2)}px)`;
+  const fl = t < 18.05 ? 0 : t < 18.12 ? seg(t, 18.05, 18.12) : 1 - eo(seg(t, 18.12, 18.5));
+  $('flash').style.opacity = fl;
+  const cap = t >= 18.15;
+  $('ovalE').setAttribute('stroke', cap ? '#2BD99A' : 'rgba(255,255,255,.85)'); $('ovalE').setAttribute('stroke-dasharray', cap ? 'none' : '8 8'); $('ovalE').setAttribute('stroke-width', cap ? '3' : '2');
+  $('camDot').style.background = cap ? '#2BD99A' : '#EB4D4E'; $('camTxt').textContent = cap ? 'Photo captured' : 'Camera on';
+  { const p = back(seg(t, 18.25, 18.6)); $('captured').style.opacity = clamp(p); $('captured').style.transform = `translateY(${(1 - clamp(p)) * 8}px) scale(${(0.9 + 0.1 * p).toFixed(3)})`; }
+  // calling
+  const co = eo(seg(t, 21.45, 21.85)); $('calling').style.opacity = co;
+  document.querySelectorAll('#calling .ring').forEach((r, i) => { const ph = ((t - 21.45) * 0.9 + i * 0.5) % 1; const p = t < 21.45 ? 0 : ph; r.style.transform = `scale(${1 + p * 0.9})`; r.style.opacity = (1 - p) * 0.9; });
+  $('dots').textContent = '…'.slice(0) && ['', '.', '..', '...'][Math.floor(Math.max(0, t - 21.45) * 2.5) % 4];
+  // tap indicator
+  let tapO = 0, rip = 0, rx = 0, ry = 0, tapS = 1;
+  for (const [tt, x, y] of TAPS) { const d = t - tt; if (d > -0.3 && d < 0.5) { rx = x; ry = y; tapO = d < 0 ? eo(seg(d, -0.3, -0.05)) : 1 - seg(d, 0.12, 0.38); tapS = d < 0 ? 1.15 - 0.15 * eo(seg(d, -0.3, -0.05)) : d < 0.1 ? 0.88 : 0.88 + 0.12 * seg(d, 0.1, 0.3); rip = d >= 0 ? seg(d, 0, 0.5) : 0; } }
+  $('tap').style.left = $('ripple').style.left = rx + 'px'; $('tap').style.top = $('ripple').style.top = ry + 'px';
+  $('tap').style.opacity = (tapO * 0.9).toFixed(3); $('tap').style.transform = `scale(${tapS.toFixed(3)})`;
+  $('ripple').style.opacity = rip > 0 ? (1 - rip) * 0.8 : 0; $('ripple').style.transform = `scale(${1 + rip * 1.6})`;
+}
+function isTypingNear(el, t) { const s = el.parentElement.querySelector('[data-type]') || el.previousElementSibling; if (!s || !s.dataset || !s.dataset.ts) return false; return t >= +s.dataset.ts && t <= +s.dataset.te + 0.1; }
+window.render = render; window.LENGTH = L;
+const q = new URLSearchParams(location.search); if (q.has('t')) render(+q.get('t')); else { const st = performance.now(); (function loop() { render(((performance.now() - st) / 1000) % L); requestAnimationFrame(loop); })(); }
+</script>
+</body></html>
