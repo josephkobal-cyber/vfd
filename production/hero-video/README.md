@@ -13,7 +13,7 @@ Embed: `<video src="vfd-sign-in-flow.mp4" poster="vfd-sign-in-flow-poster.jpg" a
 
 ## Story (seconds)
 0–2 welcome, tap **Visitor Sign in** · 2–4 visitor type, select **Visitor** · 4–6 select **Sign in at the station** ·
-6–11 details typed (Shelley Covington, Northwind Ltd, email, mobile) → Next · 11–16 NDA scrolls, "Sign the agreement",
+6–11 details typed (Emily Carter, Northwind Ltd, email, mobile) → Next · 11–16 NDA scrolls, "Sign the agreement",
 signature draws → Next · 17–19 camera, shutter, flash, "Photo captured" → Next · 19–23 search "Sarah", tap **Call** on
 Sarah Thompson → calling screen · 23–24 back to welcome.
 
