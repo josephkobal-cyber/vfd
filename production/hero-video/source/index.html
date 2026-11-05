@@ -172,6 +172,33 @@ html,body{background:transparent;width:506px;height:694px;overflow:hidden;font-f
       </div>
     </div>
 
+    <!-- S7b badge preview (black & white) -->
+    <div class="layer" id="sb" style="background:#F4F5F7;opacity:0;visibility:hidden">
+      <div class="lbar" id="sbBar"><div class="bk"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#0A0A0A" stroke-width="2" stroke-linecap="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg></div>
+        <div class="tt">Preview your visitor badge</div><div class="ts">Check details, then print your badge</div>
+        <div class="nx" id="printBtn" style="width:96px;color:#0A0A0A"><span id="printTxt">Print badge</span></div></div>
+      <div class="card" id="sbCard" style="top:78px;height:262px">
+        <div style="position:absolute;left:16px;top:14px;font-size:12px;font-weight:600;color:#3A3D40">Badge preview</div>
+        <div id="badge" style="position:absolute;left:16px;top:38px;width:367px;height:182px;border-radius:8px;background:#fff;border:1px solid #D9DCE0;overflow:hidden">
+          <div style="position:absolute;left:14px;top:15px;font-size:13px;font-weight:700;color:#000">Your company logo</div>
+          <div style="position:absolute;right:14px;top:9px;font-size:22px;font-weight:700;letter-spacing:.5px;color:#000">VISITOR</div>
+          <div style="position:absolute;left:0;top:46px;width:367px;height:1px;background:#E1E4E8"></div>
+          <div id="bPhoto" style="position:absolute;left:14px;top:58px;width:84px;height:100px;border-radius:3px;background:url(assets/selfie.jpg) 50% 28%/300% auto no-repeat;filter:grayscale(1) contrast(1.08)"></div>
+          <div id="bInfo" style="position:absolute;left:114px;top:60px">
+            <div style="font-size:19px;font-weight:700;color:#000;letter-spacing:-.2px">Emily Carter</div>
+            <div style="font-size:13px;font-weight:500;color:#000;margin-top:2px">Northwind Ltd</div>
+            <div style="font-size:9px;font-weight:700;color:#000;letter-spacing:.8px;margin-top:14px">HOST</div>
+            <div style="font-size:13px;font-weight:600;color:#000;margin-top:1px">Sarah Thompson</div>
+          </div>
+          <div style="position:absolute;left:0;top:156px;width:367px;height:26px;background:#F4F5F7;border-top:1px solid #E1E4E8"></div>
+          <div style="position:absolute;left:14px;top:163px;font-size:10px;font-weight:600;color:#000">Welcome to HQ Lobby</div>
+          <div style="position:absolute;right:10px;top:160px;height:18px;padding:0 7px;border-radius:4px;background:#E9EBEE;display:flex;align-items:center;font-size:9px;font-weight:700;color:#000">Nov 4, 2026 · 9:15 AM</div>
+        </div>
+        <div style="position:absolute;left:0;width:399px;top:234px;display:flex;justify-content:center;gap:6px;align-items:center;font-size:12px;font-weight:500;color:#6B6E72"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6B6E72" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>Prints on the front-desk printer in black and white.</div>
+      </div>
+      <div id="printed" style="position:absolute;left:0;width:435px;top:356px;display:flex;justify-content:center;opacity:0"><div style="height:30px;padding:0 12px;border-radius:999px;background:#E3F6EE;color:#0E9A66;font-size:12.5px;font-weight:700;display:flex;align-items:center;gap:6px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0E9A66" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Badge printed. Collect it at the front desk.</div></div>
+    </div>
+
     <div id="tap"></div><div id="ripple"></div>
   </div>
 </div>
@@ -260,7 +287,7 @@ const $ = (id) => document.getElementById(id);
 const wipe = (el, p) => { const e = (p * 112 - 6).toFixed(1); const m = `linear-gradient(90deg,#000 ${e}%,transparent ${(+e + 6).toFixed(1)}%)`; el.style.webkitMaskImage = m; el.style.maskImage = m; };
 const docBody = $('docBody');
 
-function render(t) {
+function renderBase(t) {
   // backgrounds
   const toDark = eio(seg(t, 1.75, 2.45)), backToWelcome = eio(seg(t, 23.35, 24));
   const dark = toDark * (1 - backToWelcome);
@@ -317,15 +344,38 @@ function render(t) {
   const co = eo(seg(t, 21.45, 21.85)); $('calling').style.opacity = co;
   document.querySelectorAll('#calling .ring').forEach((r, i) => { const ph = ((t - 21.45) * 0.9 + i * 0.5) % 1; const p = t < 21.45 ? 0 : ph; r.style.transform = `scale(${1 + p * 0.9})`; r.style.opacity = (1 - p) * 0.9; });
   $('dots').textContent = '…'.slice(0) && ['', '.', '..', '...'][Math.floor(Math.max(0, t - 21.45) * 2.5) % 4];
-  // tap indicator
+  drawTap(t, TAPS);
+}
+function drawTap(t, list) {
   let tapO = 0, rip = 0, rx = 0, ry = 0, tapS = 1;
-  for (const [tt, x, y] of TAPS) { const d = t - tt; if (d > -0.3 && d < 0.5) { rx = x; ry = y; tapO = d < 0 ? eo(seg(d, -0.3, -0.05)) : 1 - seg(d, 0.12, 0.38); tapS = d < 0 ? 1.15 - 0.15 * eo(seg(d, -0.3, -0.05)) : d < 0.1 ? 0.88 : 0.88 + 0.12 * seg(d, 0.1, 0.3); rip = d >= 0 ? seg(d, 0, 0.5) : 0; } }
+  for (const [tt, x, y] of list) { const d = t - tt; if (d > -0.3 && d < 0.5) { rx = x; ry = y; tapO = d < 0 ? eo(seg(d, -0.3, -0.05)) : 1 - seg(d, 0.12, 0.38); tapS = d < 0 ? 1.15 - 0.15 * eo(seg(d, -0.3, -0.05)) : d < 0.1 ? 0.88 : 0.88 + 0.12 * seg(d, 0.1, 0.3); rip = d >= 0 ? seg(d, 0, 0.5) : 0; } }
   $('tap').style.left = $('ripple').style.left = rx + 'px'; $('tap').style.top = $('ripple').style.top = ry + 'px';
   $('tap').style.opacity = (tapO * 0.9).toFixed(3); $('tap').style.transform = `scale(${tapS.toFixed(3)})`;
   $('ripple').style.opacity = rip > 0 ? (1 - rip) * 0.8 : 0; $('ripple').style.transform = `scale(${1 + rip * 1.6})`;
 }
+// ---- badge step inserted after the selfie: holds the base timeline at A for SHIFT seconds ----
+const A = 19.3, SHIFT = 3.6, B = A + SHIFT, L2 = L + SHIFT;
+const ALL_TAPS = [...TAPS.map(([tt, x, y]) => [tt < A ? tt : tt + SHIFT, x, y]), [21.0, 372, 31]];
+function render(T) {
+  const t = T < A ? T : T < B ? A : T - SHIFT;
+  renderBase(t);
+  if (T > A + 0.4) { $('s7').style.opacity = 0; $('s7').style.visibility = 'hidden'; }
+  const o = eo(seg(T, A, A + 0.35)) * (1 - eo(seg(T, B, B + 0.35)));
+  $('sb').style.opacity = o; $('sb').style.visibility = o > 0.001 ? 'visible' : 'hidden';
+  const up = (el, t0) => { const p = eo(seg(T, t0, t0 + 0.45)); el.style.opacity = p; el.style.transform = `translateY(${(1 - p) * 14}px)`; };
+  up($('sbBar'), A + 0.05); up($('sbCard'), A + 0.2);
+  const ph = eo(seg(T, A + 0.55, A + 1.0)); $('bPhoto').style.opacity = ph;
+  const inf = eo(seg(T, A + 0.75, A + 1.2)); $('bInfo').style.opacity = inf; $('bInfo').style.transform = `translateX(${(1 - inf) * 8}px)`;
+  // print: press at 21.0, "Printing…" then confirmation
+  const d = T - 21.0; const k = d > -0.08 && d < 0.22 ? Math.sin(clamp((d + 0.08) / 0.3) * Math.PI) : 0;
+  $('printBtn').style.transform = `scale(${1 - 0.045 * k})`;
+  $('printTxt').textContent = T < 21.05 ? 'Print badge' : T < 21.9 ? 'Printing' + ['', '.', '..', '...'][Math.floor((T - 21.05) * 5) % 4] : 'Printed';
+  $('badge').style.boxShadow = T >= 21.05 && T < 21.9 ? `0 0 0 ${(2 + 2 * Math.sin((T - 21.05) * 9)).toFixed(2)}px rgba(21,184,122,.35)` : 'none';
+  const pc = back(seg(T, 21.95, 22.3)); $('printed').style.opacity = clamp(pc); $('printed').style.transform = `translateY(${(1 - clamp(pc)) * 8}px) scale(${(0.9 + 0.1 * pc).toFixed(3)})`;
+  drawTap(T, ALL_TAPS);
+}
 function isTypingNear(el, t) { const s = el.parentElement.querySelector('[data-type]') || el.previousElementSibling; if (!s || !s.dataset || !s.dataset.ts) return false; return t >= +s.dataset.ts && t <= +s.dataset.te + 0.1; }
-window.render = render; window.LENGTH = L;
-const q = new URLSearchParams(location.search); if (q.has('t')) render(+q.get('t')); else { const st = performance.now(); (function loop() { render(((performance.now() - st) / 1000) % L); requestAnimationFrame(loop); })(); }
+window.render = render; window.LENGTH = L2;
+const q = new URLSearchParams(location.search); if (q.has('t')) render(+q.get('t')); else { const st = performance.now(); (function loop() { render(((performance.now() - st) / 1000) % L2); requestAnimationFrame(loop); })(); }
 </script>
 </body></html>

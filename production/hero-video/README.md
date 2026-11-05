@@ -1,6 +1,6 @@
 # Hero video: visitor sign-in flow
 
-A 24-second seamless loop of the iPad sign-in story for the "Control every visitor sign-in" hero.
+A 27.6-second seamless loop of the iPad sign-in story for the "Control every visitor sign-in" hero.
 Only the screen animates; the iPad frame stays still.
 
 | File | Use |
@@ -14,8 +14,9 @@ Embed: `<video src="vfd-sign-in-flow.mp4" poster="vfd-sign-in-flow-poster.jpg" a
 ## Story (seconds)
 0–2 welcome, tap **Visitor Sign in** · 2–4 visitor type, select **Visitor** · 4–6 select **Sign in at the station** ·
 6–11 details typed (Emily Carter, Northwind Ltd, email, mobile) → Next · 11–16 NDA scrolls, "Sign the agreement",
-signature draws → Next · 17–19 camera, shutter, flash, "Photo captured" → Next · 19–23 search "Sarah", tap **Call** on
-Sarah Thompson → calling screen · 23–24 back to welcome.
+signature draws → Next · 17–19 camera, shutter, flash, "Photo captured" → Next · 19.3–22.9 black-and-white badge preview (Emily Carter,
+Northwind Ltd, host Sarah Thompson), tap **Print badge** → "Badge printed" · 23–27 search "Sarah", tap **Call** on
+Sarah Thompson → calling screen · 27–27.6 back to welcome.
 
 ## Re-render
 Screens are rebuilt in `source/index.html` from the Figma "sign-in flow" component. Open it in a browser to preview the live loop
