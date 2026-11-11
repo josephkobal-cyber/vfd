@@ -1,0 +1,1305 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+</head>
+<body>
+<title>VFD Article Checker</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,600&display=swap">
+<style>
+/* Layout: verdict band across the top, then checks (main column) beside a publishing rail (search preview, AI summary, schema). */
+:root {
+  --bg: #F4F6FA;
+  --surface: #FFFFFF;
+  --sunken: #EBEFF6;
+  --fg: #0E1726;
+  --muted: #5A6478;
+  --line: #D9DEE8;
+  --accent: #004AD6;
+  --accent-soft: #E3ECFD;
+  --pass: #0E9A63;
+  --pass-soft: #DDF5EA;
+  --warn: #B26B00;
+  --warn-soft: #FCEFD7;
+  --fail: #C8322B;
+  --fail-soft: #FBE2E0;
+  --serp-link: #1A0DAB;
+  --serp-url: #1E6B3A;
+  --font-ui: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --font-read: "Newsreader", Georgia, "Times New Roman", serif;
+  --radius: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0B111C; --surface: #121A28; --sunken: #182235; --fg: #E7ECF5; --muted: #98A3B8; --line: #263248;
+    --accent: #6F9BFF; --accent-soft: #1A2A4D; --pass: #3DD39A; --pass-soft: #12352A; --warn: #F2B14C; --warn-soft: #3A2A10;
+    --fail: #FF7A72; --fail-soft: #401B1A; --serp-link: #9DB8FF; --serp-url: #7FD3A0; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0B111C; --surface: #121A28; --sunken: #182235; --fg: #E7ECF5; --muted: #98A3B8; --line: #263248;
+  --accent: #6F9BFF; --accent-soft: #1A2A4D; --pass: #3DD39A; --pass-soft: #12352A; --warn: #F2B14C; --warn-soft: #3A2A10;
+  --fail: #FF7A72; --fail-soft: #401B1A; --serp-link: #9DB8FF; --serp-url: #7FD3A0; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { background: var(--bg); color: var(--fg); font-family: var(--font-ui); font-size: 15px; line-height: 1.5; }
+.wrap { max-width: 1240px; margin: 0 auto; padding-block: 28px 64px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 20px; }
+h1, h2, h3 { margin: 0; text-wrap: balance; }
+button, input, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.eyebrow { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+
+/* Masthead */
+.top { display: flex; flex-wrap: wrap; gap: 16px; align-items: end; justify-content: space-between; }
+.brand h1 { font-size: 26px; font-weight: 700; letter-spacing: -.01em; }
+.brand p { margin: 4px 0 0; color: var(--muted); max-width: 62ch; }
+
+/* Upload */
+.intake { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: stretch; }
+.drop { border: 1.5px dashed var(--line); border-radius: var(--radius); background: var(--surface); padding: 16px 18px; display: flex; gap: 14px; align-items: center; flex-wrap: wrap; cursor: pointer; transition: border-color .15s, background .15s; }
+.drop:hover, .drop.over { border-color: var(--accent); background: var(--accent-soft); }
+.drop .glyph { width: 40px; height: 48px; flex: none; border: 1.5px solid var(--line); border-radius: 4px 12px 4px 4px; position: relative; background: var(--sunken); }
+.drop .glyph::after { content: "DOCX"; position: absolute; left: 50%; bottom: 7px; transform: translateX(-50%); font: 600 9px var(--font-mono); color: var(--accent); }
+.drop .copy { min-width: 0; flex: 1 1 260px; }
+.drop strong { display: block; }
+.drop small { color: var(--muted); display: block; }
+.file-name { display: block; margin-top: 4px; font-family: var(--font-mono); font-size: 13px; color: var(--muted); overflow-wrap: anywhere; }
+.side-actions { display: flex; flex-direction: column; gap: 8px; justify-content: center; }
+.btn { border: 1px solid var(--line); background: var(--surface); border-radius: 8px; padding: 8px 14px; cursor: pointer; font-weight: 500; white-space: nowrap; }
+.btn:hover { border-color: var(--accent); color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn.primary:hover { filter: brightness(1.08); color: #fff; }
+.paste { display: grid; gap: 10px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px; }
+.paste textarea { width: 100%; min-height: 180px; resize: vertical; border: 1px solid var(--line); border-radius: 8px; padding: 10px; background: var(--bg); font-family: var(--font-mono); font-size: 13px; }
+.override { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; font-size: 14px; color: var(--muted); }
+.override input { border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; background: var(--surface); min-width: 0; flex: 1 1 240px; max-width: 420px; }
+.notice { border-radius: 8px; padding: 10px 14px; background: var(--fail-soft); color: var(--fail); }
+.sample-tag { display: inline-block; font-size: 12px; font-weight: 600; background: var(--warn-soft); color: var(--warn); border-radius: 999px; padding: 2px 10px; margin-left: 6px; vertical-align: middle; }
+
+/* Verdict band */
+.verdict { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 22px; align-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px 22px; border-left: 6px solid var(--state, var(--accent)); }
+.verdict[data-state="ready"] { --state: var(--pass); --state-soft: var(--pass-soft); }
+.verdict[data-state="almost"] { --state: var(--warn); --state-soft: var(--warn-soft); }
+.verdict[data-state="not"] { --state: var(--fail); --state-soft: var(--fail-soft); }
+.ring { width: 104px; height: 104px; position: relative; }
+.ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.ring circle { fill: none; stroke-width: 9; }
+.ring .track { stroke: var(--sunken); }
+.ring .bar { stroke: var(--state); stroke-linecap: round; transition: stroke-dashoffset .6s ease; }
+.ring .num { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; font-family: var(--font-mono); }
+.ring .num b { font-size: 30px; font-weight: 500; line-height: 1; display: block; }
+.ring .num span { font-size: 11px; color: var(--muted); }
+.v-body { display: grid; gap: 10px; min-width: 0; }
+.v-title { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.v-title h2 { font-size: 24px; color: var(--state); }
+.v-title .doc { color: var(--muted); font-size: 14px; overflow-wrap: anywhere; }
+.v-article { font-family: var(--font-read); font-size: 19px; line-height: 1.3; overflow-wrap: anywhere; }
+.counts { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { display: inline-flex; gap: 6px; align-items: center; border-radius: 999px; padding: 3px 10px; font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.chip.fail { background: var(--fail-soft); color: var(--fail); }
+.chip.warn { background: var(--warn-soft); color: var(--warn); }
+.chip.pass { background: var(--pass-soft); color: var(--pass); }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 0; border-top: 1px solid var(--line); margin-top: 4px; padding-top: 10px; }
+.stat { padding: 2px 12px 2px 0; }
+.stat dt { font-size: 12px; color: var(--muted); }
+.stat dd { margin: 0; font-family: var(--font-mono); font-size: 17px; font-variant-numeric: tabular-nums; }
+
+/* Main grid */
+.grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 380px); gap: 20px; align-items: start; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
+.panel > header { display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; align-items: center; padding: 14px 18px; border-bottom: 1px solid var(--line); }
+.panel > header h3 { font-size: 15px; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.seg button { border: 0; background: transparent; padding: 6px 12px; cursor: pointer; font-size: 13px; }
+.seg button[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+.cat { border-bottom: 1px solid var(--line); }
+.cat:last-child { border-bottom: 0; }
+.cat-head { display: flex; justify-content: space-between; gap: 12px; padding: 12px 18px 6px; align-items: baseline; }
+.cat-head h4 { margin: 0; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.cat-head .mini { font-size: 12px; color: var(--muted); font-family: var(--font-mono); }
+.check { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 10px; padding: 9px 18px; }
+.check + .check { border-top: 1px dashed var(--line); }
+.mark { width: 22px; height: 22px; border-radius: 6px; display: grid; place-items: center; font-size: 13px; font-weight: 700; margin-top: 1px; }
+.mark.pass { background: var(--pass-soft); color: var(--pass); }
+.mark.warn { background: var(--warn-soft); color: var(--warn); }
+.mark.fail { background: var(--fail-soft); color: var(--fail); }
+.check .label { font-weight: 600; }
+.check .detail { color: var(--muted); font-size: 14px; overflow-wrap: anywhere; }
+.check details { margin-top: 6px; font-size: 13.5px; }
+.check summary { cursor: pointer; color: var(--accent); font-weight: 500; }
+.check ul { margin: 6px 0 0; padding-left: 18px; display: grid; gap: 4px; }
+.check li { overflow-wrap: anywhere; }
+.fix { margin-top: 6px; font-size: 13.5px; background: var(--sunken); border-radius: 6px; padding: 6px 10px; }
+.fix b { color: var(--fg); }
+.empty { padding: 18px; color: var(--muted); }
+
+/* Rail */
+.rail { display: grid; gap: 20px; min-width: 0; }
+.rail .body { padding: 14px 18px; display: grid; gap: 10px; min-width: 0; }
+.serp { font-family: Arial, Helvetica, sans-serif; display: grid; gap: 2px; }
+.serp .site { font-size: 13px; color: var(--fg); }
+.serp .url { font-size: 12.5px; color: var(--serp-url); overflow-wrap: anywhere; }
+.serp .t { font-size: 19px; color: var(--serp-link); line-height: 1.25; margin-top: 4px; }
+.serp .d { font-size: 13.5px; color: var(--muted); line-height: 1.45; }
+.meter { display: grid; gap: 4px; font-size: 12.5px; }
+.meter .row { display: flex; justify-content: space-between; color: var(--muted); }
+.meter .bar { height: 6px; background: var(--sunken); border-radius: 99px; position: relative; overflow: hidden; }
+.meter .bar i { position: absolute; inset: 0 auto 0 0; border-radius: 99px; }
+.meter .ok i { background: var(--pass); } .meter .hi i { background: var(--fail); } .meter .lo i { background: var(--warn); }
+.answer { font-family: var(--font-read); font-size: 16.5px; line-height: 1.5; border-left: 3px solid var(--accent); padding: 2px 0 2px 12px; }
+.muted { color: var(--muted); font-size: 13px; }
+.kv { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 12px; font-size: 13.5px; margin: 0; }
+.kv dt { color: var(--muted); }
+.kv dd { margin: 0; overflow-wrap: anywhere; }
+pre.code { margin: 0; max-height: 280px; overflow: auto; background: var(--sunken); border-radius: 8px; padding: 10px 12px; font: 12px/1.5 var(--font-mono); white-space: pre; }
+.toast { position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); background: var(--fg); color: var(--bg); padding: 8px 14px; border-radius: 8px; font-size: 14px; opacity: 0; transform: translateY(6px); transition: opacity .2s, transform .2s; pointer-events: none; }
+.toast.show { opacity: 1; transform: none; }
+.criteria { padding: 6px 18px 16px; columns: 2 260px; column-gap: 28px; font-size: 13.5px; }
+.criteria h5 { margin: 10px 0 4px; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); break-after: avoid; }
+.criteria div { break-inside: avoid; padding: 1px 0; }
+
+@media (max-width: 900px) { .grid { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 560px) {
+  .intake { grid-template-columns: minmax(0, 1fr); }
+  .side-actions { flex-direction: row; flex-wrap: wrap; }
+  .verdict { grid-template-columns: minmax(0, 1fr); }
+  .ring { width: 88px; height: 88px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="wrap">
+  <div class="top">
+    <div class="brand">
+      <div class="eyebrow">Virtual Front Desk blog · pre-publish QA</div>
+      <h1>VFD Article Checker</h1>
+      <p>Upload an article and get a publish verdict against the blog's 55 rules for interview residue, structure, AI visibility, SEO, human voice, product facts and the call to action.</p>
+    </div>
+  </div>
+
+  <section class="intake" aria-label="Upload an article">
+    <label class="drop" id="drop" for="file">
+      <span class="glyph" aria-hidden="true"></span>
+      <span class="copy">
+        <strong>Drop a .docx, .md, .txt or .html file, or click to choose one</strong>
+        <small>Metadata is read from YAML front matter or from a "Field / Value" table (SEO title, Meta description, URL slug, Primary keyword…). Nothing leaves your browser.</small>
+        <span class="file-name" id="fileName"></span>
+      </span>
+      <input type="file" id="file" accept=".docx,.md,.markdown,.txt,.html,.htm" hidden>
+    </label>
+    <div class="side-actions">
+      <button class="btn" type="button" id="pasteToggle" aria-expanded="false">Paste text</button>
+      <button class="btn" type="button" id="loadSample">Load example</button>
+    </div>
+  </section>
+
+  <section class="paste" id="pastePanel" hidden>
+    <label for="pasteText" class="eyebrow">Paste Markdown (front matter optional)</label>
+    <textarea id="pasteText" placeholder="---&#10;seo_title: ...&#10;primary_keyword: ...&#10;---&#10;&#10;# Title&#10;&#10;Opening paragraph..."></textarea>
+    <div><button class="btn primary" type="button" id="runPaste">Check pasted text</button></div>
+  </section>
+
+  <div class="override">
+    <label for="kwOverride">Primary keyword</label>
+    <input id="kwOverride" type="text" placeholder="Uses the article's metadata; type here to override">
+    <button class="btn" type="button" id="rerun">Re-check</button>
+  </div>
+
+  <div class="notice" id="error" role="alert" hidden></div>
+
+  <section class="verdict" id="verdict" data-state="ready" aria-live="polite">
+    <div class="ring" aria-hidden="true">
+      <svg viewBox="0 0 104 104"><circle class="track" cx="52" cy="52" r="44"></circle><circle class="bar" id="ringBar" cx="52" cy="52" r="44" stroke-dasharray="276.46" stroke-dashoffset="276.46"></circle></svg>
+      <div class="num"><div><b id="score">0</b><span>of 100</span></div></div>
+    </div>
+    <div class="v-body">
+      <div class="v-title"><h2 id="verdictText">Checking…</h2><span class="doc" id="docLabel"></span></div>
+      <div class="v-article" id="articleTitle"></div>
+      <div class="counts" id="counts"></div>
+      <dl class="stats" id="stats"></dl>
+    </div>
+  </section>
+
+  <div class="grid">
+    <section class="panel" aria-label="Checks">
+      <header>
+        <h3>Checks</h3>
+        <div class="seg" role="group" aria-label="Filter checks">
+          <button type="button" data-filter="issues" aria-pressed="true">Needs work</button>
+          <button type="button" data-filter="all" aria-pressed="false">All checks</button>
+        </div>
+      </header>
+      <div id="checks"></div>
+    </section>
+
+    <aside class="rail">
+      <section class="panel" aria-label="Search result preview">
+        <header><h3>Search result preview</h3></header>
+        <div class="body">
+          <div class="serp">
+            <div class="site">Virtual Front Desk</div>
+            <div class="url" id="serpUrl"></div>
+            <div class="t" id="serpTitle"></div>
+            <div class="d" id="serpDesc"></div>
+          </div>
+          <div class="meter" id="titleMeter"></div>
+          <div class="meter" id="descMeter"></div>
+        </div>
+      </section>
+
+      <section class="panel" aria-label="AI answer summary">
+        <header><h3>AI answer summary</h3></header>
+        <div class="body">
+          <div class="muted" id="targetQ"></div>
+          <div class="answer" id="aiSummary"></div>
+          <dl class="kv" id="metaKv"></dl>
+        </div>
+      </section>
+
+      <section class="panel" aria-label="Structured data">
+        <header><h3>Schema (JSON-LD)</h3><button class="btn" type="button" id="copySchema">Copy</button></header>
+        <div class="body">
+          <div class="muted">BlogPosting + FAQPage, built from the metadata and the FAQ section. Paste into the page head.</div>
+          <pre class="code" id="schema"></pre>
+        </div>
+      </section>
+
+      <section class="panel" aria-label="Report">
+        <header><h3>Report</h3><button class="btn" type="button" id="copyReport">Copy as Markdown</button></header>
+        <div class="body"><div class="muted">A plain-text report of every failed and flagged check, for the editor or the writer.</div></div>
+      </section>
+    </aside>
+  </div>
+
+  <section class="panel" aria-label="What gets checked">
+    <header><h3>What gets checked</h3><span class="muted" id="ruleCount"></span></header>
+    <div class="criteria" id="criteria"></div>
+  </section>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/mammoth@1.11.0/mammoth.browser.min.js"></script>
+<script>
+/*
+ * Virtual Front Desk article checker: rule engine.
+ *
+ * Works in the browser (window.VFDChecker) and in Node (require).
+ * Input: a parsed document { meta, blocks, trailing } built by
+ * parseMarkdown() or parseHtml(). Output: a report with a score, a verdict
+ * and every check grouped by category.
+ *
+ * The rules mirror .claude/skills/vfd-blog-writer/references/article-spec.md.
+ * Change both together.
+ */
+(function (root, factory) {
+  if (typeof module === 'object' && module.exports) module.exports = factory();
+  else root.VFDChecker = factory();
+})(typeof self !== 'undefined' ? self : this, function () {
+  'use strict';
+
+  // ---------------------------------------------------------------------------
+  // Configuration
+  // ---------------------------------------------------------------------------
+
+  var BRAND = 'Virtual Front Desk';
+
+  var LIMITS = {
+    words: [1200, 2200], wordsHard: [900, 3000],
+    h1: [30, 80],
+    h2: [5, 12],
+    intro: [40, 100],
+    section: [40, 400],
+    paragraphWarn: 100, paragraphFail: 130,
+    faq: [4, 8], faqAnswer: [20, 100],
+    seoTitle: [30, 60],
+    meta: [120, 160],
+    slugMax: 75,
+    summary: [40, 90],
+    density: [0.3, 2.5],
+    flesch: [45, 35],
+    avgSentence: [11, 22],
+    longSentencePct: [10, 20],
+    burstiness: 5,
+    contractionsPer1k: 3,
+    youPer1k: 8,
+    passivePct: [15, 25],
+    brandMentions: 5,
+    facts: 8,
+    internalLinks: 3,
+    relatedQueries: 5
+  };
+
+  // Hard-banned: reads as machine-written or hype. Any hit fails the check.
+  var BANNED_HARD = [
+    'delve', 'delves', 'delving', 'leverage', 'leverages', 'leveraging', 'unlock', 'unlocks', 'unlocking',
+    'unleash', 'elevate', 'elevates', 'empower', 'empowers', 'empowering', 'revolutionize', 'revolutionizes',
+    'revolutionary', 'supercharge', 'game-changer', 'game changer', 'game-changing', 'cutting-edge',
+    'state-of-the-art', 'best-in-class', 'world-class', 'next-level', 'seamless', 'seamlessly', 'synergy',
+    'paradigm', 'tapestry', 'ever-evolving', 'testament to', 'in today\'s fast-paced', 'in today\'s world',
+    'in the modern workplace', 'it\'s important to note', 'it is important to note', 'it\'s worth noting',
+    'it is worth noting', 'let\'s dive in', 'dive into', 'deep dive', 'in conclusion', 'to sum up',
+    'at the end of the day', 'look no further', 'whether you\'re a', 'navigate the complexities',
+    'in the realm of', 'harness the power', 'take it to the next level', 'embark'
+  ];
+  // Soft: allowed occasionally, flagged as a warning.
+  var BANNED_SOFT = [
+    'robust', 'holistic', 'streamline', 'streamlines', 'streamlined', 'transformative', 'innovative',
+    'when it comes to', 'landscape', 'realm', 'myriad', 'plethora', 'foster', 'bolster', 'utilize',
+    'utilizes', 'facilitate', 'facilitates', 'comprehensive', 'crucial', 'pivotal', 'vital', 'effortless',
+    'effortlessly', 'hassle-free', 'peace of mind'
+  ];
+  var STIFF_STARTERS = ['moreover', 'furthermore', 'additionally', 'consequently', 'thus', 'hence', 'therefore', 'in addition', 'notably', 'importantly', 'ultimately'];
+  var THROAT_CLEARING = /^(in today'?s|in the (modern|current|digital)|have you ever|imagine|picture this|when it comes to|are you|did you know|as (a|an) [a-z]+ (manager|leader)|in an era|nowadays|these days)/i;
+  var WEAK_ANCHORS = /^(click here|here|this link|link|read more|learn more|more|this|this page|this article|website)$/i;
+
+  var CONTRACTIONS = /\b\w+(n't|'re|'ve|'ll|'d|'m)\b|\b(it's|that's|there's|here's|what's|who's|let's|you're|we're|they're|isn't|aren't|don't|doesn't|didn't|won't|can't|wouldn't|shouldn't|couldn't|hasn't|haven't|wasn't|weren't)\b/gi;
+  var YOU = /\b(you|your|yours|yourself)\b/gi;
+  var PASSIVE = /\b(am|is|are|was|were|be|been|being|gets|got|get)\s+(\w+ly\s+)?(\w+ed|known|shown|given|taken|made|sent|built|done|seen|kept|held|set|paid|told|found|left|written|run|brought|put|read|chosen|drawn|grown|thrown|hidden|stored|shared|printed|signed|issued)\b/i;
+
+  // Facts that are easy to get wrong. Each rule has a pattern and a message.
+  var FACT_FAILS = [
+    { re: /SOC\s?2\s+Type\s+(II|2)\b/i, msg: 'Virtual Front Desk is SOC 2 Type I certified. Type II is Microsoft Azure\'s certification, not Virtual Front Desk\'s.' },
+    { re: /\bHIPAA[- ](compliant|compliance|certified|certification)\b/i, msg: '"HIPAA compliant" is not a verified claim for Virtual Front Desk. Say sign-in data is encrypted in transit and at rest on Microsoft Azure with role-based access.' },
+    { re: /\b(ISO\s?27001|ISO\/IEC 27001)[- ]certified\b/i, msg: 'The security program is aligned with ISO/IEC 27001, not certified.' },
+    { re: /\bHead of Customer Success\b/i, msg: 'Jeff Letendre is CEO and Founder, not Head of Customer Success.' }
+  ];
+  var FACT_WARNS = [
+    { re: /\btrain(s|ed|ing)?\s+(its|our|the)\s+(AI|models?)\s+on\b/i, msg: 'The "no training on customer data" claim is not in the help center. Confirm with the product team before publishing.' },
+    { re: /\b(answer|answered|answering|take|pick up)\b[^.]{0,40}\b(in|from|via|through)\s+Slack\b/i, msg: 'The help center says Slack sends a notification only. WhatsApp is the integration with a video-call link.' },
+    { re: /\bbroadcast\b[^.]{0,80}\bTeams\b/i, skip: /\b(not|isn't|unavailable|no|never|can't)\b/i, msg: 'Broadcast mode is not available for groups with Microsoft Teams users. Check the wording.' },
+    { re: /\bwithout a (Teams Phone )?license\b[^.]{0,60}\bphone number\b|\bphone number\b[^.]{0,60}\bwithout a (Teams Phone )?license\b/i, msg: 'Answering a phone number in Teams without a Teams Phone license is not confirmed in the help center.' },
+    { re: /\bfree forever\b|\bno credit card\b/i, msg: 'The free trial starts after a credit card is added in billing. Check the wording.' },
+    { re: /\b(14|7|60|90)-day (free )?trial\b/i, msg: 'The free trial is 30 days.' },
+    { re: /\bwe sell\b[^.]{0,30}\b(devices|tablets|hardware)\b/i, msg: 'Virtual Front Desk does not sell devices.' },
+    { re: /\b(provides?|supplies|includes?) (the |a |our )?receptionists?\b/i, skip: /\?\s*$|\b(not|doesn't|don't|no)\b/i, msg: 'Virtual Front Desk does not supply receptionists. Check the wording.' }
+  ];
+  var KNOWN_PRICES = ['22', '29', '37', '49', '82', '109', '0.07', '7', '9.99', '0.10', '0.1', '500', '1000', '1,000', '327'];
+
+  var PLAN_GATES = [
+    { re: /\bbadges?\b[^.]{0,40}\bprint|\bprint(s|ed|ing)?\b[^.]{0,40}\bbadges?\b/i, feature: 'badge printing', plan: 'Enterprise' },
+    { re: /\blive monitoring\b|\blive stream(ing)?\b/i, feature: 'live monitoring', plan: 'Enterprise' },
+    { re: /\bdigital scanner\b|\bscan documents\b/i, feature: 'digital scanner', plan: 'Enterprise' },
+    { re: /\bStripe\b|\bcard payments?\b|\btake payments?\b/i, feature: 'payments', plan: 'Enterprise' },
+    { re: /\bvideo calls?\b/i, feature: 'video calls', plan: 'Professional' },
+    { re: /\bAI Agent\b|\bAI receptionist\b/i, feature: 'the AI Agent add-on', plan: 'add-on' }
+  ];
+
+  var TERMS = [
+    { re: /\bVFD\b/, msg: 'Write "Virtual Front Desk" in full. "VFD" is internal shorthand.' },
+    { re: /\bVirtual\s?Frontdesk\b|\bVirtualFrontDesk\b|\bVirtual Front-Desk\b/i, msg: 'Brand name is spelled "Virtual Front Desk".' },
+    { re: /\bMS Teams\b/, msg: 'Use "Microsoft Teams" (or "Teams" after first mention), not "MS Teams".' },
+    { re: /\bAzure Active Directory\b|\bAzure AD\b/, msg: 'Microsoft renamed it Microsoft Entra ID.' },
+    { re: /\bExpress Sign-In\b|\bexpress sign-in\b|\bExpress Sign In\b/, msg: 'The feature is written "Express sign-in".' },
+    { re: /\bNeat frame\b|\bneat Frame\b/, msg: 'The device is written "Neat Frame".' },
+    { re: /\bTeams Phone standard\b|\bteams phone\b/, msg: 'Write "Teams Phone Standard".' },
+    { re: /\bQR-code\b(?!\s)/, msg: 'Write "QR code" without a hyphen in running text.' }
+  ];
+
+  var STOP = ['a', 'an', 'the', 'for', 'and', 'or', 'of', 'to', 'in', 'on', 'at', 'is', 'how', 'what', 'with', 'your', 'you', 'it', 'its', 'by'];
+
+  // ---------------------------------------------------------------------------
+  // Helpers
+  // ---------------------------------------------------------------------------
+
+  function words(text) {
+    var m = String(text || '').match(/[A-Za-z0-9][A-Za-z0-9'’\-.$%]*/g);
+    return m ? m.filter(function (w) { return /[A-Za-z0-9]/.test(w); }) : [];
+  }
+  function wc(text) { return words(text).length; }
+  function norm(s) { return String(s || '').replace(/[’‘]/g, "'").replace(/[“”]/g, '"'); }
+  function lower(s) { return norm(s).toLowerCase(); }
+  function esc(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+  function countMatches(text, re) { var m = norm(text).match(re); return m ? m.length : 0; }
+  function round(n, d) { var p = Math.pow(10, d || 0); return Math.round(n * p) / p; }
+  function trimTo(s, n) { s = String(s); return s.length > n ? s.slice(0, n - 1) + '…' : s; }
+
+  function sentences(text) {
+    var t = norm(text).replace(/\s+/g, ' ').trim();
+    if (!t) return [];
+    // Protect common abbreviations from splitting.
+    t = t.replace(/\b(e\.g|i\.e|etc|vs|Mr|Ms|Dr|No|St)\./g, '$1∯');
+    var parts = t.split(/(?<=[.!?])["')\]]?\s+(?=["'(\[]?[A-Z0-9$])/);
+    return parts.map(function (s) { return s.replace(/∯/g, '.').trim(); }).filter(function (s) { return wc(s) > 0; });
+  }
+
+  function syllables(word) {
+    var w = word.toLowerCase().replace(/[^a-z]/g, '');
+    if (!w) return 0;
+    if (w.length <= 3) return 1;
+    w = w.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, '').replace(/^y/, '');
+    var m = w.match(/[aeiouy]{1,2}/g);
+    return Math.max(1, m ? m.length : 1);
+  }
+
+  function keywordTokens(k) {
+    return lower(k).split(/[^a-z0-9]+/).filter(function (t) { return t && STOP.indexOf(t) === -1; });
+  }
+  function hasPhrase(text, phrase) {
+    if (!phrase) return false;
+    return lower(text).indexOf(lower(phrase)) !== -1;
+  }
+  function hasAllTokens(text, phrase) {
+    var toks = keywordTokens(phrase); var t = lower(text);
+    if (!toks.length) return false;
+    return toks.every(function (k) { return new RegExp('\\b' + esc(k).replace(/s$/, '') + 's?\\b').test(t); });
+  }
+  function keywordMatch(text, phrase) {
+    if (hasPhrase(text, phrase)) return 'exact';
+    if (hasAllTokens(text, phrase)) return 'partial';
+    return 'none';
+  }
+
+  function isInternal(href) {
+    if (!href) return false;
+    return /^\/(?!\/)/.test(href) || /(^|\/\/)([a-z0-9-]+\.)*virtualfrontdesk\.(com|ca|global|asia)/i.test(href);
+  }
+
+  // ---------------------------------------------------------------------------
+  // Parsing: Markdown
+  // ---------------------------------------------------------------------------
+
+  function parseFrontMatter(src) {
+    var meta = {};
+    var m = src.match(/^\uFEFF?---\s*\n([\s\S]*?)\n---\s*(\n|$)/);
+    if (!m) return { meta: meta, rest: src };
+    var lines = m[1].split('\n'); var key = null;
+    lines.forEach(function (line) {
+      var item = line.match(/^\s+-\s+(.*)$/);
+      if (item && key) {
+        if (!Array.isArray(meta[key])) meta[key] = [];
+        meta[key].push(unquote(item[1]));
+        return;
+      }
+      var kv = line.match(/^([A-Za-z0-9_\-]+)\s*:\s*(.*)$/);
+      if (kv) { key = kv[1].toLowerCase(); meta[key] = kv[2] === '' ? [] : unquote(kv[2]); }
+    });
+    return { meta: meta, rest: src.slice(m[0].length) };
+  }
+  function unquote(s) {
+    s = String(s).trim();
+    if ((s[0] === '"' && s[s.length - 1] === '"') || (s[0] === "'" && s[s.length - 1] === "'")) s = s.slice(1, -1);
+    return s.replace(/\\"/g, '"');
+  }
+
+  function inline(md) {
+    var links = [];
+    var text = String(md).replace(/!\[[^\]]*\]\([^)]*\)/g, '')
+      .replace(/\[([^\]]+)\]\(([^)\s]+)(?:\s+"[^"]*")?\)/g, function (_, t, h) { links.push({ text: stripMd(t), href: h }); return t; })
+      .replace(/<(https?:\/\/[^>]+)>/g, function (_, h) { links.push({ text: h, href: h, bare: true }); return h; });
+    return { text: stripMd(text), links: links };
+  }
+  function stripMd(s) {
+    return String(s).replace(/\*\*([^*]+)\*\*/g, '$1').replace(/__([^_]+)__/g, '$1')
+      .replace(/(^|[^*])\*([^*]+)\*/g, '$1$2').replace(/`([^`]+)`/g, '$1').replace(/\\([*_`#|])/g, '$1').trim();
+  }
+
+  function parseMarkdown(src) {
+    src = norm(String(src).replace(/\r\n?/g, '\n'));
+    var fm = parseFrontMatter(src);
+    var lines = fm.rest.split('\n');
+    var blocks = []; var para = [];
+    function flush() {
+      if (para.length) { var r = inline(para.join(' ')); blocks.push({ type: 'p', text: r.text, links: r.links }); para = []; }
+    }
+    for (var i = 0; i < lines.length; i++) {
+      var line = lines[i];
+      var h = line.match(/^(#{1,6})\s+(.*?)\s*#*\s*$/);
+      if (h) { flush(); var r = inline(h[2]); blocks.push({ type: 'h' + h[1].length, text: r.text, links: r.links }); continue; }
+      if (/^\s*\|.*\|\s*$/.test(line)) {
+        flush(); var rows = [];
+        while (i < lines.length && /^\s*\|.*\|\s*$/.test(lines[i])) {
+          if (!/^\s*\|[\s:\-|]+\|\s*$/.test(lines[i])) {
+            rows.push(lines[i].trim().replace(/^\||\|$/g, '').split('|').map(function (c) { return inline(c.trim()); }));
+          }
+          i++;
+        }
+        i--;
+        var tlinks = []; rows.forEach(function (r) { r.forEach(function (c) { tlinks = tlinks.concat(c.links); }); });
+        blocks.push({ type: 'table', rows: rows.map(function (r) { return r.map(function (c) { return c.text; }); }), text: rows.map(function (r) { return r.map(function (c) { return c.text; }).join(' | '); }).join('\n'), links: tlinks });
+        continue;
+      }
+      var li = line.match(/^\s*([-*+]|\d+[.)])\s+(.*)$/);
+      if (li) {
+        flush(); var r2 = inline(li[2]);
+        // Continuation lines of the same list item.
+        while (i + 1 < lines.length && /^\s{2,}\S/.test(lines[i + 1]) && !/^\s*([-*+]|\d+[.)])\s+/.test(lines[i + 1])) {
+          i++; var c = inline(lines[i].trim()); r2.text += ' ' + c.text; r2.links = r2.links.concat(c.links);
+        }
+        blocks.push({ type: 'li', ordered: /\d/.test(li[1]), text: r2.text, links: r2.links });
+        continue;
+      }
+      var bq = line.match(/^\s*>\s?(.*)$/);
+      if (bq) { flush(); var r3 = inline(bq[1]); blocks.push({ type: 'blockquote', text: r3.text, links: r3.links }); continue; }
+      if (/^\s*$/.test(line) || /^\s*(-{3,}|\*{3,})\s*$/.test(line)) { flush(); continue; }
+      para.push(line.trim());
+    }
+    flush();
+    return finalize({ meta: normalizeMeta(fm.meta), blocks: blocks, source: 'markdown' });
+  }
+
+  // ---------------------------------------------------------------------------
+  // Parsing: HTML (from mammoth for .docx, or an .html upload). Browser only.
+  // ---------------------------------------------------------------------------
+
+  function parseHtml(html, DOMParserImpl) {
+    var P = DOMParserImpl || (typeof DOMParser !== 'undefined' ? DOMParser : null);
+    if (!P) throw new Error('HTML parsing needs a DOMParser (run in a browser).');
+    var doc = new P().parseFromString(String(html), 'text/html');
+    var blocks = [];
+    function linksOf(el) {
+      return Array.prototype.map.call(el.querySelectorAll('a[href]'), function (a) {
+        return { text: norm(a.textContent).trim(), href: a.getAttribute('href') };
+      }).filter(function (l) { return l.href && l.href.charAt(0) !== '#'; });
+    }
+    function text(el) { return norm(el.textContent).replace(/\s+/g, ' ').trim(); }
+    function walk(el) {
+      Array.prototype.forEach.call(el.children, function (c) {
+        var tag = c.tagName.toLowerCase();
+        if (/^h[1-6]$/.test(tag)) { if (text(c)) blocks.push({ type: tag, text: text(c), links: linksOf(c) }); }
+        else if (tag === 'p') { if (text(c)) blocks.push({ type: 'p', text: text(c), links: linksOf(c) }); }
+        else if (tag === 'ul' || tag === 'ol') {
+          Array.prototype.forEach.call(c.children, function (li) {
+            if (li.tagName.toLowerCase() !== 'li') return;
+            var clone = li.cloneNode(true);
+            Array.prototype.forEach.call(clone.querySelectorAll('ul,ol'), function (n) { n.remove(); });
+            if (text(clone)) blocks.push({ type: 'li', ordered: tag === 'ol', text: text(clone), links: linksOf(clone) });
+            Array.prototype.forEach.call(li.children, function (n) { if (/^(ul|ol)$/i.test(n.tagName)) walk({ children: [n] }); });
+          });
+        }
+        else if (tag === 'table') {
+          var rows = Array.prototype.map.call(c.querySelectorAll('tr'), function (tr) {
+            return Array.prototype.map.call(tr.querySelectorAll('th,td'), function (td) { return text(td); });
+          }).filter(function (r) { return r.some(function (x) { return x; }); });
+          blocks.push({ type: 'table', rows: rows, text: rows.map(function (r) { return r.join(' | '); }).join('\n'), links: linksOf(c) });
+        }
+        else if (tag === 'blockquote') { if (text(c)) blocks.push({ type: 'blockquote', text: text(c), links: linksOf(c) }); }
+        else if (c.children && c.children.length) walk(c);
+        else if (text(c)) blocks.push({ type: 'p', text: text(c), links: linksOf(c) });
+      });
+    }
+    walk(doc.body);
+    var meta = {};
+    var title = doc.querySelector('title');
+    var metaDesc = doc.querySelector('meta[name="description"]');
+    if (title && text(title)) meta.seo_title = text(title);
+    if (metaDesc) meta.meta_description = metaDesc.getAttribute('content');
+    return finalize({ meta: normalizeMeta(meta), blocks: blocks, source: 'html' });
+  }
+
+  // ---------------------------------------------------------------------------
+  // Metadata handling
+  // ---------------------------------------------------------------------------
+
+  var META_LABELS = [
+    [/^seo title|^title tag|^meta title/, 'seo_title'],
+    [/^meta description|^description/, 'meta_description'],
+    [/slug|^url/, 'slug'],
+    [/primary (target )?question|target question/, 'primary_question'],
+    [/primary keyword|focus keyword|target keyword|^keyword/, 'primary_keyword'],
+    [/related (queries|keywords)|secondary keywords/, 'related_queries'],
+    [/^author title|^author role/, 'author_title'],
+    [/^author/, 'author'],
+    [/^publisher/, 'publisher'],
+    [/date published|published/, 'date_published'],
+    [/last updated|date modified|modified|updated/, 'date_modified'],
+    [/ai answer summary|answer summary|ai summary|tl;?dr/, 'ai_answer_summary'],
+    [/internal links/, 'internal_links'],
+    [/article schema/, 'article_schema'],
+    [/faq schema/, 'faq_schema']
+  ];
+
+  function normalizeMeta(m) {
+    var out = {};
+    Object.keys(m || {}).forEach(function (k) {
+      var key = k.toLowerCase().replace(/[\s-]+/g, '_');
+      out[key] = m[k];
+    });
+    if (typeof out.related_queries === 'string') out.related_queries = out.related_queries.split(/\s*[;\n]\s*|\s*,\s*/).filter(Boolean);
+    if (out.author && !out.author_title && /,/.test(out.author)) {
+      var parts = String(out.author).split(/,\s*/); out.author = parts.shift(); out.author_title = parts.join(', ');
+    }
+    return out;
+  }
+
+  function metaFromTable(rows) {
+    var meta = {}; var hits = 0;
+    rows.forEach(function (r) {
+      if (r.length < 2) return;
+      var label = lower(r[0]).replace(/[:*]/g, '').trim();
+      for (var i = 0; i < META_LABELS.length; i++) {
+        if (META_LABELS[i][0].test(label)) { meta[META_LABELS[i][1]] = r.slice(1).join(' ').trim(); hits++; break; }
+      }
+    });
+    return hits >= 2 ? meta : null;
+  }
+
+  // Split the parsed blocks into: article body, metadata, and anything after
+  // (interview sections and other leftovers that must not be published).
+  function finalize(doc) {
+    var blocks = doc.blocks.filter(function (b) { return !(/^h[12]$/.test(b.type) && /^part\s*\d+\s*:?\s*article\s*$/i.test(b.text)); });
+    var body = []; var trailing = []; var meta = doc.meta || {}; var inTail = false; var tailReason = null;
+    for (var i = 0; i < blocks.length; i++) {
+      var b = blocks[i];
+      if (/^h[1-3]$/.test(b.type) && /(publishing|article|seo|post)\s+metadata|^metadata$|^part\s*\d+\s*:?\s*(article )?metadata|^part\s*\d+\s*:?\s*interview|^interview( transcript)?$|^transcript$|^seo (details|fields)$/i.test(b.text)) {
+        inTail = true;
+        if (!tailReason || /interview|transcript/i.test(b.text)) tailReason = /interview|transcript/i.test(b.text) ? b.text : (tailReason || b.text);
+      }
+      if (b.type === 'table') {
+        var tm = metaFromTable(b.rows || []);
+        if (tm) { Object.keys(tm).forEach(function (k) { if (!meta[k]) meta[k] = tm[k]; }); inTail = true; continue; }
+      }
+      (inTail ? trailing : body).push(b);
+    }
+    var nm = normalizeMeta(meta);
+    return { meta: nm, blocks: body, trailing: trailing, tailReason: tailReason, source: doc.source };
+  }
+
+  // ---------------------------------------------------------------------------
+  // Document model helpers
+  // ---------------------------------------------------------------------------
+
+  function model(doc) {
+    var b = doc.blocks;
+    var h1s = b.filter(function (x) { return x.type === 'h1'; });
+    var h1Index = b.findIndex(function (x) { return x.type === 'h1'; });
+    var content = h1Index >= 0 ? b.slice(h1Index + 1) : b.slice();
+    var prose = content.filter(function (x) { return x.type === 'p' || x.type === 'li' || x.type === 'blockquote'; });
+    var textBlocks = content.filter(function (x) { return x.type !== 'table'; });
+    var allText = content.map(function (x) { return x.text; }).join('\n');
+    var proseText = prose.map(function (x) { return x.text; }).join('\n');
+
+    // Sections by H2.
+    var sections = []; var cur = { heading: null, blocks: [] };
+    content.forEach(function (x) {
+      if (x.type === 'h2') { sections.push(cur); cur = { heading: x.text, blocks: [] }; }
+      else cur.blocks.push(x);
+    });
+    sections.push(cur);
+    var intro = sections[0].blocks.filter(function (x) { return x.type === 'p'; });
+    sections = sections.slice(1);
+
+    var faq = null;
+    sections.forEach(function (s) {
+      if (/frequently asked|^faqs?\b|common questions/i.test(s.heading)) {
+        var qs = []; var q = null;
+        s.blocks.forEach(function (x) {
+          if (x.type === 'h3' || x.type === 'h4') { q = { q: x.text, a: [] }; qs.push(q); }
+          else if (q && x.type !== 'table') q.a.push(x.text);
+        });
+        faq = { section: s, items: qs.map(function (it) { return { q: it.q, a: it.a.join(' ') }; }) };
+      }
+    });
+
+    var sents = [];
+    prose.forEach(function (x) { sentences(x.text).forEach(function (s) { sents.push(s); }); });
+    var links = [];
+    content.forEach(function (x) { (x.links || []).forEach(function (l) { links.push(l); }); });
+
+    return {
+      h1s: h1s, h1: h1s[0] ? h1s[0].text : '', content: content, prose: prose, textBlocks: textBlocks,
+      allText: allText, proseText: proseText, sections: sections, intro: intro, faq: faq,
+      sentences: sents, links: links, words: wc(allText)
+    };
+  }
+
+  // ---------------------------------------------------------------------------
+  // Checks
+  // ---------------------------------------------------------------------------
+
+  function runChecks(doc) {
+    var m = model(doc);
+    var meta = doc.meta || {};
+    var kw = meta.primary_keyword || '';
+    var checks = [];
+    function add(cat, id, label, status, detail, opts) {
+      opts = opts || {};
+      checks.push({ category: cat, id: id, label: label, status: status, detail: detail || '', fix: opts.fix || '', items: opts.items || [], weight: opts.weight || 1 });
+    }
+
+    // ---- Interview residue (publish blockers) -------------------------------
+    var C0 = 'Interview residue';
+    var quoteHits = [];
+    m.prose.forEach(function (x) {
+      var re = /"([^"]+)"/g; var mm;
+      while ((mm = re.exec(x.text))) { if (wc(mm[1]) >= 10) quoteHits.push(trimTo(mm[0], 140)); }
+    });
+    add(C0, 'no_long_quotes', 'No quoted interview answers', quoteHits.length ? 'fail' : 'pass',
+      quoteHits.length ? quoteHits.length + ' long quotation(s) found. The article must not quote the interview.' : 'No quotations of 10+ words.',
+      { items: quoteHits, weight: 3, fix: 'Paraphrase the idea in the article\'s own voice and remove the quotation marks.' });
+
+    var attrib = [];
+    m.sentences.forEach(function (s) {
+      if (/\b(Jeff|Letendre|our CEO|the CEO|our founder|the founder|interviewer|interviewee)\b/i.test(s)) attrib.push(s);
+      else if (/\b(says|said|explains|explained|added|recalls|told us|puts it)\b/i.test(s) && /"/.test(s)) attrib.push(s);
+      else if (/\b(?!(?:Desk|Teams|Microsoft|Agent|Frame|Station)\b)[A-Z][a-z]+(,[^,]{3,60},)?\s(says|said|explains|explained|recalls|told us)\b/.test(s)) attrib.push(s);
+    });
+    m.content.filter(function (x) { return /^h/.test(x.type); }).forEach(function (h) { if (/\b(Jeff|Letendre|interview)\b/i.test(h.text)) attrib.push(h.text); });
+    add(C0, 'no_attribution', 'No names or attributions in the body', attrib.length ? 'fail' : 'pass',
+      attrib.length ? 'The body names or attributes a person.' : 'No people named or quoted in the body. Author credit lives in the metadata.',
+      { items: attrib.map(function (s) { return trimTo(s, 160); }), weight: 3, fix: 'Remove the name and the "says" construction. State the insight as the article\'s own point of view.' });
+
+    var qa = m.content.filter(function (x) { return /^\s*(\*\*)?(Q|A|Question|Answer)\s*[:.]/i.test(x.text) || /^[A-Z][a-z]+\s*:\s/.test(x.text) && x.type === 'p' && /^(Jeff|Joseph|Interviewer|Host|Guest)\s*:/i.test(x.text); });
+    var tailInterview = (doc.trailing || []).some(function (x) { return /interview|^\s*(\*\*)?Q\s*:/i.test(x.text); });
+    add(C0, 'no_qa', 'No Q&A or interview sections', (qa.length || tailInterview) ? 'fail' : 'pass',
+      tailInterview ? 'The file still contains an interview section ("' + (doc.tailReason || 'Interview') + '"). Remove it before publishing.' : qa.length ? 'Q&A formatting found in the body.' : 'No Q&A formatting.',
+      { items: qa.map(function (x) { return trimTo(x.text, 140); }), weight: 3, fix: 'Delete the interview transcript and any "Q:" / "A:" lines. Rewrite answers as sections.' });
+
+    var notes = [];
+    var noteRe = /\b(TODO|TBD|TK|lorem ipsum|placeholder|\[insert|\[link|xx+\b|can quote from this section|note to (editor|self))/i;
+    m.content.forEach(function (x) { if (noteRe.test(x.text)) notes.push(trimTo(x.text, 140)); });
+    add(C0, 'no_notes', 'No editor notes or placeholders', notes.length ? 'fail' : 'pass',
+      notes.length ? 'Placeholder or internal note found.' : 'No placeholders.', { items: notes, weight: 3, fix: 'Replace placeholders with final copy and delete internal notes.' });
+
+    // ---- Structure -----------------------------------------------------------
+    var C1 = 'Structure';
+    add(C1, 'single_h1', 'Exactly one H1 title', m.h1s.length === 1 ? 'pass' : 'fail',
+      m.h1s.length === 1 ? '"' + m.h1 + '"' : m.h1s.length + ' H1 headings found.',
+      { weight: 3, fix: 'Use one H1 for the title. Every section heading is an H2.' });
+    var h1len = m.h1.length;
+    add(C1, 'h1_length', 'Title length ' + LIMITS.h1[0] + '–' + LIMITS.h1[1] + ' characters', !m.h1 ? 'fail' : (h1len >= LIMITS.h1[0] && h1len <= LIMITS.h1[1]) ? 'pass' : 'warn',
+      h1len + ' characters.', { fix: 'Tighten the title to the question the reader is asking.' });
+
+    var wsStatus = (m.words < LIMITS.wordsHard[0] || m.words > LIMITS.wordsHard[1]) ? 'fail' : (m.words < LIMITS.words[0] || m.words > LIMITS.words[1]) ? 'warn' : 'pass';
+    add(C1, 'word_count', 'Length ' + LIMITS.words[0] + '–' + LIMITS.words[1] + ' words', wsStatus, m.words + ' words in the article body.',
+      { weight: 2, fix: m.words < LIMITS.words[0] ? 'Add depth: a worked example, a comparison table or a setup section.' : 'Cut repetition; split into two articles if it covers two questions.' });
+
+    var h2s = m.sections.map(function (s) { return s.heading; });
+    add(C1, 'h2_count', LIMITS.h2[0] + '–' + LIMITS.h2[1] + ' H2 sections', (h2s.length >= LIMITS.h2[0] && h2s.length <= LIMITS.h2[1]) ? 'pass' : h2s.length < 3 ? 'fail' : 'warn',
+      h2s.length + ' H2 sections.', { fix: 'Break the article into sections that each answer one sub-question.' });
+
+    var hierarchy = []; var lastLevel = 1;
+    m.content.forEach(function (x) {
+      var mm = x.type.match(/^h([1-6])$/); if (!mm) return;
+      var lvl = +mm[1];
+      if (lvl > lastLevel + 1) hierarchy.push('H' + lvl + ' after H' + lastLevel + ': "' + trimTo(x.text, 70) + '"');
+      lastLevel = lvl;
+    });
+    add(C1, 'hierarchy', 'Heading levels don\'t skip', hierarchy.length ? 'warn' : 'pass', hierarchy.length ? 'Skipped heading levels.' : 'Headings nest correctly.',
+      { items: hierarchy, fix: 'Use H2 for sections and H3 only inside a section.' });
+
+    var qHeads = h2s.filter(function (h) { return /\?\s*$/.test(h) || /^(how|what|why|when|which|who|can|do|does|is|are|should)\b/i.test(h); });
+    add(C1, 'question_headings', 'At least 2 H2s phrased as questions', qHeads.length >= 2 ? 'pass' : 'warn',
+      qHeads.length + ' question-style H2(s). AI search matches headings to the questions people ask.',
+      { items: qHeads, fix: 'Rephrase two section headings as the question a reader would type, e.g. "How does QR code sign-in work?"' });
+
+    var badSections = [];
+    m.sections.forEach(function (s) {
+      if (/frequently asked|faq/i.test(s.heading)) return;
+      var n = wc(s.blocks.map(function (x) { return x.text; }).join(' '));
+      if (n < LIMITS.section[0]) badSections.push('"' + trimTo(s.heading, 60) + '": ' + n + ' words (too thin)');
+      else if (n > LIMITS.section[1]) badSections.push('"' + trimTo(s.heading, 60) + '": ' + n + ' words (too long)');
+    });
+    add(C1, 'section_length', 'Each section ' + LIMITS.section[0] + '–' + LIMITS.section[1] + ' words', badSections.length ? 'warn' : 'pass',
+      badSections.length ? badSections.length + ' section(s) out of range.' : 'Every section is a self-contained, retrievable chunk.',
+      { items: badSections, fix: 'Merge thin sections into a neighbour; split long ones with a new H2.' });
+
+    var longP = m.content.filter(function (x) { return x.type === 'p' && wc(x.text) > LIMITS.paragraphWarn; });
+    var veryLong = longP.filter(function (x) { return wc(x.text) > LIMITS.paragraphFail; });
+    add(C1, 'paragraph_length', 'Paragraphs under ' + LIMITS.paragraphWarn + ' words', veryLong.length ? 'fail' : longP.length ? 'warn' : 'pass',
+      longP.length ? longP.length + ' long paragraph(s).' : 'All paragraphs are short and scannable.',
+      { items: longP.map(function (x) { return wc(x.text) + ' words: ' + trimTo(x.text, 100); }), fix: 'One idea per paragraph. Split at the second idea.' });
+
+    var lis = m.content.filter(function (x) { return x.type === 'li'; });
+    var ordered = lis.filter(function (x) { return x.ordered; });
+    add(C1, 'lists', 'Uses lists, including a numbered process', !lis.length ? 'fail' : ordered.length ? 'pass' : 'warn',
+      lis.length + ' list items (' + ordered.length + ' numbered).', { fix: 'Turn any step-by-step explanation into a numbered list.' });
+    var tables = m.content.filter(function (x) { return x.type === 'table'; });
+    add(C1, 'table', 'Has a comparison or summary table', tables.length ? 'pass' : 'warn',
+      tables.length + ' table(s). Tables are often lifted directly into AI answers.', { fix: 'Add a table comparing options, plans, licenses or steps.' });
+
+    // ---- AI visibility -------------------------------------------------------
+    var C2 = 'AI visibility (GEO)';
+    var introText = m.intro.map(function (x) { return x.text; }).join(' ');
+    var firstPara = m.intro[0] ? m.intro[0].text : '';
+    var introWc = wc(firstPara);
+    add(C2, 'intro_length', 'Answer-first intro of ' + LIMITS.intro[0] + '–' + LIMITS.intro[1] + ' words', !firstPara ? 'fail' : (introWc >= LIMITS.intro[0] && introWc <= LIMITS.intro[1]) ? 'pass' : 'warn',
+      firstPara ? 'Opening paragraph: ' + introWc + ' words.' : 'No paragraph before the first H2.',
+      { weight: 2, fix: 'Open with one paragraph that fully answers the target question, so it can be quoted on its own.' });
+    var firstSentence = sentences(firstPara)[0] || '';
+    add(C2, 'intro_direct', 'First sentence answers, no warm-up', !firstSentence ? 'fail' : THROAT_CLEARING.test(firstSentence) ? 'fail' : wc(firstSentence) > 40 ? 'warn' : 'pass',
+      firstSentence ? '"' + trimTo(firstSentence, 160) + '"' : 'Missing.',
+      { weight: 2, fix: 'Start with the answer: "[Topic] is/lets/means…". Cut any scene-setting opener.' });
+    add(C2, 'intro_brand', 'Intro names Virtual Front Desk', hasPhrase(firstPara, BRAND) ? 'pass' : hasPhrase(introText, BRAND) ? 'warn' : 'fail',
+      hasPhrase(firstPara, BRAND) ? 'Brand appears in the opening paragraph.' : 'Brand missing from the opening paragraph.',
+      { weight: 2, fix: 'Name Virtual Front Desk in the first paragraph so AI answers attribute the solution to the brand.' });
+    if (kw) {
+      var ik = keywordMatch(firstPara, kw);
+      add(C2, 'intro_keyword', 'Intro contains the primary keyword', ik === 'exact' ? 'pass' : ik === 'partial' ? 'warn' : 'fail',
+        'Keyword "' + kw + '": ' + (ik === 'exact' ? 'exact match' : ik === 'partial' ? 'all words present, not as a phrase' : 'not found') + '.',
+        { weight: 2, fix: 'Use the exact keyword phrase once in the first two sentences.' });
+    }
+
+    var faqItems = m.faq ? m.faq.items : [];
+    var faqStatus = !m.faq ? 'fail' : (faqItems.length >= LIMITS.faq[0] && faqItems.length <= LIMITS.faq[1]) ? 'pass' : 'warn';
+    add(C2, 'faq', 'FAQ section with ' + LIMITS.faq[0] + '–' + LIMITS.faq[1] + ' questions', faqStatus,
+      m.faq ? faqItems.length + ' FAQ question(s) as H3s.' : 'No "Frequently asked questions" H2 with H3 questions.',
+      { weight: 2, items: faqItems.map(function (f) { return f.q; }), fix: 'Add an H2 "Frequently asked questions" with 4–6 H3 questions taken from real searches and the interview.' });
+    if (m.faq) {
+      var faqIssues = [];
+      faqItems.forEach(function (f) {
+        var n = wc(f.a); var first = sentences(f.a)[0] || '';
+        if (!/\?\s*$/.test(f.q)) faqIssues.push('Question doesn\'t end with "?": ' + f.q);
+        if (n < LIMITS.faqAnswer[0] || n > LIMITS.faqAnswer[1]) faqIssues.push(n + '-word answer: ' + f.q);
+        if (wc(first) > 30) faqIssues.push('First sentence is long, answer directly: ' + f.q);
+        if (!hasPhrase(f.q + ' ' + f.a, BRAND) && /^(do|does|can|is|are|which|how much)\b/i.test(f.q) && !/\b(it|this)\b/i.test(f.q)) { /* ok */ }
+      });
+      add(C2, 'faq_answers', 'FAQ answers are direct and ' + LIMITS.faqAnswer[0] + '–' + LIMITS.faqAnswer[1] + ' words', faqIssues.length ? 'warn' : 'pass',
+        faqIssues.length ? faqIssues.length + ' FAQ issue(s).' : 'Every answer leads with the answer and stands alone.',
+        { items: faqIssues, fix: 'Lead with "Yes", "No" or the fact, then one or two supporting sentences.' });
+    }
+
+    var sum = meta.ai_answer_summary || '';
+    var sumWc = wc(sum);
+    add(C2, 'ai_summary', 'AI answer summary (' + LIMITS.summary[0] + '–' + LIMITS.summary[1] + ' words, names the brand)',
+      !sum ? 'fail' : (sumWc >= LIMITS.summary[0] && sumWc <= LIMITS.summary[1] && hasPhrase(sum, BRAND)) ? 'pass' : 'warn',
+      sum ? sumWc + ' words' + (hasPhrase(sum, BRAND) ? '.' : ', brand missing.') : 'No AI answer summary in the metadata.',
+      { weight: 2, fix: 'Write a 40–90 word factual summary that names Virtual Front Desk. Use it for the excerpt and the schema description.' });
+
+    var brandCount = countMatches(m.allText, /Virtual Front Desk/g);
+    add(C2, 'brand_mentions', 'Brand named at least ' + LIMITS.brandMentions + ' times', brandCount >= LIMITS.brandMentions ? 'pass' : 'warn',
+      brandCount + ' mention(s) of "Virtual Front Desk". Consistent entity naming helps LLMs connect the answer to the brand.',
+      { fix: 'Use the full brand name where a generic "the platform" or "it" appears.' });
+
+    var factCount = countMatches(m.allText, /\$\d[\d,.]*|\b\d+(\.\d+)?[\s-]?(%|seconds?|minutes?|months?|weeks?|days?|hours?|digit|words?|pages?|feeds?|users?|stations?|lobbies|locations?|languages?|steps?|fields?|plans?|times?|countries)\b|\b(January|February|March|April|May|June|July|August|September|October|November|December) \d{1,2}, \d{4}\b|\b(TLS 1\.\d|AES-256|SOC 2|ISO\/IEC \d+|GDPR|Type I)\b/gi);
+    add(C2, 'fact_density', 'Specific facts and numbers (' + LIMITS.facts + '+)', factCount >= LIMITS.facts ? 'pass' : 'warn',
+      factCount + ' specific facts (prices, durations, limits, standards). LLMs prefer citable specifics.',
+      { fix: 'Replace vague claims with the setting, number or limit: "30 seconds by default", "$49 per station".' });
+
+    var dangling = [];
+    m.sections.forEach(function (s) {
+      var first = s.blocks.filter(function (x) { return x.type === 'p'; })[0];
+      if (first && /^(this|that|these|those|it|they)\b/i.test(first.text) && !/^(it's|that's)\b/i.test(first.text)) dangling.push('"' + trimTo(s.heading, 50) + '": ' + trimTo(first.text, 80));
+    });
+    add(C2, 'self_contained', 'Sections open without dangling references', dangling.length ? 'warn' : 'pass',
+      dangling.length ? 'Section openers that depend on the previous section.' : 'Each section makes sense when retrieved on its own.',
+      { items: dangling, fix: 'Name the subject in the first sentence of each section instead of "This" or "It".' });
+
+    // ---- SEO -----------------------------------------------------------------
+    var C3 = 'SEO';
+    var st = meta.seo_title || '';
+    add(C3, 'seo_title', 'SEO title ' + LIMITS.seoTitle[0] + '–' + LIMITS.seoTitle[1] + ' characters', !st ? 'fail' : (st.length >= LIMITS.seoTitle[0] && st.length <= LIMITS.seoTitle[1]) ? 'pass' : 'warn',
+      st ? st.length + ' characters: "' + st + '"' : 'No SEO title in the metadata.', { weight: 2, fix: 'Keep it under 60 characters so it isn\'t cut off in results.' });
+    var md = meta.meta_description || '';
+    add(C3, 'meta_description', 'Meta description ' + LIMITS.meta[0] + '–' + LIMITS.meta[1] + ' characters', !md ? 'fail' : (md.length >= LIMITS.meta[0] && md.length <= LIMITS.meta[1]) ? 'pass' : 'warn',
+      md ? md.length + ' characters.' : 'No meta description.', { weight: 2, fix: 'Write 120–160 characters: what the reader learns, with the keyword near the start.' });
+    var slug = String(meta.slug || '').trim();
+    var slugOk = /^\/?(blog\/)?[a-z0-9]+(-[a-z0-9]+)*\/?$/.test(slug.replace(/^https?:\/\/[^/]+/, '')) && slug.length <= LIMITS.slugMax;
+    add(C3, 'slug', 'Clean URL slug', !slug ? 'fail' : slugOk ? 'pass' : 'warn', slug ? slug : 'No slug.',
+      { fix: 'Lowercase words joined by hyphens, under 75 characters, e.g. /blog/qr-code-visitor-sign-in.' });
+    add(C3, 'primary_keyword', 'Primary keyword defined', kw ? 'pass' : 'fail', kw ? '"' + kw + '"' : 'No primary keyword in the metadata.',
+      { weight: 2, fix: 'Add the one search phrase this article should rank and be cited for.' });
+    if (kw) {
+      var places = [
+        ['H1 title', keywordMatch(m.h1, kw)], ['SEO title', keywordMatch(st, kw)], ['Meta description', keywordMatch(md, kw)],
+        ['URL slug', keywordMatch(slug.replace(/[-/]/g, ' '), kw)], ['An H2 heading', h2s.some(function (h) { return keywordMatch(h, kw) !== 'none'; }) ? 'partial' : 'none']
+      ];
+      var missing = places.filter(function (p) { return p[1] === 'none'; }).map(function (p) { return p[0]; });
+      var critical = missing.filter(function (p) { return p === 'H1 title' || p === 'SEO title'; });
+      add(C3, 'keyword_placement', 'Keyword in title, SEO title, meta, slug and an H2', critical.length ? 'fail' : missing.length ? 'warn' : 'pass',
+        missing.length ? 'Missing from: ' + missing.join(', ') + '.' : 'Keyword appears in every key position.',
+        { weight: 2, fix: 'Place the keyword (or all its main words) in each position listed.' });
+      var occ = countMatches(m.allText, new RegExp(esc(kw), 'gi'));
+      var density = m.words ? occ * wc(kw) / m.words * 100 : 0;
+      add(C3, 'keyword_density', 'Keyword density ' + LIMITS.density[0] + '–' + LIMITS.density[1] + '%', occ === 0 ? 'fail' : (density >= LIMITS.density[0] && density <= LIMITS.density[1]) ? 'pass' : 'warn',
+        occ + ' exact use(s), ' + round(density, 2) + '% density.', { fix: density > LIMITS.density[1] ? 'Too repetitive. Use synonyms and related queries.' : 'Use the exact phrase in a heading and once more in the body.' });
+    }
+    var internal = m.links.filter(function (l) { return isInternal(l.href); });
+    var help = internal.filter(function (l) { return /help\.virtualfrontdesk/i.test(l.href); });
+    add(C3, 'internal_links', LIMITS.internalLinks + '+ internal links', internal.length >= LIMITS.internalLinks ? 'pass' : internal.length ? 'warn' : 'fail',
+      internal.length + ' internal link(s), ' + help.length + ' to the help center, ' + (m.links.length - internal.length) + ' external.',
+      { weight: 2, items: internal.map(function (l) { return l.text + ' → ' + l.href; }), fix: 'Link to related blog posts, the pricing page and the matching help center article.' });
+    var weak = m.links.filter(function (l) { return WEAK_ANCHORS.test(String(l.text).trim()) || /^https?:\/\//.test(String(l.text).trim()); });
+    add(C3, 'anchor_text', 'Descriptive link text', weak.length ? 'warn' : m.links.length ? 'pass' : 'warn',
+      weak.length ? weak.length + ' weak anchor(s).' : m.links.length ? 'All anchors describe the destination.' : 'No links found.',
+      { items: weak.map(function (l) { return '"' + l.text + '" → ' + l.href; }), fix: 'Use anchors that say where the link goes: "set up the Microsoft Teams integration".' });
+    var rq = Array.isArray(meta.related_queries) ? meta.related_queries : [];
+    add(C3, 'related_queries', LIMITS.relatedQueries + '+ related queries', rq.length >= LIMITS.relatedQueries ? 'pass' : 'warn',
+      rq.length + ' related queries listed.', { items: rq, fix: 'List the long-tail questions this article also answers. Cover each one somewhere in the body.' });
+    add(C3, 'primary_question', 'Target question recorded', meta.primary_question ? 'pass' : 'warn', meta.primary_question || 'No target question.',
+      { fix: 'Record the AI-visibility question this article is built to answer.' });
+    var eeat = [];
+    if (!meta.author) eeat.push('author'); if (!meta.publisher) eeat.push('publisher');
+    if (!meta.date_modified && !meta.date_published) eeat.push('date');
+    add(C3, 'eeat', 'Author, publisher and date for schema', eeat.length ? 'warn' : 'pass',
+      eeat.length ? 'Missing: ' + eeat.join(', ') + '.' : (meta.author + (meta.author_title ? ', ' + meta.author_title : '') + ' · ' + (meta.date_modified || meta.date_published)),
+      { fix: 'Add author, author title, publisher and last-updated date. They feed the Article schema.' });
+
+    // ---- Human voice & readability ------------------------------------------
+    var C4 = 'Human voice';
+    var sl = m.sentences.map(wc);
+    var totalSyl = 0; var totalW = 0;
+    m.sentences.forEach(function (s) { words(s).forEach(function (w) { totalW++; totalSyl += syllables(w); }); });
+    var avg = sl.length ? sl.reduce(function (a, b) { return a + b; }, 0) / sl.length : 0;
+    var flesch = sl.length ? 206.835 - 1.015 * avg - 84.6 * (totalSyl / Math.max(1, totalW)) : 0;
+    add(C4, 'flesch', 'Readability (Flesch ' + LIMITS.flesch[0] + '+)', flesch >= LIMITS.flesch[0] ? 'pass' : flesch >= LIMITS.flesch[1] ? 'warn' : 'fail',
+      'Flesch reading ease ' + round(flesch, 0) + ' (60+ is plain English; 45+ is fine for B2B).', { weight: 2, fix: 'Shorter sentences, shorter words. Replace jargon with what the person does.' });
+    add(C4, 'avg_sentence', 'Average sentence ' + LIMITS.avgSentence[0] + '–' + LIMITS.avgSentence[1] + ' words', (avg >= LIMITS.avgSentence[0] && avg <= LIMITS.avgSentence[1]) ? 'pass' : 'warn',
+      round(avg, 1) + ' words per sentence across ' + sl.length + ' sentences.', { fix: 'Mix short punchy sentences with longer explanatory ones.' });
+    var longS = m.sentences.filter(function (s) { return wc(s) > 30; });
+    var longPct = sl.length ? longS.length / sl.length * 100 : 0;
+    add(C4, 'long_sentences', 'Few sentences over 30 words', longPct <= LIMITS.longSentencePct[0] ? 'pass' : longPct <= LIMITS.longSentencePct[1] ? 'warn' : 'fail',
+      longS.length + ' long sentence(s), ' + round(longPct, 0) + '%.', { items: longS.map(function (s) { return trimTo(s, 160); }), fix: 'Split at "and", "which" or a semicolon.' });
+    var mean = avg; var sd = sl.length ? Math.sqrt(sl.reduce(function (a, b) { return a + Math.pow(b - mean, 2); }, 0) / sl.length) : 0;
+    add(C4, 'burstiness', 'Varied sentence rhythm', sd >= LIMITS.burstiness ? 'pass' : 'warn',
+      'Sentence length varies by ±' + round(sd, 1) + ' words. Uniform rhythm is a common tell of machine-written text.',
+      { fix: 'Add a few very short sentences. Let one or two run longer.' });
+    var contractions = countMatches(m.proseText, CONTRACTIONS);
+    var cPer = m.words ? contractions / m.words * 1000 : 0;
+    add(C4, 'contractions', 'Conversational contractions', cPer >= LIMITS.contractionsPer1k ? 'pass' : 'warn',
+      contractions + ' contractions (' + round(cPer, 1) + ' per 1,000 words).', { fix: 'Write "it\'s", "you\'ll", "doesn\'t" where you would say them out loud.' });
+    var you = countMatches(m.proseText, YOU); var yPer = m.words ? you / m.words * 1000 : 0;
+    add(C4, 'reader_focus', 'Talks to the reader ("you")', yPer >= LIMITS.youPer1k ? 'pass' : 'warn',
+      you + ' uses of you/your (' + round(yPer, 1) + ' per 1,000 words).', { fix: 'Address the reader directly: "your lobby", "you choose".' });
+    var passive = m.sentences.filter(function (s) { return PASSIVE.test(s); });
+    var pPct = sl.length ? passive.length / sl.length * 100 : 0;
+    add(C4, 'passive', 'Mostly active voice', pPct <= LIMITS.passivePct[0] ? 'pass' : pPct <= LIMITS.passivePct[1] ? 'warn' : 'fail',
+      round(pPct, 0) + '% of sentences look passive.', { items: passive.slice(0, 12).map(function (s) { return trimTo(s, 140); }), fix: 'Name who does the action: "the station prints a badge", not "a badge is printed".' });
+
+    var hard = []; var soft = [];
+    var lowAll = lower(m.allText);
+    BANNED_HARD.forEach(function (w) { var n = countMatches(lowAll, new RegExp('\\b' + esc(w) + '\\b', 'g')); if (n) hard.push(w + (n > 1 ? ' ×' + n : '')); });
+    BANNED_SOFT.forEach(function (w) { var n = countMatches(lowAll, new RegExp('\\b' + esc(w) + '\\b', 'g')); if (n) soft.push(w + (n > 1 ? ' ×' + n : '')); });
+    add(C4, 'ai_phrases', 'No AI clichés or hype words', hard.length ? 'fail' : soft.length > 2 ? 'warn' : 'pass',
+      hard.length ? hard.length + ' banned phrase(s).' : soft.length ? soft.length + ' word(s) to use sparingly.' : 'No clichés found.',
+      { weight: 2, items: hard.map(function (w) { return 'Banned: ' + w; }).concat(soft.map(function (w) { return 'Use sparingly: ' + w; })), fix: 'Say what the product does instead of how impressive it is.' });
+    var stiff = m.sentences.filter(function (s) { var f = lower(s).replace(/^[^a-z]+/, ''); return STIFF_STARTERS.some(function (w) { return f.indexOf(w + ',') === 0 || f.indexOf(w + ' ') === 0; }); });
+    add(C4, 'connectors', 'No stiff transition words', stiff.length > 1 ? 'warn' : 'pass', stiff.length + ' sentence(s) start with Moreover, Furthermore, Additionally…',
+      { items: stiff.map(function (s) { return trimTo(s, 120); }), fix: 'Use "And", "But", "So", or just start the sentence.' });
+    var em = countMatches(m.allText, /—/g);
+    add(C4, 'em_dash', 'No em dashes (house style)', em === 0 ? 'pass' : em <= 3 ? 'warn' : 'fail', em + ' em dash(es).',
+      { fix: 'Replace with a comma, a colon, parentheses or a full stop.' });
+    var excl = countMatches(m.proseText, /!/g);
+    add(C4, 'exclamations', 'No exclamation marks', excl ? 'warn' : 'pass', excl + ' exclamation mark(s).', { fix: 'Let the facts carry the energy.' });
+    var starts = {}; m.sentences.forEach(function (s) { var w = lower(words(s)[0] || ''); if (w) starts[w] = (starts[w] || 0) + 1; });
+    var repeated = Object.keys(starts).filter(function (k) { return ['the', 'a', 'it', 'you', 'if', 'they', 'each', 'every', 'on', 'in'].indexOf(k) === -1 && starts[k] / Math.max(1, sl.length) > 0.08 && starts[k] >= 5; });
+    add(C4, 'openers', 'Varied sentence openers', repeated.length ? 'warn' : 'pass',
+      repeated.length ? 'Overused opener(s): ' + repeated.map(function (k) { return '"' + k + '" ×' + starts[k]; }).join(', ') : 'Sentence openers vary.',
+      { fix: 'Rewrite a few sentences to start with the subject or the action.' });
+
+    // ---- Brand & facts ------------------------------------------------------
+    var C5 = 'Brand & facts';
+    var termHits = [];
+    TERMS.forEach(function (t) { var mm = m.allText.match(t.re); if (mm) termHits.push('"' + mm[0] + '": ' + t.msg); });
+    add(C5, 'terminology', 'Brand and product names spelled correctly', termHits.length ? 'warn' : 'pass',
+      termHits.length ? termHits.length + ' naming issue(s).' : 'Virtual Front Desk, Express sign-in, Microsoft Teams, Neat Frame all correct.', { items: termHits });
+    var factFails = []; var factWarns = [];
+    var factScope = m.allText + '\n' + [meta.seo_title, meta.meta_description, meta.ai_answer_summary, meta.author_title].join('\n');
+    FACT_FAILS.forEach(function (f) { var mm = factScope.match(f.re); if (mm) factFails.push('"' + mm[0] + '": ' + f.msg); });
+    var factSentences = m.sentences.concat(m.content.filter(function (x) { return /^h|table/.test(x.type); }).map(function (x) { return x.text; }));
+    FACT_WARNS.forEach(function (f) {
+      for (var i = 0; i < factSentences.length; i++) {
+        var mm = factSentences[i].match(f.re);
+        if (mm && !(f.skip && f.skip.test(factSentences[i]))) { factWarns.push('"' + trimTo(mm[0], 80) + '": ' + f.msg); break; }
+      }
+    });
+    add(C5, 'facts_known_errors', 'No known factual errors', factFails.length ? 'fail' : 'pass',
+      factFails.length ? factFails.length + ' claim(s) contradict verified product facts.' : 'No known-wrong claims (SOC 2 type, HIPAA, author title).',
+      { weight: 3, items: factFails, fix: 'Correct against references/product-facts.md.' });
+    add(C5, 'facts_unverified', 'No unverified claims', factWarns.length ? 'warn' : 'pass',
+      factWarns.length ? factWarns.length + ' claim(s) need confirmation.' : 'No claims from the unverified list.', { items: factWarns });
+    var prices = (m.allText + ' ' + (meta.ai_answer_summary || '')).match(/\$\s?\d[\d,]*(\.\d+)?/g) || [];
+    var unknown = prices.map(function (p) { return p.replace(/[$\s]/g, ''); }).filter(function (p) { return KNOWN_PRICES.indexOf(p) === -1 && KNOWN_PRICES.indexOf(p.replace(/,/g, '')) === -1; });
+    add(C5, 'prices', 'Prices match the pricing page', unknown.length ? 'warn' : 'pass',
+      prices.length ? prices.length + ' price(s) mentioned' + (unknown.length ? ', ' + unknown.length + ' not on the pricing page.' : ', all match.') : 'No prices mentioned.',
+      { items: unknown.map(function (p) { return '$' + p + ' is not a current Virtual Front Desk price.'; }), fix: 'Check virtualfrontdesk.com/pricing. Monthly: $29 / $49 / $109 per station; AI Agent $9.99 + $0.10/min.' });
+    var gates = [];
+    PLAN_GATES.forEach(function (g) {
+      if (!g.re.test(m.allText)) return;
+      var ok = g.plan === 'add-on' ? /\badd-on\b/i.test(m.allText) : g.plan === 'Professional' ? /\b(Professional|Enterprise)\b/.test(m.allText) : new RegExp('\\b' + g.plan + '\\b').test(m.allText);
+      if (!ok) gates.push(g.feature + ' is mentioned but the ' + g.plan + (g.plan === 'add-on' ? '' : ' plan') + ' is not.');
+    });
+    add(C5, 'plan_gating', 'Plan requirements stated for gated features', gates.length ? 'warn' : 'pass',
+      gates.length ? gates.length + ' gated feature(s) without the plan named.' : 'Every plan-gated feature names its plan.',
+      { items: gates, fix: 'Say which plan a feature needs the first time you mention it.' });
+    var sup = m.sentences.filter(function (s) { return /\b(the best|the most (powerful|advanced|complete)|industry[- ]leading|#1|number one|unmatched|unrivaled|the only)\b/i.test(s); });
+    add(C5, 'superlatives', 'No unproven superlatives', sup.length ? 'warn' : 'pass', sup.length + ' superlative claim(s).',
+      { items: sup.map(function (s) { return trimTo(s, 140); }), fix: 'Replace "the best" with the specific thing it does better.' });
+
+    // ---- Conversion ---------------------------------------------------------
+    var C6 = 'Conversion';
+    var last = m.sections[m.sections.length - 1];
+    var lastText = last ? last.blocks.map(function (x) { return x.text; }).join(' ') : '';
+    var lastLinks = last ? [].concat.apply([], last.blocks.map(function (x) { return x.links || []; })) : [];
+    var lastIsFaq = last && /frequently asked|faq/i.test(last.heading);
+    var ctaLink = lastLinks.some(function (l) { return /free-demo-trial|pricing|register|contact-us|demo/i.test(l.href); });
+    var ctaWords = /free trial|start (a|your) trial|book a demo|get started|pricing/i.test(lastText);
+    add(C6, 'cta', 'Closing section with a clear call to action', (!lastIsFaq && ctaLink) ? 'pass' : (ctaWords || ctaLink) ? 'warn' : 'fail',
+      lastIsFaq ? 'The article ends on the FAQ. Add a short closing section after it.' : ctaLink ? 'Closing section "' + last.heading + '" links to the trial or pricing.' : 'No trial or pricing link in the closing section.',
+      { weight: 2, fix: 'End with a short "next step" section and one link to the 30-day free trial or the pricing page.' });
+    var trialLinks = m.links.filter(function (l) { return /free-demo-trial|register/i.test(l.href); });
+    add(C6, 'cta_restraint', 'Not over-selling (≤3 trial links)', trialLinks.length <= 3 ? 'pass' : 'warn', trialLinks.length + ' trial link(s).',
+      { fix: 'Keep one primary CTA at the end. Educational content earns more trust than repeated sign-up prompts.' });
+
+    return score(checks, m, doc, { flesch: flesch, avgSentence: avg, sentences: sl.length, contractions: contractions, brandCount: brandCount });
+  }
+
+  function score(checks, m, doc, s) {
+    var total = 0; var got = 0; var fails = 0; var warns = 0;
+    checks.forEach(function (c) {
+      total += c.weight;
+      if (c.status === 'pass') got += c.weight;
+      else if (c.status === 'warn') { got += c.weight * 0.5; warns++; }
+      else fails++;
+    });
+    var pct = total ? Math.round(got / total * 100) : 0;
+    var verdict = fails ? 'Not ready' : (pct >= 95 && warns <= 2) ? 'Ready to publish' : 'Almost ready';
+    var cats = [];
+    checks.forEach(function (c) {
+      var cat = cats.filter(function (x) { return x.name === c.category; })[0];
+      if (!cat) { cat = { name: c.category, checks: [] }; cats.push(cat); }
+      cat.checks.push(c);
+    });
+    return {
+      score: pct, verdict: verdict, fails: fails, warnings: warns, passes: checks.length - fails - warns,
+      categories: cats, checks: checks,
+      stats: {
+        title: m.h1, words: m.words, sections: m.sections.length, faq: m.faq ? m.faq.items.length : 0,
+        sentences: s.sentences, avgSentence: round(s.avgSentence, 1), flesch: round(s.flesch, 0),
+        links: m.links.length, readingMinutes: Math.max(1, Math.round(m.words / 230)), brandMentions: s.brandCount
+      },
+      meta: doc.meta,
+      schema: buildSchema(doc, m)
+    };
+  }
+
+  // ---------------------------------------------------------------------------
+  // JSON-LD for publishing (Article + FAQPage)
+  // ---------------------------------------------------------------------------
+
+  function buildSchema(doc, m) {
+    m = m || model(doc);
+    var meta = doc.meta || {};
+    var url = meta.slug ? 'https://www.virtualfrontdesk.com' + (String(meta.slug).charAt(0) === '/' ? '' : '/') + String(meta.slug).replace(/^https?:\/\/[^/]+/, '') : undefined;
+    var article = {
+      '@type': 'BlogPosting',
+      headline: m.h1 || meta.seo_title,
+      description: meta.meta_description,
+      abstract: meta.ai_answer_summary,
+      keywords: [meta.primary_keyword].concat(Array.isArray(meta.related_queries) ? meta.related_queries : []).filter(Boolean).join(', '),
+      wordCount: m.words,
+      author: meta.author ? { '@type': 'Person', name: meta.author, jobTitle: meta.author_title ? String(meta.author_title).replace(/,?\s*Virtual Front Desk$/i, '') : undefined, worksFor: { '@type': 'Organization', name: BRAND } } : undefined,
+      publisher: { '@type': 'Organization', name: meta.publisher || BRAND, url: 'https://www.virtualfrontdesk.com/' },
+      datePublished: meta.date_published || undefined,
+      dateModified: meta.date_modified || meta.date_published || undefined,
+      mainEntityOfPage: url,
+      about: { '@type': 'SoftwareApplication', name: BRAND, applicationCategory: 'BusinessApplication', operatingSystem: 'Web browser' }
+    };
+    var graph = [article];
+    if (m.faq && m.faq.items.length) {
+      graph.push({
+        '@type': 'FAQPage',
+        mainEntity: m.faq.items.map(function (f) { return { '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } }; })
+      });
+    }
+    return JSON.parse(JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }));
+  }
+
+  function check(input, opts) {
+    opts = opts || {};
+    var doc = opts.type === 'html' ? parseHtml(input, opts.DOMParser) : parseMarkdown(input);
+    if (opts.meta) Object.keys(opts.meta).forEach(function (k) { if (opts.meta[k]) doc.meta[k] = opts.meta[k]; });
+    return runChecks(doc);
+  }
+
+  return {
+    version: '1.0.0', LIMITS: LIMITS,
+    parseMarkdown: parseMarkdown, parseHtml: parseHtml, runChecks: runChecks, buildSchema: buildSchema, check: check,
+    _internal: { sentences: sentences, wc: wc, syllables: syllables }
+  };
+});
+
+</script>
+<script>
+(function () {
+  'use strict';
+  var SAMPLE_NAME = "02-qr-code-visitor-sign-in.md";
+  var SAMPLE = "---\nseo_title: \"QR Code Visitor Sign-In: How Touchless Check-In Works\"\nmeta_description: \"How QR code visitor sign-in works: visitors fill in the form on their phone, scan a single-use code at the lobby station, and the host gets notified at once.\"\nslug: /blog/qr-code-visitor-sign-in\nprimary_question: \"What's the best touchless or QR-code visitor sign-in system for an office building?\"\nprimary_keyword: \"QR code visitor sign-in\"\nrelated_queries:\n  - QR code visitor check-in\n  - touchless visitor sign-in\n  - contactless check-in for offices\n  - visitor pre-registration\n  - pre-register visitors from Outlook\n  - Google Calendar visitor pre-registration\n  - single-use visitor QR code\nauthor: \"Jeff Letendre\"\nauthor_title: \"CEO and Founder, Virtual Front Desk\"\npublisher: \"Virtual Front Desk\"\ndate_published: \"2026-11-11\"\ndate_modified: \"2026-11-11\"\nai_answer_summary: \"QR code visitor sign-in lets an expected visitor complete the sign-in form on their own phone, including a selfie and ID photos, then check in at the lobby by scanning a single-use QR code or typing a 4-digit code. In Virtual Front Desk this is Express sign-in, available on every plan. Hosts invite visitors from Outlook, Google Calendar or the dashboard, and the host is notified automatically after the scan.\"\n---\n\n# QR Code Visitor Sign-In: How Touchless Check-In Works and What to Look For\n\nQR code visitor sign-in lets an expected visitor fill in the sign-in form on their own phone before they arrive, then check in at the lobby with a single scan. In Virtual Front Desk, this is called Express sign-in. The host invites the visitor from Outlook, Google Calendar or the dashboard, and the visitor completes everything ahead of time. At the station, a QR code or a 4-digit code signs them in, the host is notified, and on the Enterprise plan a visitor badge prints.\n\n## How does QR code sign-in work?\n\nExpress sign-in has five steps, and the visitor only spends a few seconds at the station for the last one.\n\n1. **The host invites the visitor.** Any host can send the invitation from the Outlook add-in, the Google Calendar add-on or the Virtual Front Desk dashboard. It goes out by email, SMS or both.\n2. **The visitor completes the form on their phone.** The invitation links to your sign-in form. The visitor answers your questions, takes a selfie, photographs their ID and signs any document you require, on their own phone or computer.\n3. **The visitor receives their codes.** Each pre-registered visitor gets a QR code and a 4-digit code, and can use either one on arrival.\n4. **The visitor checks in at the station.** In the lobby, they tap \"I have a QR code\" and hold their phone up to the station camera, or they type the 4-digit code.\n5. **Everything after the scan is automatic.** The visitor is signed in, the host is notified, and a badge prints if your site uses them.\n\nThe record that lands in your sign-in logs is the same one you'd get from a sign-in at the station, down to the badge, which shows up to 3 fields from the form. You just collected it earlier.\n\n## What does \"touchless\" mean in practice?\n\nTouchless means the shared screen stops being the place where visitors type. With Express sign-in, every field, photo and signature happens on the visitor's own device, in their own time, before they reach your building. At the station, what's left is one tap on \"I have a QR code\" and the scan. Nobody waits behind a contractor who is spelling out their company name on a tablet.\n\nIt's also faster for your hosts. A visitor who pre-registered shows up already expected. The host gets the arrival notice the moment the code is scanned, so there's no \"who are you here to see?\" conversation at the desk.\n\n## Hosts invite their own visitors from their calendar\n\nPre-registration doesn't need a receptionist in the middle. Hosts invite visitors from the tools they already have open.\n\n- **Outlook:** with the Virtual Front Desk for Outlook add-in, a host creates the meeting, opens the add-in, picks the location, host and sign-in form, and clicks Send Pre-Registrations. External attendees are selected automatically. An administrator installs the add-in once from the Microsoft 365 admin center. It works in the Outlook calendar, not in the Teams calendar.\n- **Google Calendar:** the Virtual Front Desk add-on works the same way from a saved event in Google Calendar on the web. The event organizer sends the pre-registrations.\n- **Dashboard:** create an invitation for one visitor, or use Bulk invitations when a group is coming in, such as a training day or a client delegation.\n\nA manager booking an interview sends the invitation in the same step as the meeting invite. The candidate arrives with the form done.\n\n## Single-use codes, with a fallback that never blocks a visit\n\nEvery QR code is single-use. Once a visitor signs in with it, the code stops working, so it can't be forwarded to someone else and reused. A visitor coming back on another day gets a new invitation.\n\nIf a visitor loses the invitation or their phone battery dies, nothing breaks. They sign in at the station like any walk-in, and the host is notified the same way. That fallback matters more than it sounds: a sign-in system that turns a dead phone into a stuck visitor creates more work at the desk, not less.\n\n## Walk-ins and pre-registered visitors on the same station\n\nQR codes are only for pre-registered visitors. Walk-in visitors use the regular sign-in form on the station screen. Both run on the same station, so a lobby handles expected guests and unannounced visitors without separate hardware or a second queue.\n\n| | Walk-in sign-in | Express sign-in |\n|---|---|---|\n| Who uses it | Anyone who arrives unannounced | Visitors a host invited ahead of time |\n| Where the form is filled in | On the station screen | On the visitor's own phone or computer, before the visit |\n| What happens at the station | The visitor completes every field and photo | One scan of the QR code, or the 4-digit code |\n| Host notification | Automatic | Automatic |\n| Visitor badge (Enterprise) | Prints at the end of the form | Prints right after the scan |\n| Record in your sign-in logs | Yes, kept 12 months by default | Yes, kept 12 months by default |\n\n## Keeping track of who's expected\n\nEvery invitation has a status in the form's Pre-registration tab:\n\n- **Pending:** the invitation was sent, but the visitor hasn't filled in the form yet.\n- **Pre-Registered:** the visitor completed the form before arriving.\n- **Completed:** the visitor arrived and checked in at the station.\n\nIf a visitor is still Pending the day before, you can resend the invite with one click. The pre-registration logs in History also show invitations sent, arrivals, no-shows and visits still scheduled, which gives front-desk and security teams a simple view of the day ahead.\n\n## When is pre-registration worth turning on?\n\nIf your lobby sees the same contractors, clients and candidates every week, turn it on. The more regular visitors you have, the more time Express sign-in saves, both at the station and for the hosts waiting on them. Recurring meetings, interviews, maintenance contractors and client visits are the obvious wins.\n\nIf your site gets a handful of unplanned visitors a week, the regular station sign-in is usually enough. You can still turn pre-registration on later for the visits you do plan.\n\n## What to look for in a QR code visitor sign-in system\n\nWhen you compare tools, these questions separate a QR code that just opens a web form from a sign-in system that actually saves time:\n\n- Can the visitor complete the whole form on their phone, including photos, questions and signatures, before arriving?\n- Can hosts send invitations from Outlook or Google Calendar without logging in to the visitor management dashboard?\n- Are the QR codes single-use?\n- What happens when a visitor loses their code?\n- Does the scan notify the host and print the badge automatically?\n- Can walk-in and pre-registered visitors use the same station?\n- Can you see who has pre-registered, who arrived and who didn't show?\n- Is pre-registration included in the base plan, or sold as an add-on?\n\n## How to set it up\n\nOpen your visitor sign-in form in the dashboard, go to the Options tab and turn on Pre-registration. Then send your first invitation from the form's Pre-registration tab, or install the Outlook add-in or Google Calendar add-on so hosts can invite from their calendar. The [sign-in and Express QR code guide](https://help.virtualfrontdesk.com/en/article/visitor-sign-form-and-sign-out-option) covers each setting.\n\nExpress sign-in and both calendar integrations are available on every Virtual Front Desk plan. A few things around it depend on your plan: badge printing is part of Enterprise, and notifying the host with a video or phone call starts on Professional. On Essential, at $29 per station per month, hosts are notified by SMS and email.\n\n## Frequently asked questions\n\n### Can walk-in visitors sign in with a QR code?\n\nNo. In Virtual Front Desk, QR codes are issued only to pre-registered visitors through Express sign-in. Walk-in visitors sign in on the station screen with the regular sign-in form, and their host is notified automatically in the same way.\n\n### Can a QR code be used more than once?\n\nNo. Each Express sign-in QR code is single-use. After the visitor signs in, the code stops working, which prevents it from being shared or reused. A visitor coming back on another day receives a new invitation.\n\n### What happens if a visitor loses their QR code?\n\nThe visitor signs in at the station the same way a walk-in does, by filling in the sign-in form on screen. The host is still notified automatically, so a lost code never stops a visit.\n\n### Which Virtual Front Desk plans include Express sign-in?\n\nExpress sign-in is available on every Virtual Front Desk plan, along with the Outlook add-in and the Google Calendar add-on. Badge printing at the end of sign-in requires the Enterprise plan, and video call notifications to the host start on the Professional plan.\n\n### Can hosts pre-register visitors from Google Calendar?\n\nYes. Hosts can pre-register visitors from the Google Calendar add-on, the Outlook add-in or the Virtual Front Desk dashboard. With the Google Calendar add-on, the event organizer sends the pre-registrations from a saved event.\n\n## Try Express sign-in on your own lobby\n\nThe quickest way to judge QR code sign-in is to invite yourself. Set up one station, turn on pre-registration, send an invite to your own phone and time the check-in. Every new account starts with a [30-day free trial](https://www.virtualfrontdesk.com/free-demo-trial) of the Enterprise plan, and the [pricing page](https://www.virtualfrontdesk.com/pricing) compares what each plan includes. If you're still replacing a paper logbook, start with our guide to [visitor management for safety and compliance](/blog/visitor-management-safety-compliance).\n";
+  var $ = function (id) { return document.getElementById(id); };
+  var state = { source: null, name: '', isSample: false, filter: 'issues', report: null };
+  var MARK = { pass: '✓', warn: '!', fail: '×' };
+
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function toast(msg) { var t = $('toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toast.t); toast.t = setTimeout(function () { t.classList.remove('show'); }, 1800); }
+  function showError(msg) { var e = $('error'); e.textContent = msg; e.hidden = !msg; }
+
+  function run() {
+    if (!state.source) return;
+    showError('');
+    try {
+      var doc = state.source.type === 'html' ? VFDChecker.parseHtml(state.source.content) : VFDChecker.parseMarkdown(state.source.content);
+      var kw = $('kwOverride').value.trim();
+      if (kw) doc.meta.primary_keyword = kw;
+      state.report = VFDChecker.runChecks(doc);
+      render();
+    } catch (err) {
+      showError('This file could not be checked: ' + err.message + '. Try saving it as .docx or Markdown and upload again.');
+    }
+  }
+
+  function render() {
+    var r = state.report; var s = r.stats; var meta = r.meta || {};
+    var v = $('verdict');
+    v.dataset.state = r.verdict === 'Ready to publish' ? 'ready' : r.verdict === 'Almost ready' ? 'almost' : 'not';
+    $('score').textContent = r.score;
+    $('ringBar').style.strokeDashoffset = String(276.46 * (1 - r.score / 100));
+    $('verdictText').textContent = r.verdict;
+    $('docLabel').innerHTML = esc(state.name) + (state.isSample ? '<span class="sample-tag">Example</span>' : '');
+    $('articleTitle').textContent = s.title || 'No H1 title found';
+    $('counts').innerHTML =
+      '<span class="chip fail">' + r.fails + ' must fix</span>' +
+      '<span class="chip warn">' + r.warnings + ' to improve</span>' +
+      '<span class="chip pass">' + r.passes + ' passed</span>';
+    var stats = [['Words', s.words.toLocaleString()], ['Read time', s.readingMinutes + ' min'], ['Sections', s.sections], ['FAQs', s.faq], ['Flesch', s.flesch], ['Words / sentence', s.avgSentence], ['Links', s.links], ['Brand mentions', s.brandMentions]];
+    $('stats').innerHTML = stats.map(function (x) { return '<div class="stat"><dt>' + x[0] + '</dt><dd>' + esc(x[1]) + '</dd></div>'; }).join('');
+
+    renderChecks();
+
+    var slug = String(meta.slug || '').replace(/^https?:\/\/[^/]+/, '');
+    $('serpUrl').textContent = 'virtualfrontdesk.com' + (slug ? slug.replace(/\//g, ' › ') : ' › blog › …');
+    $('serpTitle').textContent = cut(meta.seo_title || s.title || 'No SEO title', 60);
+    $('serpDesc').textContent = cut(meta.meta_description || 'No meta description. Search engines will pick a sentence from the page.', 160);
+    meter('titleMeter', 'SEO title', (meta.seo_title || '').length, VFDChecker.LIMITS.seoTitle);
+    meter('descMeter', 'Meta description', (meta.meta_description || '').length, VFDChecker.LIMITS.meta);
+
+    $('targetQ').textContent = meta.primary_question ? 'Target question: ' + meta.primary_question : 'No target question in the metadata.';
+    $('aiSummary').textContent = meta.ai_answer_summary || 'No AI answer summary in the metadata.';
+    var kv = [['Primary keyword', meta.primary_keyword], ['Author', [meta.author, meta.author_title].filter(Boolean).join(', ')], ['Updated', meta.date_modified || meta.date_published], ['Related queries', Array.isArray(meta.related_queries) ? meta.related_queries.length + ' listed' : '']];
+    $('metaKv').innerHTML = kv.map(function (x) { return '<dt>' + x[0] + '</dt><dd>' + esc(x[1] || '—') + '</dd>'; }).join('');
+    $('schema').textContent = '<script type="application/ld+json">\n' + JSON.stringify(r.schema, null, 2) + '\n</' + 'script>';
+
+    renderCriteria();
+  }
+
+  function cut(s, n) { s = String(s); return s.length > n ? s.slice(0, n - 1).replace(/\s+\S*$/, '') + ' …' : s; }
+  function meter(id, label, n, lim) {
+    var cls = n === 0 ? 'hi' : n < lim[0] ? 'lo' : n > lim[1] ? 'hi' : 'ok';
+    var pct = Math.min(100, n / (lim[1] * 1.15) * 100);
+    $(id).innerHTML = '<div class="row"><span>' + label + '</span><span class="mono">' + n + ' / ' + lim[0] + '–' + lim[1] + ' chars</span></div><div class="bar ' + cls + '"><i style="width:' + pct + '%"></i></div>';
+  }
+
+  function renderChecks() {
+    var r = state.report; var html = '';
+    r.categories.forEach(function (cat) {
+      var shown = cat.checks.filter(function (c) { return state.filter === 'all' || c.status !== 'pass'; });
+      var f = cat.checks.filter(function (c) { return c.status === 'fail'; }).length;
+      var w = cat.checks.filter(function (c) { return c.status === 'warn'; }).length;
+      if (!shown.length) return;
+      html += '<div class="cat"><div class="cat-head"><h4>' + esc(cat.name) + '</h4><span class="mini">' + (cat.checks.length - f - w) + '/' + cat.checks.length + ' pass</span></div>';
+      shown.forEach(function (c) {
+        html += '<div class="check"><span class="mark ' + c.status + '" aria-label="' + c.status + '">' + MARK[c.status] + '</span><div><div class="label">' + esc(c.label) + '</div><div class="detail">' + esc(c.detail) + '</div>';
+        if (c.items && c.items.length) {
+          html += '<details' + (c.status !== 'pass' && c.items.length <= 4 ? ' open' : '') + '><summary>' + c.items.length + ' item' + (c.items.length > 1 ? 's' : '') + '</summary><ul>' + c.items.map(function (i) { return '<li>' + esc(i) + '</li>'; }).join('') + '</ul></details>';
+        }
+        if (c.status !== 'pass' && c.fix) html += '<div class="fix"><b>Fix:</b> ' + esc(c.fix) + '</div>';
+        html += '</div></div>';
+      });
+      html += '</div>';
+    });
+    if (!html) html = '<div class="empty">Every check passes. This article meets all ' + r.checks.length + ' rules and is ready to publish. Switch to "All checks" to see each one.</div>';
+    $('checks').innerHTML = html;
+  }
+
+  function renderCriteria() {
+    var r = state.report;
+    $('ruleCount').textContent = r.checks.length + ' rules';
+    $('criteria').innerHTML = r.categories.map(function (cat) {
+      return '<h5>' + esc(cat.name) + '</h5>' + cat.checks.map(function (c) { return '<div>' + esc(c.label) + (c.weight >= 3 ? ' <span class="muted">(blocker)</span>' : '') + '</div>'; }).join('');
+    }).join('');
+  }
+
+  function reportMarkdown() {
+    var r = state.report; var out = ['# Article check: ' + (r.stats.title || state.name), '', '**' + r.verdict + '** · score ' + r.score + '/100 · ' + r.fails + ' must fix, ' + r.warnings + ' to improve, ' + r.passes + ' passed', '', 'File: ' + state.name, ''];
+    r.categories.forEach(function (cat) {
+      var issues = cat.checks.filter(function (c) { return c.status !== 'pass'; });
+      if (!issues.length) return;
+      out.push('## ' + cat.name);
+      issues.forEach(function (c) {
+        out.push('- ' + (c.status === 'fail' ? '**MUST FIX**' : 'Improve') + ': ' + c.label + '. ' + c.detail);
+        c.items.slice(0, 10).forEach(function (i) { out.push('  - ' + i); });
+        if (c.fix) out.push('  - Fix: ' + c.fix);
+      });
+      out.push('');
+    });
+    if (!r.fails && !r.warnings) out.push('All ' + r.checks.length + ' checks pass.');
+    return out.join('\n');
+  }
+
+  function copy(text, done) {
+    var ok = function () { toast(done); };
+    var fallback = function () {
+      var ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); ok(); } catch (e) { toast('Select the text and copy it manually'); }
+      ta.remove();
+    };
+    try { navigator.clipboard.writeText(text).then(ok, fallback); } catch (e) { fallback(); }
+  }
+
+  function readFile(file) {
+    state.name = file.name; state.isSample = false;
+    $('fileName').textContent = file.name + ' · ' + Math.round(file.size / 1024) + ' KB';
+    var ext = (file.name.split('.').pop() || '').toLowerCase();
+    var reader = new FileReader();
+    if (ext === 'docx') {
+      if (typeof mammoth === 'undefined') { showError('The Word reader did not load. Check your connection, or upload the article as Markdown.'); return; }
+      reader.onload = function () {
+        mammoth.convertToHtml({ arrayBuffer: reader.result }).then(function (res) {
+          state.source = { type: 'html', content: res.value }; run();
+        }, function (err) { showError('This .docx could not be read: ' + err.message); });
+      };
+      reader.readAsArrayBuffer(file);
+    } else if (ext === 'doc') {
+      showError('Old .doc files are not supported. Save the file as .docx and upload it again.');
+    } else {
+      reader.onload = function () {
+        var text = String(reader.result);
+        state.source = /^html?$/.test(ext) ? { type: 'html', content: text } : { type: 'markdown', content: text };
+        run();
+      };
+      reader.readAsText(file);
+    }
+  }
+
+  // Wiring
+  var drop = $('drop');
+  $('file').addEventListener('change', function (e) { if (e.target.files[0]) readFile(e.target.files[0]); e.target.value = ''; });
+  ['dragenter', 'dragover'].forEach(function (t) { drop.addEventListener(t, function (e) { e.preventDefault(); drop.classList.add('over'); }); });
+  ['dragleave', 'drop'].forEach(function (t) { drop.addEventListener(t, function (e) { e.preventDefault(); drop.classList.remove('over'); }); });
+  drop.addEventListener('drop', function (e) { var f = e.dataTransfer && e.dataTransfer.files[0]; if (f) readFile(f); });
+  document.addEventListener('dragover', function (e) { e.preventDefault(); });
+  document.addEventListener('drop', function (e) { e.preventDefault(); var f = e.dataTransfer && e.dataTransfer.files[0]; if (f && !drop.contains(e.target)) readFile(f); });
+  $('pasteToggle').addEventListener('click', function () { var p = $('pastePanel'); p.hidden = !p.hidden; this.setAttribute('aria-expanded', String(!p.hidden)); if (!p.hidden) $('pasteText').focus(); });
+  $('runPaste').addEventListener('click', function () {
+    var t = $('pasteText').value; if (!t.trim()) { showError('Paste the article text first.'); return; }
+    state.source = { type: /^\s*</.test(t) ? 'html' : 'markdown', content: t }; state.name = 'Pasted text'; state.isSample = false; $('fileName').textContent = ''; run();
+  });
+  $('loadSample').addEventListener('click', loadSample);
+  $('rerun').addEventListener('click', run);
+  $('kwOverride').addEventListener('keydown', function (e) { if (e.key === 'Enter') run(); });
+  Array.prototype.forEach.call(document.querySelectorAll('[data-filter]'), function (b) {
+    b.addEventListener('click', function () {
+      state.filter = b.dataset.filter;
+      Array.prototype.forEach.call(document.querySelectorAll('[data-filter]'), function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+      if (state.report) renderChecks();
+    });
+  });
+  $('copySchema').addEventListener('click', function () { if (state.report) copy($('schema').textContent, 'Schema copied'); });
+  $('copyReport').addEventListener('click', function () { if (state.report) copy(reportMarkdown(), 'Report copied'); });
+
+  function loadSample() {
+    state.source = { type: 'markdown', content: SAMPLE }; state.name = SAMPLE_NAME; state.isSample = true;
+    $('fileName').textContent = 'Showing an example. Upload your own file to check it.';
+    run();
+  }
+  loadSample();
+})();
+</script>
+
+</body>
+</html>
