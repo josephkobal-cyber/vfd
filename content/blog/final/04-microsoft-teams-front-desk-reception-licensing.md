@@ -37,14 +37,12 @@ The employee can be in the building, at home or on the road. As long as Teams is
 
 The licenses you need depend on how each person should be reached. Most organizations mix these options, so it's worth deciding per role rather than per company.
 
-| How the employee is reached | Microsoft license needed | Video? |
-|---|---|---|
-| Video call answered in Microsoft Teams | Teams Phone Standard for the employee, plus a Teams Phone calling plan on your Microsoft administrator | Yes |
-| Text alert in Teams (SMS for Microsoft Teams) | None beyond a normal Teams account | No, it's a notification |
-| Video call answered in the Virtual Front Desk dashboard or mobile app | None | Yes |
-| Video-call link in WhatsApp | None | Yes |
-| Notification in Slack | None | No, it's a notification |
-| Phone call to a mobile or desk number | None | No, audio only |
+- **Video call answered in Microsoft Teams:** needs Teams Phone Standard for the employee, plus a Teams Phone calling plan on your Microsoft administrator. Full video.
+- **Text alert in Teams (SMS for Microsoft Teams):** needs nothing beyond a normal Teams account. It's a notification, not a call.
+- **Video call answered in the Virtual Front Desk dashboard or mobile app:** no Microsoft license. Full video.
+- **Video-call link in WhatsApp:** no Microsoft license. Full video.
+- **Notification in Slack:** no Microsoft license. It's a notification, not a call.
+- **Phone call to a mobile or desk number:** no Microsoft license. Audio only.
 
 Two details catch IT teams out. First, only users imported from Microsoft Entra ID can receive calls in Teams; people invited to Virtual Front Desk by email use the dashboard. Second, an employee whose calls are routed to Teams answers them in Teams, not in the Virtual Front Desk app, so pick one place per person.
 
@@ -62,7 +60,7 @@ One setting to watch: leave Teams video call turned off for anyone without a Tea
 
 For a team rather than one person, there are two routes.
 
-**Virtual Front Desk groups.** A group lets one station button reach several people. Groups that contain Teams users use the Queue mode (one person after another, 30 seconds each by default) or the List mode (the visitor picks the person). Broadcast, where everyone rings at once, isn't available for Teams users, and a group can't mix people who answer in Teams with people who answer in the dashboard.
+**Virtual Front Desk groups.** A [group](https://help.virtualfrontdesk.com/en/article/groups-and-call-queue) lets one station button reach several people. Groups that contain Teams users use the Queue mode (one person after another, 30 seconds each by default) or the List mode (the visitor picks the person). Broadcast, where everyone rings at once, isn't available for Teams users, and a group can't mix people who answer in Teams with people who answer in the dashboard.
 
 **Microsoft Teams call queues and auto attendants.** You can also import a call queue or auto attendant you've built in the Teams admin center, and calls follow the routing already set up in Teams. Each one needs a resource account with the free Microsoft Teams Phone Resource Account license, and call queues need conference mode turned on. Auto attendants handle audio calls only.
 
@@ -115,4 +113,4 @@ No. Virtual Front Desk video calls are live only and are never recorded, whether
 
 ## Try it with your own Teams tenant
 
-The fastest way to see how this fits your setup is to connect your Entra ID directory, import two or three users and place a test call from a station. Every new account starts with a [30-day free trial](https://www.virtualfrontdesk.com/free-demo-trial) of the Enterprise plan, so you can test Teams calls, call queues and the employee directory before choosing a plan. For a lobby with nobody at the desk, see how to [greet walk-in visitors at an unstaffed desk](/blog/greet-visitors-unstaffed-front-desk).
+The fastest way to see how this fits your setup is to connect your Entra ID directory, import two or three users and place a test call from a station. Every new account starts with a [30-day free trial](https://www.virtualfrontdesk.com/free-demo-trial) of the Enterprise plan, so you can test Teams calls, call queues and the employee directory before choosing a plan. For a lobby with nobody at the desk, the [video reception overview](https://www.virtualfrontdesk.com/video-reception) shows how stations route visitors to your team.

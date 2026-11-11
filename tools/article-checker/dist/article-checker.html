@@ -173,7 +173,7 @@ pre.code { margin: 0; max-height: 280px; overflow: auto; background: var(--sunke
     <div class="brand">
       <div class="eyebrow">Virtual Front Desk blog · pre-publish QA</div>
       <h1>VFD Article Checker</h1>
-      <p>Upload an article and get a publish verdict against the blog's 55 rules for interview residue, structure, AI visibility, SEO, human voice, product facts and the call to action.</p>
+      <p>Upload an article and get a publish verdict against the blog's rules for interview residue, structure, AI visibility, SEO, links, human voice, product facts and the call to action.</p>
     </div>
   </div>
 
@@ -182,7 +182,7 @@ pre.code { margin: 0; max-height: 280px; overflow: auto; background: var(--sunke
       <span class="glyph" aria-hidden="true"></span>
       <span class="copy">
         <strong>Drop a .docx, .md, .txt or .html file, or click to choose one</strong>
-        <small>Metadata is read from YAML front matter or from a "Field / Value" table (SEO title, Meta description, URL slug, Primary keyword…). Nothing leaves your browser.</small>
+        <small>Metadata is read from YAML front matter or from a "Publishing metadata" section after the article (SEO title, Meta description, URL slug, Primary keyword…). Nothing leaves your browser.</small>
         <span class="file-name" id="fileName"></span>
       </span>
       <input type="file" id="file" accept=".docx,.md,.markdown,.txt,.html,.htm" hidden>
@@ -395,6 +395,144 @@ pre.code { margin: 0; max-height: 280px; overflow: auto; background: var(--sunke
     { re: /\bQR-code\b(?!\s)/, msg: 'Write "QR code" without a hyphen in running text.' }
   ];
 
+  // KNOWN_PAGES:start (refresh with: node tools/article-checker/refresh-known-pages.js)
+  var KNOWN_PAGES = [
+      "https://help.virtualfrontdesk.com/en",
+      "https://help.virtualfrontdesk.com/en/article/ai-agent-setup-guide",
+      "https://help.virtualfrontdesk.com/en/article/analytics",
+      "https://help.virtualfrontdesk.com/en/article/android-mobile-native-application",
+      "https://help.virtualfrontdesk.com/en/article/android-tablets-chrome-in-full-screen-and-kiosk-mode-pinned-app",
+      "https://help.virtualfrontdesk.com/en/article/azure-groups",
+      "https://help.virtualfrontdesk.com/en/article/call-hours-choose-when-stations-can-call-you",
+      "https://help.virtualfrontdesk.com/en/article/clock-in-clock-out-timesheets",
+      "https://help.virtualfrontdesk.com/en/article/customization-logo-and-backgrounds",
+      "https://help.virtualfrontdesk.com/en/article/dashboard-overview",
+      "https://help.virtualfrontdesk.com/en/article/documents-pdfs-qr-codes-iframes",
+      "https://help.virtualfrontdesk.com/en/article/emergency-message",
+      "https://help.virtualfrontdesk.com/en/article/faq-subscription-and-plans",
+      "https://help.virtualfrontdesk.com/en/article/faq-what-devices-to-use-with-virtual-front-desk",
+      "https://help.virtualfrontdesk.com/en/article/faqwhat-is-virtual-front-desks-customer-support-like",
+      "https://help.virtualfrontdesk.com/en/article/google-calendar-add-on-for-pre-registration-and-express-qr-code-sign-in",
+      "https://help.virtualfrontdesk.com/en/article/groups-and-call-queue",
+      "https://help.virtualfrontdesk.com/en/article/history-call-logs-sign-in-logs-pre-registration-logs-and-transaction-logs",
+      "https://help.virtualfrontdesk.com/en/article/iframes-url-websites-and-webapps",
+      "https://help.virtualfrontdesk.com/en/article/infrastructure-built-on-microsoft-azure-with-acs-hipaa-compliant-video-technology",
+      "https://help.virtualfrontdesk.com/en/article/integration-with-whatsapp",
+      "https://help.virtualfrontdesk.com/en/article/ipad-kiosk-mode-guided-access",
+      "https://help.virtualfrontdesk.com/en/article/live-call-features",
+      "https://help.virtualfrontdesk.com/en/article/mobile-application-iphone-and-ipad",
+      "https://help.virtualfrontdesk.com/en/article/monitoring-or-live-streaming-your-stations",
+      "https://help.virtualfrontdesk.com/en/article/ms-teams-call-queue-vs-auto-attendant-explained",
+      "https://help.virtualfrontdesk.com/en/article/ms-teams-integration-for-video-calls-call-queue-auto-attendant",
+      "https://help.virtualfrontdesk.com/en/article/neat-frame-or-board",
+      "https://help.virtualfrontdesk.com/en/article/neat-pulse-and-setting-your-neat-frame-with-virtual-front-desk",
+      "https://help.virtualfrontdesk.com/en/article/new-users-onboarding",
+      "https://help.virtualfrontdesk.com/en/article/office-hours-and-the-closed-screen",
+      "https://help.virtualfrontdesk.com/en/article/okta-integration",
+      "https://help.virtualfrontdesk.com/en/article/outlook-calendar-add-in-for-pre-registration-or-express-qr-code-sign-in",
+      "https://help.virtualfrontdesk.com/en/article/owner-admin-and-regular-users",
+      "https://help.virtualfrontdesk.com/en/article/phone-calls-and-call-forwarding",
+      "https://help.virtualfrontdesk.com/en/article/printer-app-technical-specifications",
+      "https://help.virtualfrontdesk.com/en/article/printing-badges-and-documents",
+      "https://help.virtualfrontdesk.com/en/article/quick-access-button",
+      "https://help.virtualfrontdesk.com/en/article/read-first-creating-stations",
+      "https://help.virtualfrontdesk.com/en/article/scanner",
+      "https://help.virtualfrontdesk.com/en/article/settings-menu",
+      "https://help.virtualfrontdesk.com/en/article/sign-up-regions-microsoft-sso-and-google-sso-log-in",
+      "https://help.virtualfrontdesk.com/en/article/slack-integration",
+      "https://help.virtualfrontdesk.com/en/article/sms-for-microsoft-teams",
+      "https://help.virtualfrontdesk.com/en/article/station-offline-alerts",
+      "https://help.virtualfrontdesk.com/en/article/station-search-hide-names-until-the-visitor-searches",
+      "https://help.virtualfrontdesk.com/en/article/stripe-terminal-credit-and-debit-card-reader-pos-point-of-sales",
+      "https://help.virtualfrontdesk.com/en/article/subscriptions-free-trial-and-pre-paid-credit",
+      "https://help.virtualfrontdesk.com/en/article/translator",
+      "https://help.virtualfrontdesk.com/en/article/trouble-shooting-guide-firewall-permissions",
+      "https://help.virtualfrontdesk.com/en/article/users",
+      "https://help.virtualfrontdesk.com/en/article/videos-as-background-for-your-stations",
+      "https://help.virtualfrontdesk.com/en/article/virtual-front-desk-api-overview-and-getting-started",
+      "https://help.virtualfrontdesk.com/en/article/visitor-sign-form-and-sign-out-option",
+      "https://help.virtualfrontdesk.com/en/article/windows-kiosk-mode",
+      "https://help.virtualfrontdesk.com/en/news",
+      "https://help.virtualfrontdesk.com/en/news/3263-new-feature-take-payments-at-the-station",
+      "https://help.virtualfrontdesk.com/en/news/3264-new-feature-sign-in-with-qr-code",
+      "https://help.virtualfrontdesk.com/en/news/3265-new-feature-live-stream-your-stations",
+      "https://help.virtualfrontdesk.com/en/news/3271-new-feature-digital-scanner",
+      "https://help.virtualfrontdesk.com/en/news/3289-choose-which-language-to-display",
+      "https://help.virtualfrontdesk.com/en/news/3300-new-feature-sms-to-microsoft-teams",
+      "https://help.virtualfrontdesk.com/en/news/3491-new-feature-integration-with-slack",
+      "https://help.virtualfrontdesk.com/en/news/3575-new-feature-outlook-calendar-add-in-for-pre-registration",
+      "https://help.virtualfrontdesk.com/en/news/3669-new-feature-accounts-structured-by-organizations",
+      "https://help.virtualfrontdesk.com/en/news/3833-new-feature-videos-as-background-for-your-stations",
+      "https://help.virtualfrontdesk.com/en/news/3842-new-feature-whatsapp-notifications",
+      "https://help.virtualfrontdesk.com/en/news/4543-new-feature-the-ai-agent",
+      "https://www.virtualfrontdesk.com",
+      "https://www.virtualfrontdesk.com/about",
+      "https://www.virtualfrontdesk.com/ai-receptionist",
+      "https://www.virtualfrontdesk.com/analytics",
+      "https://www.virtualfrontdesk.com/api",
+      "https://www.virtualfrontdesk.com/blog",
+      "https://www.virtualfrontdesk.com/contact-us",
+      "https://www.virtualfrontdesk.com/devices",
+      "https://www.virtualfrontdesk.com/free-demo-trial",
+      "https://www.virtualfrontdesk.com/knowledge-base",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/android-mobile-native-application",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/android-tablets-chrome-in-full-screen-and-kiosk-mode-pinned-app",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/azure-groups",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/clock-in-clock-out-timesheets",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/customization-logo-and-background-images",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/digital-scanner",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/documents-pdfs-qr-codes-iframes",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/groups-and-call-queue",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/history-call-logs-sign-in-logs-pre-registration-logs-and-transaction-logs",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/iframes-url-websites-and-webapps",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/infrastructure-built-on-microsoft-azure-with-acs-hipaa-compliant-video-technology",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/ipad-kiosk-mode-guided-access",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/live-call-features",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/mobile-application-iphone-and-ipad",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/monitoring-or-live-streaming-your-stations",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/ms-teams-call-queue-vs-auto-attendant-explained",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/must-read-to-use-the-ms-teams-integration-call-queue-auto-attendant",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/neat-frame-or-board",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/neat-pulse-and-setting-up-your-neat-frame-with-virtual-front-desk",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/okta-integration-sso-sign-in",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/outlook-calendar-add-in-for-pre-registration-and-express-qr-code-sign-in",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/owner-admin-and-regular-users",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/payments-stripe-terminal-credit-and-debit-card-reader-pos-point-of-sales",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/phone-call-and-call-forwarding",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/printer-app-technical-specifications",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/printing-badges-and-documents",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/quick-access-button",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/read-first-creating-stations",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/settings-menu",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/sign-up-regions-microsoft-sso-and-google-sso-log-in",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/slack-integration",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/sms-for-microsoft-teams",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/subscriptions-free-trial-and-pre-paid-credit",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/translator",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/trouble-shooting-guide-firewall-permissions",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/users",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/video-as-background-for-your-stations",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/virtual-assistant",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/visitor-sign-in-sign-out-and-express-qr-code-sign-in",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/whatsapp-integration",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/windows-kiosk-mode",
+      "https://www.virtualfrontdesk.com/neat",
+      "https://www.virtualfrontdesk.com/post/22-lobbies-one-modern-front-desk-how-a-global-manufacturer-runs-reception-on-microsoft-teams",
+      "https://www.virtualfrontdesk.com/post/from-50-to-50-clinics-how-a-u-s-healthcare-network-replaced-the-on-site-front-desk-with-virtual-video-receptionists",
+      "https://www.virtualfrontdesk.com/post/how-to-upgrade-from-microsoft-teams-displays-to-virtual-front-desk-on-neat-frame",
+      "https://www.virtualfrontdesk.com/post/integrating-virtual-front-desk-with-microsoft-teams",
+      "https://www.virtualfrontdesk.com/post/remote-receptionists-empowering-your-team-with-virtual-front-desk",
+      "https://www.virtualfrontdesk.com/post/transforming-reception-how-virtual-front-desk-enhances-customer-engagement",
+      "https://www.virtualfrontdesk.com/post/unlock-new-opportunities-with-our-virtual-receptionist-app",
+      "https://www.virtualfrontdesk.com/post/why-virtual-front-desk-is-the-most-complete-visitor-management-tool-for-your-business",
+      "https://www.virtualfrontdesk.com/pricing",
+      "https://www.virtualfrontdesk.com/solutions/building-security-compliance",
+      "https://www.virtualfrontdesk.com/solutions/healthcare",
+      "https://www.virtualfrontdesk.com/solutions/retail",
+      "https://www.virtualfrontdesk.com/video-reception"
+  ];
+  // KNOWN_PAGES:end
+
   var STOP = ['a', 'an', 'the', 'for', 'and', 'or', 'of', 'to', 'in', 'on', 'at', 'is', 'how', 'what', 'with', 'your', 'you', 'it', 'its', 'by'];
 
   // ---------------------------------------------------------------------------
@@ -448,6 +586,15 @@ pre.code { margin: 0; max-height: 280px; overflow: auto; background: var(--sunke
     if (hasAllTokens(text, phrase)) return 'partial';
     return 'none';
   }
+
+  function normUrl(u) {
+    return String(u || '').trim().replace(/[#?].*$/, '').replace(/\/+$/, '').replace(/^http:/i, 'https:')
+      .replace(/^https:\/\/virtualfrontdesk\.com/i, 'https://www.virtualfrontdesk.com').toLowerCase();
+  }
+  var KNOWN_SET = {};
+  KNOWN_PAGES.forEach(function (u) { KNOWN_SET[normUrl(u)] = true; });
+  function isKnownPage(href) { return !!KNOWN_SET[normUrl(href)]; }
+  function isAbsolute(href) { return /^https:\/\//i.test(String(href || '').trim()); }
 
   function isInternal(href) {
     if (!href) return false;
@@ -633,6 +780,15 @@ pre.code { margin: 0; max-height: 280px; overflow: auto; background: var(--sunke
     return hits >= 2 ? meta : null;
   }
 
+  // One "Label: value" line from a metadata list.
+  function metaFromLine(label, value) {
+    var l = lower(label).replace(/[:*]/g, '').trim();
+    for (var i = 0; i < META_LABELS.length; i++) {
+      if (META_LABELS[i][0].test(l)) { var o = {}; o[META_LABELS[i][1]] = String(value).trim(); return o; }
+    }
+    return null;
+  }
+
   // Split the parsed blocks into: article body, metadata, and anything after
   // (interview sections and other leftovers that must not be published).
   function finalize(doc) {
@@ -647,6 +803,13 @@ pre.code { margin: 0; max-height: 280px; overflow: auto; background: var(--sunke
       if (b.type === 'table') {
         var tm = metaFromTable(b.rows || []);
         if (tm) { Object.keys(tm).forEach(function (k) { if (!meta[k]) meta[k] = tm[k]; }); inTail = true; continue; }
+      }
+      if (inTail && (b.type === 'li' || b.type === 'p')) {
+        var kv = b.text.match(/^([^:]{2,40}):\s*(.+)$/);
+        if (kv) {
+          var lm = metaFromTable([[kv[1], kv[2]], ['', '']]) || metaFromLine(kv[1], kv[2]);
+          if (lm) Object.keys(lm).forEach(function (k) { if (!meta[k]) meta[k] = lm[k]; });
+        }
       }
       (inTail ? trailing : body).push(b);
     }
@@ -804,8 +967,9 @@ pre.code { margin: 0; max-height: 280px; overflow: auto; background: var(--sunke
     add(C1, 'lists', 'Uses lists, including a numbered process', !lis.length ? 'fail' : ordered.length ? 'pass' : 'warn',
       lis.length + ' list items (' + ordered.length + ' numbered).', { fix: 'Turn any step-by-step explanation into a numbered list.' });
     var tables = m.content.filter(function (x) { return x.type === 'table'; });
-    add(C1, 'table', 'Has a comparison or summary table', tables.length ? 'pass' : 'warn',
-      tables.length + ' table(s). Tables are often lifted directly into AI answers.', { fix: 'Add a table comparing options, plans, licenses or steps.' });
+    add(C1, 'no_tables', 'No tables in the article body (Webflow)', tables.length ? 'fail' : 'pass',
+      tables.length ? tables.length + ' table(s) found. Webflow rich text does not support tables.' : 'No tables. Comparisons are written as lists.',
+      { weight: 2, items: tables.map(function (t) { return trimTo(t.text.split('\n')[0], 120); }), fix: 'Turn each table row into a bullet with a bold lead-in, e.g. "- **Essential, $29 per station:** sign-in only."' });
 
     // ---- AI visibility -------------------------------------------------------
     var C2 = 'AI visibility (GEO)';
@@ -903,9 +1067,17 @@ pre.code { margin: 0; max-height: 280px; overflow: auto; background: var(--sunke
       add(C3, 'keyword_density', 'Keyword density ' + LIMITS.density[0] + '–' + LIMITS.density[1] + '%', occ === 0 ? 'fail' : (density >= LIMITS.density[0] && density <= LIMITS.density[1]) ? 'pass' : 'warn',
         occ + ' exact use(s), ' + round(density, 2) + '% density.', { fix: density > LIMITS.density[1] ? 'Too repetitive. Use synonyms and related queries.' : 'Use the exact phrase in a heading and once more in the body.' });
     }
-    var internal = m.links.filter(function (l) { return isInternal(l.href); });
+    var relative = m.links.filter(function (l) { return !isAbsolute(l.href); });
+    add(C3, 'links_absolute', 'Every link uses the full URL', relative.length ? 'fail' : m.links.length ? 'pass' : 'warn',
+      relative.length ? relative.length + ' link(s) without a full https:// URL.' : m.links.length ? 'All links are full https:// URLs.' : 'No links found.',
+      { weight: 2, items: relative.map(function (l) { return '"' + l.text + '" → ' + l.href; }), fix: 'Paste the complete page address into each link, starting with https://.' });
+    var missingPages = m.links.filter(function (l) { return isAbsolute(l.href) && isInternal(l.href) && !isKnownPage(l.href); });
+    add(C3, 'links_exist', 'Links point to pages that exist', missingPages.length ? 'fail' : 'pass',
+      missingPages.length ? missingPages.length + ' link(s) to Virtual Front Desk pages that are not on the live site map.' : 'Every Virtual Front Desk link is a live page (' + KNOWN_PAGES.length + ' pages known).',
+      { weight: 3, items: missingPages.map(function (l) { return '"' + l.text + '" → ' + l.href; }), fix: 'Link only to published pages. Remove links to articles that are not live yet. If the page was just published, refresh the page list.' });
+    var internal = m.links.filter(function (l) { return isAbsolute(l.href) && isInternal(l.href) && isKnownPage(l.href); });
     var help = internal.filter(function (l) { return /help\.virtualfrontdesk/i.test(l.href); });
-    add(C3, 'internal_links', LIMITS.internalLinks + '+ internal links', internal.length >= LIMITS.internalLinks ? 'pass' : internal.length ? 'warn' : 'fail',
+    add(C3, 'internal_links', LIMITS.internalLinks + '+ links to live Virtual Front Desk pages', internal.length >= LIMITS.internalLinks ? 'pass' : internal.length ? 'warn' : 'fail',
       internal.length + ' internal link(s), ' + help.length + ' to the help center, ' + (m.links.length - internal.length) + ' external.',
       { weight: 2, items: internal.map(function (l) { return l.text + ' → ' + l.href; }), fix: 'Link to related blog posts, the pricing page and the matching help center article.' });
     var weak = m.links.filter(function (l) { return WEAK_ANCHORS.test(String(l.text).trim()) || /^https?:\/\//.test(String(l.text).trim()); });
@@ -1011,7 +1183,7 @@ pre.code { margin: 0; max-height: 280px; overflow: auto; background: var(--sunke
     add(C5, 'plan_gating', 'Plan requirements stated for gated features', gates.length ? 'warn' : 'pass',
       gates.length ? gates.length + ' gated feature(s) without the plan named.' : 'Every plan-gated feature names its plan.',
       { items: gates, fix: 'Say which plan a feature needs the first time you mention it.' });
-    var sup = m.sentences.filter(function (s) { return /\b(the best|the most (powerful|advanced|complete)|industry[- ]leading|#1|number one|unmatched|unrivaled|the only)\b/i.test(s); });
+    var sup = m.sentences.filter(function (s) { return /\b(the best|the most (powerful|advanced|complete)|industry[- ]leading|#1|number one|unmatched|unrivaled|the only (\w+ )?(solution|platform|tool|product|system|company|vendor|software|app|one))\b/i.test(s); });
     add(C5, 'superlatives', 'No unproven superlatives', sup.length ? 'warn' : 'pass', sup.length + ' superlative claim(s).',
       { items: sup.map(function (s) { return trimTo(s, 140); }), fix: 'Replace "the best" with the specific thing it does better.' });
 
@@ -1113,7 +1285,7 @@ pre.code { margin: 0; max-height: 280px; overflow: auto; background: var(--sunke
 (function () {
   'use strict';
   var SAMPLE_NAME = "02-qr-code-visitor-sign-in.md";
-  var SAMPLE = "---\nseo_title: \"QR Code Visitor Sign-In: How Touchless Check-In Works\"\nmeta_description: \"How QR code visitor sign-in works: visitors fill in the form on their phone, scan a single-use code at the lobby station, and the host gets notified at once.\"\nslug: /blog/qr-code-visitor-sign-in\nprimary_question: \"What's the best touchless or QR-code visitor sign-in system for an office building?\"\nprimary_keyword: \"QR code visitor sign-in\"\nrelated_queries:\n  - QR code visitor check-in\n  - touchless visitor sign-in\n  - contactless check-in for offices\n  - visitor pre-registration\n  - pre-register visitors from Outlook\n  - Google Calendar visitor pre-registration\n  - single-use visitor QR code\nauthor: \"Jeff Letendre\"\nauthor_title: \"CEO and Founder, Virtual Front Desk\"\npublisher: \"Virtual Front Desk\"\ndate_published: \"2026-11-11\"\ndate_modified: \"2026-11-11\"\nai_answer_summary: \"QR code visitor sign-in lets an expected visitor complete the sign-in form on their own phone, including a selfie and ID photos, then check in at the lobby by scanning a single-use QR code or typing a 4-digit code. In Virtual Front Desk this is Express sign-in, available on every plan. Hosts invite visitors from Outlook, Google Calendar or the dashboard, and the host is notified automatically after the scan.\"\n---\n\n# QR Code Visitor Sign-In: How Touchless Check-In Works and What to Look For\n\nQR code visitor sign-in lets an expected visitor fill in the sign-in form on their own phone before they arrive, then check in at the lobby with a single scan. In Virtual Front Desk, this is called Express sign-in. The host invites the visitor from Outlook, Google Calendar or the dashboard, and the visitor completes everything ahead of time. At the station, a QR code or a 4-digit code signs them in, the host is notified, and on the Enterprise plan a visitor badge prints.\n\n## How does QR code sign-in work?\n\nExpress sign-in has five steps, and the visitor only spends a few seconds at the station for the last one.\n\n1. **The host invites the visitor.** Any host can send the invitation from the Outlook add-in, the Google Calendar add-on or the Virtual Front Desk dashboard. It goes out by email, SMS or both.\n2. **The visitor completes the form on their phone.** The invitation links to your sign-in form. The visitor answers your questions, takes a selfie, photographs their ID and signs any document you require, on their own phone or computer.\n3. **The visitor receives their codes.** Each pre-registered visitor gets a QR code and a 4-digit code, and can use either one on arrival.\n4. **The visitor checks in at the station.** In the lobby, they tap \"I have a QR code\" and hold their phone up to the station camera, or they type the 4-digit code.\n5. **Everything after the scan is automatic.** The visitor is signed in, the host is notified, and a badge prints if your site uses them.\n\nThe record that lands in your sign-in logs is the same one you'd get from a sign-in at the station, down to the badge, which shows up to 3 fields from the form. You just collected it earlier.\n\n## What does \"touchless\" mean in practice?\n\nTouchless means the shared screen stops being the place where visitors type. With Express sign-in, every field, photo and signature happens on the visitor's own device, in their own time, before they reach your building. At the station, what's left is one tap on \"I have a QR code\" and the scan. Nobody waits behind a contractor who is spelling out their company name on a tablet.\n\nIt's also faster for your hosts. A visitor who pre-registered shows up already expected. The host gets the arrival notice the moment the code is scanned, so there's no \"who are you here to see?\" conversation at the desk.\n\n## Hosts invite their own visitors from their calendar\n\nPre-registration doesn't need a receptionist in the middle. Hosts invite visitors from the tools they already have open.\n\n- **Outlook:** with the Virtual Front Desk for Outlook add-in, a host creates the meeting, opens the add-in, picks the location, host and sign-in form, and clicks Send Pre-Registrations. External attendees are selected automatically. An administrator installs the add-in once from the Microsoft 365 admin center. It works in the Outlook calendar, not in the Teams calendar.\n- **Google Calendar:** the Virtual Front Desk add-on works the same way from a saved event in Google Calendar on the web. The event organizer sends the pre-registrations.\n- **Dashboard:** create an invitation for one visitor, or use Bulk invitations when a group is coming in, such as a training day or a client delegation.\n\nA manager booking an interview sends the invitation in the same step as the meeting invite. The candidate arrives with the form done.\n\n## Single-use codes, with a fallback that never blocks a visit\n\nEvery QR code is single-use. Once a visitor signs in with it, the code stops working, so it can't be forwarded to someone else and reused. A visitor coming back on another day gets a new invitation.\n\nIf a visitor loses the invitation or their phone battery dies, nothing breaks. They sign in at the station like any walk-in, and the host is notified the same way. That fallback matters more than it sounds: a sign-in system that turns a dead phone into a stuck visitor creates more work at the desk, not less.\n\n## Walk-ins and pre-registered visitors on the same station\n\nQR codes are only for pre-registered visitors. Walk-in visitors use the regular sign-in form on the station screen. Both run on the same station, so a lobby handles expected guests and unannounced visitors without separate hardware or a second queue.\n\n| | Walk-in sign-in | Express sign-in |\n|---|---|---|\n| Who uses it | Anyone who arrives unannounced | Visitors a host invited ahead of time |\n| Where the form is filled in | On the station screen | On the visitor's own phone or computer, before the visit |\n| What happens at the station | The visitor completes every field and photo | One scan of the QR code, or the 4-digit code |\n| Host notification | Automatic | Automatic |\n| Visitor badge (Enterprise) | Prints at the end of the form | Prints right after the scan |\n| Record in your sign-in logs | Yes, kept 12 months by default | Yes, kept 12 months by default |\n\n## Keeping track of who's expected\n\nEvery invitation has a status in the form's Pre-registration tab:\n\n- **Pending:** the invitation was sent, but the visitor hasn't filled in the form yet.\n- **Pre-Registered:** the visitor completed the form before arriving.\n- **Completed:** the visitor arrived and checked in at the station.\n\nIf a visitor is still Pending the day before, you can resend the invite with one click. The pre-registration logs in History also show invitations sent, arrivals, no-shows and visits still scheduled, which gives front-desk and security teams a simple view of the day ahead.\n\n## When is pre-registration worth turning on?\n\nIf your lobby sees the same contractors, clients and candidates every week, turn it on. The more regular visitors you have, the more time Express sign-in saves, both at the station and for the hosts waiting on them. Recurring meetings, interviews, maintenance contractors and client visits are the obvious wins.\n\nIf your site gets a handful of unplanned visitors a week, the regular station sign-in is usually enough. You can still turn pre-registration on later for the visits you do plan.\n\n## What to look for in a QR code visitor sign-in system\n\nWhen you compare tools, these questions separate a QR code that just opens a web form from a sign-in system that actually saves time:\n\n- Can the visitor complete the whole form on their phone, including photos, questions and signatures, before arriving?\n- Can hosts send invitations from Outlook or Google Calendar without logging in to the visitor management dashboard?\n- Are the QR codes single-use?\n- What happens when a visitor loses their code?\n- Does the scan notify the host and print the badge automatically?\n- Can walk-in and pre-registered visitors use the same station?\n- Can you see who has pre-registered, who arrived and who didn't show?\n- Is pre-registration included in the base plan, or sold as an add-on?\n\n## How to set it up\n\nOpen your visitor sign-in form in the dashboard, go to the Options tab and turn on Pre-registration. Then send your first invitation from the form's Pre-registration tab, or install the Outlook add-in or Google Calendar add-on so hosts can invite from their calendar. The [sign-in and Express QR code guide](https://help.virtualfrontdesk.com/en/article/visitor-sign-form-and-sign-out-option) covers each setting.\n\nExpress sign-in and both calendar integrations are available on every Virtual Front Desk plan. A few things around it depend on your plan: badge printing is part of Enterprise, and notifying the host with a video or phone call starts on Professional. On Essential, at $29 per station per month, hosts are notified by SMS and email.\n\n## Frequently asked questions\n\n### Can walk-in visitors sign in with a QR code?\n\nNo. In Virtual Front Desk, QR codes are issued only to pre-registered visitors through Express sign-in. Walk-in visitors sign in on the station screen with the regular sign-in form, and their host is notified automatically in the same way.\n\n### Can a QR code be used more than once?\n\nNo. Each Express sign-in QR code is single-use. After the visitor signs in, the code stops working, which prevents it from being shared or reused. A visitor coming back on another day receives a new invitation.\n\n### What happens if a visitor loses their QR code?\n\nThe visitor signs in at the station the same way a walk-in does, by filling in the sign-in form on screen. The host is still notified automatically, so a lost code never stops a visit.\n\n### Which Virtual Front Desk plans include Express sign-in?\n\nExpress sign-in is available on every Virtual Front Desk plan, along with the Outlook add-in and the Google Calendar add-on. Badge printing at the end of sign-in requires the Enterprise plan, and video call notifications to the host start on the Professional plan.\n\n### Can hosts pre-register visitors from Google Calendar?\n\nYes. Hosts can pre-register visitors from the Google Calendar add-on, the Outlook add-in or the Virtual Front Desk dashboard. With the Google Calendar add-on, the event organizer sends the pre-registrations from a saved event.\n\n## Try Express sign-in on your own lobby\n\nThe quickest way to judge QR code sign-in is to invite yourself. Set up one station, turn on pre-registration, send an invite to your own phone and time the check-in. Every new account starts with a [30-day free trial](https://www.virtualfrontdesk.com/free-demo-trial) of the Enterprise plan, and the [pricing page](https://www.virtualfrontdesk.com/pricing) compares what each plan includes. If you're still replacing a paper logbook, start with our guide to [visitor management for safety and compliance](/blog/visitor-management-safety-compliance).\n";
+  var SAMPLE = "---\nseo_title: \"QR Code Visitor Sign-In: How Touchless Check-In Works\"\nmeta_description: \"How QR code visitor sign-in works: visitors fill in the form on their phone, scan a single-use code at the lobby station, and the host gets notified at once.\"\nslug: /blog/qr-code-visitor-sign-in\nprimary_question: \"What's the best touchless or QR-code visitor sign-in system for an office building?\"\nprimary_keyword: \"QR code visitor sign-in\"\nrelated_queries:\n  - QR code visitor check-in\n  - touchless visitor sign-in\n  - contactless check-in for offices\n  - visitor pre-registration\n  - pre-register visitors from Outlook\n  - Google Calendar visitor pre-registration\n  - single-use visitor QR code\nauthor: \"Jeff Letendre\"\nauthor_title: \"CEO and Founder, Virtual Front Desk\"\npublisher: \"Virtual Front Desk\"\ndate_published: \"2026-11-11\"\ndate_modified: \"2026-11-11\"\nai_answer_summary: \"QR code visitor sign-in lets an expected visitor complete the sign-in form on their own phone, including a selfie and ID photos, then check in at the lobby by scanning a single-use QR code or typing a 4-digit code. In Virtual Front Desk this is Express sign-in, available on every plan. Hosts invite visitors from Outlook, Google Calendar or the dashboard, and the host is notified automatically after the scan.\"\n---\n\n# QR Code Visitor Sign-In: How Touchless Check-In Works and What to Look For\n\nQR code visitor sign-in lets an expected visitor fill in the sign-in form on their own phone before they arrive, then check in at the lobby with a single scan. In Virtual Front Desk, this is called Express sign-in. The host invites the visitor from Outlook, Google Calendar or the dashboard, and the visitor completes everything ahead of time. At the station, a QR code or a 4-digit code signs them in, the host is notified, and on the Enterprise plan a visitor badge prints.\n\n## How does QR code sign-in work?\n\nExpress sign-in has five steps, and the visitor only spends a few seconds at the station for the last one.\n\n1. **The host invites the visitor.** Any host can send the invitation from the Outlook add-in, the Google Calendar add-on or the Virtual Front Desk dashboard. It goes out by email, SMS or both.\n2. **The visitor completes the form on their phone.** The invitation links to your sign-in form. The visitor answers your questions, takes a selfie, photographs their ID and signs any document you require, on their own phone or computer.\n3. **The visitor receives their codes.** Each pre-registered visitor gets a QR code and a 4-digit code, and can use either one on arrival.\n4. **The visitor checks in at the station.** In the lobby, they tap \"I have a QR code\" and hold their phone up to the station camera, or they type the 4-digit code.\n5. **Everything after the scan is automatic.** The visitor is signed in, the host is notified, and a badge prints if your site uses them.\n\nThe record that lands in your sign-in logs is the same one you'd get from a sign-in at the station, down to the badge, which shows up to 3 fields from the form. You just collected it earlier.\n\n## What does \"touchless\" mean in practice?\n\nTouchless means the shared screen stops being the place where visitors type. With Express sign-in, every field, photo and signature happens on the visitor's own device, in their own time, before they reach your building. At the station, what's left is one tap on \"I have a QR code\" and the scan. Nobody waits behind a contractor who is spelling out their company name on a tablet.\n\nIt's also faster for your hosts. A visitor who pre-registered shows up already expected. The host gets the arrival notice the moment the code is scanned, so there's no \"who are you here to see?\" conversation at the desk.\n\n## Hosts invite their own visitors from their calendar\n\nPre-registration doesn't need a receptionist in the middle. Hosts invite visitors from the tools they already have open.\n\n- **Outlook:** with the [Virtual Front Desk for Outlook add-in](https://help.virtualfrontdesk.com/en/article/outlook-calendar-add-in-for-pre-registration-or-express-qr-code-sign-in), a host creates the meeting, opens the add-in, picks the location, host and sign-in form, and clicks Send Pre-Registrations. External attendees are selected automatically. An administrator installs the add-in once from the Microsoft 365 admin center. It works in the Outlook calendar, not in the Teams calendar.\n- **Google Calendar:** the [Virtual Front Desk add-on for Google Calendar](https://help.virtualfrontdesk.com/en/article/google-calendar-add-on-for-pre-registration-and-express-qr-code-sign-in) works the same way from a saved event in Google Calendar on the web. The event organizer sends the pre-registrations.\n- **Dashboard:** create an invitation for one visitor, or use Bulk invitations when a group is coming in, such as a training day or a client delegation.\n\nA manager booking an interview sends the invitation in the same step as the meeting invite. The candidate arrives with the form done.\n\n## Single-use codes, with a fallback that never blocks a visit\n\nEvery QR code is single-use. Once a visitor signs in with it, the code stops working, so it can't be forwarded to someone else and reused. A visitor coming back on another day gets a new invitation.\n\nIf a visitor loses the invitation or their phone battery dies, nothing breaks. They sign in at the station like any walk-in, and the host is notified the same way. That fallback matters more than it sounds: a sign-in system that turns a dead phone into a stuck visitor creates more work at the desk, not less.\n\n## Walk-ins and pre-registered visitors on the same station\n\nQR codes are only for pre-registered visitors. Walk-in visitors use the regular sign-in form on the station screen. Both run on the same station, so a lobby handles expected guests and unannounced visitors without separate hardware or a second queue.\n\nHere's how the two compare:\n\n- **Who uses it:** walk-in sign-in is for anyone who arrives unannounced. Express sign-in is for visitors a host invited ahead of time.\n- **Where the form is filled in:** walk-ins fill it in on the station screen. Pre-registered visitors fill it in on their own phone or computer before the visit.\n- **What happens at the station:** a walk-in completes every field and photo there. A pre-registered visitor scans the QR code or types the 4-digit code.\n- **Host notification:** automatic in both cases.\n- **Visitor badge (Enterprise):** prints at the end of the form for walk-ins, and right after the scan for pre-registered visitors.\n- **Record in your sign-in logs:** both are saved and kept 12 months by default.\n\n## Keeping track of who's expected\n\nEvery invitation has a status in the form's Pre-registration tab:\n\n- **Pending:** the invitation was sent, but the visitor hasn't filled in the form yet.\n- **Pre-Registered:** the visitor completed the form before arriving.\n- **Completed:** the visitor arrived and checked in at the station.\n\nIf a visitor is still Pending the day before, you can resend the invite with one click. The pre-registration logs in History also show invitations sent, arrivals, no-shows and visits still scheduled, which gives front-desk and security teams a simple view of the day ahead.\n\n## When is pre-registration worth turning on?\n\nIf your lobby sees the same contractors, clients and candidates every week, turn it on. The more regular visitors you have, the more time Express sign-in saves, both at the station and for the hosts waiting on them. Recurring meetings, interviews, maintenance contractors and client visits are the obvious wins.\n\nIf your site gets a handful of unplanned visitors a week, the regular station sign-in is usually enough. You can still turn pre-registration on later for the visits you do plan.\n\n## What to look for in a QR code visitor sign-in system\n\nWhen you compare tools, these questions separate a QR code that just opens a web form from a sign-in system that actually saves time:\n\n- Can the visitor complete the whole form on their phone, including photos, questions and signatures, before arriving?\n- Can hosts send invitations from Outlook or Google Calendar without logging in to the visitor management dashboard?\n- Are the QR codes single-use?\n- What happens when a visitor loses their code?\n- Does the scan notify the host and print the badge automatically?\n- Can walk-in and pre-registered visitors use the same station?\n- Can you see who has pre-registered, who arrived and who didn't show?\n- Is pre-registration included in the base plan, or sold as an add-on?\n\n## How to set it up\n\nOpen your visitor sign-in form in the dashboard, go to the Options tab and turn on Pre-registration. Then send your first invitation from the form's Pre-registration tab, or install the Outlook add-in or Google Calendar add-on so hosts can invite from their calendar. The [sign-in and Express QR code guide](https://help.virtualfrontdesk.com/en/article/visitor-sign-form-and-sign-out-option) covers each setting.\n\nExpress sign-in and both calendar integrations are available on every Virtual Front Desk plan. A few things around it depend on your plan: badge printing is part of Enterprise, and notifying the host with a video or phone call starts on Professional. On Essential, at $29 per station per month, hosts are notified by SMS and email.\n\n## Frequently asked questions\n\n### Can walk-in visitors sign in with a QR code?\n\nNo. In Virtual Front Desk, QR codes are issued only to pre-registered visitors through Express sign-in. Walk-in visitors sign in on the station screen with the regular sign-in form, and their host is notified automatically in the same way.\n\n### Can a QR code be used more than once?\n\nNo. Each Express sign-in QR code is single-use. After the visitor signs in, the code stops working, which prevents it from being shared or reused. A visitor coming back on another day receives a new invitation.\n\n### What happens if a visitor loses their QR code?\n\nThe visitor signs in at the station the same way a walk-in does, by filling in the sign-in form on screen. The host is still notified automatically, so a lost code never stops a visit.\n\n### Which Virtual Front Desk plans include Express sign-in?\n\nExpress sign-in is available on every Virtual Front Desk plan, along with the Outlook add-in and the Google Calendar add-on. Badge printing at the end of sign-in requires the Enterprise plan, and video call notifications to the host start on the Professional plan.\n\n### Can hosts pre-register visitors from Google Calendar?\n\nYes. Hosts can pre-register visitors from the Google Calendar add-on, the Outlook add-in or the Virtual Front Desk dashboard. With the Google Calendar add-on, the event organizer sends the pre-registrations from a saved event.\n\n## Try Express sign-in on your own lobby\n\nThe quickest way to judge QR code sign-in is to invite yourself. Set up one station, turn on pre-registration, send an invite to your own phone and time the check-in. Every new account starts with a [30-day free trial](https://www.virtualfrontdesk.com/free-demo-trial) of the Enterprise plan, and the [pricing page](https://www.virtualfrontdesk.com/pricing) compares what each plan includes. If you're still replacing a paper logbook, the [building security compliance overview](https://www.virtualfrontdesk.com/solutions/building-security-compliance) shows how sign-in, sign-out and visitor records fit together.\n";
   var $ = function (id) { return document.getElementById(id); };
   var state = { source: null, name: '', isSample: false, filter: 'issues', report: null };
   var MARK = { pass: '✓', warn: '!', fail: '×' };

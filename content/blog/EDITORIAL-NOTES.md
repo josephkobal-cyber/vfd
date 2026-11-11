@@ -4,6 +4,12 @@ Final files are in `content/blog/final/` (Markdown source plus .docx for the
 CMS). The original interview drafts are in `content/blog/drafts/`. All five
 finals score 100/100 with zero warnings in the article checker.
 
+Formatting for Webflow: no tables in the body (comparisons are bulleted
+lists), plain black Times New Roman in the .docx, and every link is a full
+URL to a page that is live today. The five articles don't link to each
+other yet, because none of them is published. Add the cross-links once
+they're live.
+
 ## Changes made to every article
 
 - Removed the interview section, every quote and every "says Jeff
@@ -14,8 +20,8 @@ finals score 100/100 with zero warnings in the article checker.
 - Rewrote in a conversational voice: contractions, direct "you", varied
   sentence length, no stiff connectors.
 - Added a primary keyword, a target question, an AI answer summary, a
-  closing call to action, internal links (blog, pricing, trial, help
-  center) and at least one comparison table.
+  closing call to action and links to live pages (pricing, trial,
+  solution pages, help center).
 - Named the plan for every gated feature (badge printing, live monitoring,
   payments, digital scanner, call queues: Enterprise; video calls and Teams:
   Professional and up; AI Agent: add-on on every plan).
@@ -55,8 +61,6 @@ say retention is an organization setting).
 
 ## Before publishing
 
-- Publish the five slugs exactly as in the metadata so the relative
-  `/blog/...` links between articles resolve.
 - Paste each article's JSON-LD (in the .docx, or from the checker's
   Schema panel) into the page head.
 - Set the author to Jeff Letendre with the CEO and Founder title on each

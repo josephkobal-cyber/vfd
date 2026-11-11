@@ -40,12 +40,12 @@ That changes the job. It has to understand spoken questions in a noisy space, an
 
 ## What it does: answer, guide, act and hand off
 
-| What the AI Agent does | Example |
-|---|---|
-| Answers a question | "Where's the washroom?" or "Where can I park?" |
-| Guides a workflow | Walks a visitor through check-in, step by step |
-| Takes an action | Presses the sign-in button or the call button on the station |
-| Hands off to a person | Calls reception when it isn't sure, or when the visitor asks for someone |
+Everything the AI Agent does at the station falls into one of four jobs:
+
+- **Answers a question:** "Where's the washroom?" or "Where can I park?"
+- **Guides a workflow:** walks a visitor through check-in, step by step.
+- **Takes an action:** presses the sign-in button or the call button on the station.
+- **Hands off to a person:** calls reception when it isn't sure, or when the visitor asks for someone.
 
 ## What does the AI receptionist know?
 
@@ -123,4 +123,4 @@ The AI Agent is an add-on available on every Virtual Front Desk plan. It costs $
 
 ## See it on your own station
 
-A real test beats any demo. Write a one-page context file for your lobby, turn on the AI Agent, and ask it the five questions your visitors ask most, plus one it can't answer. Then watch how quickly it hands you to a person. Every new account starts with a [30-day free trial](https://www.virtualfrontdesk.com/free-demo-trial), and the [AI receptionist overview](https://www.virtualfrontdesk.com/ai-receptionist) shows more examples. For lobbies with nobody at the desk, our guide on how to [greet walk-in visitors at an unstaffed desk](/blog/greet-visitors-unstaffed-front-desk) covers the human side of the handoff.
+A real test beats any demo. Write a one-page context file for your lobby, turn on the AI Agent, and ask it the five questions your visitors ask most, plus one it can't answer. Then watch how quickly it hands you to a person. Every new account starts with a [30-day free trial](https://www.virtualfrontdesk.com/free-demo-trial), and the [AI receptionist overview](https://www.virtualfrontdesk.com/ai-receptionist) shows more examples. For the human side of the handoff, the [video reception overview](https://www.virtualfrontdesk.com/video-reception) shows how live calls work at the station.

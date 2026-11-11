@@ -113,6 +113,144 @@
     { re: /\bQR-code\b(?!\s)/, msg: 'Write "QR code" without a hyphen in running text.' }
   ];
 
+  // KNOWN_PAGES:start (refresh with: node tools/article-checker/refresh-known-pages.js)
+  var KNOWN_PAGES = [
+      "https://help.virtualfrontdesk.com/en",
+      "https://help.virtualfrontdesk.com/en/article/ai-agent-setup-guide",
+      "https://help.virtualfrontdesk.com/en/article/analytics",
+      "https://help.virtualfrontdesk.com/en/article/android-mobile-native-application",
+      "https://help.virtualfrontdesk.com/en/article/android-tablets-chrome-in-full-screen-and-kiosk-mode-pinned-app",
+      "https://help.virtualfrontdesk.com/en/article/azure-groups",
+      "https://help.virtualfrontdesk.com/en/article/call-hours-choose-when-stations-can-call-you",
+      "https://help.virtualfrontdesk.com/en/article/clock-in-clock-out-timesheets",
+      "https://help.virtualfrontdesk.com/en/article/customization-logo-and-backgrounds",
+      "https://help.virtualfrontdesk.com/en/article/dashboard-overview",
+      "https://help.virtualfrontdesk.com/en/article/documents-pdfs-qr-codes-iframes",
+      "https://help.virtualfrontdesk.com/en/article/emergency-message",
+      "https://help.virtualfrontdesk.com/en/article/faq-subscription-and-plans",
+      "https://help.virtualfrontdesk.com/en/article/faq-what-devices-to-use-with-virtual-front-desk",
+      "https://help.virtualfrontdesk.com/en/article/faqwhat-is-virtual-front-desks-customer-support-like",
+      "https://help.virtualfrontdesk.com/en/article/google-calendar-add-on-for-pre-registration-and-express-qr-code-sign-in",
+      "https://help.virtualfrontdesk.com/en/article/groups-and-call-queue",
+      "https://help.virtualfrontdesk.com/en/article/history-call-logs-sign-in-logs-pre-registration-logs-and-transaction-logs",
+      "https://help.virtualfrontdesk.com/en/article/iframes-url-websites-and-webapps",
+      "https://help.virtualfrontdesk.com/en/article/infrastructure-built-on-microsoft-azure-with-acs-hipaa-compliant-video-technology",
+      "https://help.virtualfrontdesk.com/en/article/integration-with-whatsapp",
+      "https://help.virtualfrontdesk.com/en/article/ipad-kiosk-mode-guided-access",
+      "https://help.virtualfrontdesk.com/en/article/live-call-features",
+      "https://help.virtualfrontdesk.com/en/article/mobile-application-iphone-and-ipad",
+      "https://help.virtualfrontdesk.com/en/article/monitoring-or-live-streaming-your-stations",
+      "https://help.virtualfrontdesk.com/en/article/ms-teams-call-queue-vs-auto-attendant-explained",
+      "https://help.virtualfrontdesk.com/en/article/ms-teams-integration-for-video-calls-call-queue-auto-attendant",
+      "https://help.virtualfrontdesk.com/en/article/neat-frame-or-board",
+      "https://help.virtualfrontdesk.com/en/article/neat-pulse-and-setting-your-neat-frame-with-virtual-front-desk",
+      "https://help.virtualfrontdesk.com/en/article/new-users-onboarding",
+      "https://help.virtualfrontdesk.com/en/article/office-hours-and-the-closed-screen",
+      "https://help.virtualfrontdesk.com/en/article/okta-integration",
+      "https://help.virtualfrontdesk.com/en/article/outlook-calendar-add-in-for-pre-registration-or-express-qr-code-sign-in",
+      "https://help.virtualfrontdesk.com/en/article/owner-admin-and-regular-users",
+      "https://help.virtualfrontdesk.com/en/article/phone-calls-and-call-forwarding",
+      "https://help.virtualfrontdesk.com/en/article/printer-app-technical-specifications",
+      "https://help.virtualfrontdesk.com/en/article/printing-badges-and-documents",
+      "https://help.virtualfrontdesk.com/en/article/quick-access-button",
+      "https://help.virtualfrontdesk.com/en/article/read-first-creating-stations",
+      "https://help.virtualfrontdesk.com/en/article/scanner",
+      "https://help.virtualfrontdesk.com/en/article/settings-menu",
+      "https://help.virtualfrontdesk.com/en/article/sign-up-regions-microsoft-sso-and-google-sso-log-in",
+      "https://help.virtualfrontdesk.com/en/article/slack-integration",
+      "https://help.virtualfrontdesk.com/en/article/sms-for-microsoft-teams",
+      "https://help.virtualfrontdesk.com/en/article/station-offline-alerts",
+      "https://help.virtualfrontdesk.com/en/article/station-search-hide-names-until-the-visitor-searches",
+      "https://help.virtualfrontdesk.com/en/article/stripe-terminal-credit-and-debit-card-reader-pos-point-of-sales",
+      "https://help.virtualfrontdesk.com/en/article/subscriptions-free-trial-and-pre-paid-credit",
+      "https://help.virtualfrontdesk.com/en/article/translator",
+      "https://help.virtualfrontdesk.com/en/article/trouble-shooting-guide-firewall-permissions",
+      "https://help.virtualfrontdesk.com/en/article/users",
+      "https://help.virtualfrontdesk.com/en/article/videos-as-background-for-your-stations",
+      "https://help.virtualfrontdesk.com/en/article/virtual-front-desk-api-overview-and-getting-started",
+      "https://help.virtualfrontdesk.com/en/article/visitor-sign-form-and-sign-out-option",
+      "https://help.virtualfrontdesk.com/en/article/windows-kiosk-mode",
+      "https://help.virtualfrontdesk.com/en/news",
+      "https://help.virtualfrontdesk.com/en/news/3263-new-feature-take-payments-at-the-station",
+      "https://help.virtualfrontdesk.com/en/news/3264-new-feature-sign-in-with-qr-code",
+      "https://help.virtualfrontdesk.com/en/news/3265-new-feature-live-stream-your-stations",
+      "https://help.virtualfrontdesk.com/en/news/3271-new-feature-digital-scanner",
+      "https://help.virtualfrontdesk.com/en/news/3289-choose-which-language-to-display",
+      "https://help.virtualfrontdesk.com/en/news/3300-new-feature-sms-to-microsoft-teams",
+      "https://help.virtualfrontdesk.com/en/news/3491-new-feature-integration-with-slack",
+      "https://help.virtualfrontdesk.com/en/news/3575-new-feature-outlook-calendar-add-in-for-pre-registration",
+      "https://help.virtualfrontdesk.com/en/news/3669-new-feature-accounts-structured-by-organizations",
+      "https://help.virtualfrontdesk.com/en/news/3833-new-feature-videos-as-background-for-your-stations",
+      "https://help.virtualfrontdesk.com/en/news/3842-new-feature-whatsapp-notifications",
+      "https://help.virtualfrontdesk.com/en/news/4543-new-feature-the-ai-agent",
+      "https://www.virtualfrontdesk.com",
+      "https://www.virtualfrontdesk.com/about",
+      "https://www.virtualfrontdesk.com/ai-receptionist",
+      "https://www.virtualfrontdesk.com/analytics",
+      "https://www.virtualfrontdesk.com/api",
+      "https://www.virtualfrontdesk.com/blog",
+      "https://www.virtualfrontdesk.com/contact-us",
+      "https://www.virtualfrontdesk.com/devices",
+      "https://www.virtualfrontdesk.com/free-demo-trial",
+      "https://www.virtualfrontdesk.com/knowledge-base",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/android-mobile-native-application",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/android-tablets-chrome-in-full-screen-and-kiosk-mode-pinned-app",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/azure-groups",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/clock-in-clock-out-timesheets",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/customization-logo-and-background-images",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/digital-scanner",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/documents-pdfs-qr-codes-iframes",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/groups-and-call-queue",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/history-call-logs-sign-in-logs-pre-registration-logs-and-transaction-logs",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/iframes-url-websites-and-webapps",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/infrastructure-built-on-microsoft-azure-with-acs-hipaa-compliant-video-technology",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/ipad-kiosk-mode-guided-access",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/live-call-features",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/mobile-application-iphone-and-ipad",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/monitoring-or-live-streaming-your-stations",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/ms-teams-call-queue-vs-auto-attendant-explained",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/must-read-to-use-the-ms-teams-integration-call-queue-auto-attendant",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/neat-frame-or-board",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/neat-pulse-and-setting-up-your-neat-frame-with-virtual-front-desk",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/okta-integration-sso-sign-in",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/outlook-calendar-add-in-for-pre-registration-and-express-qr-code-sign-in",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/owner-admin-and-regular-users",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/payments-stripe-terminal-credit-and-debit-card-reader-pos-point-of-sales",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/phone-call-and-call-forwarding",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/printer-app-technical-specifications",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/printing-badges-and-documents",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/quick-access-button",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/read-first-creating-stations",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/settings-menu",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/sign-up-regions-microsoft-sso-and-google-sso-log-in",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/slack-integration",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/sms-for-microsoft-teams",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/subscriptions-free-trial-and-pre-paid-credit",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/translator",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/trouble-shooting-guide-firewall-permissions",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/users",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/video-as-background-for-your-stations",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/virtual-assistant",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/visitor-sign-in-sign-out-and-express-qr-code-sign-in",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/whatsapp-integration",
+      "https://www.virtualfrontdesk.com/knowledge-base-article/windows-kiosk-mode",
+      "https://www.virtualfrontdesk.com/neat",
+      "https://www.virtualfrontdesk.com/post/22-lobbies-one-modern-front-desk-how-a-global-manufacturer-runs-reception-on-microsoft-teams",
+      "https://www.virtualfrontdesk.com/post/from-50-to-50-clinics-how-a-u-s-healthcare-network-replaced-the-on-site-front-desk-with-virtual-video-receptionists",
+      "https://www.virtualfrontdesk.com/post/how-to-upgrade-from-microsoft-teams-displays-to-virtual-front-desk-on-neat-frame",
+      "https://www.virtualfrontdesk.com/post/integrating-virtual-front-desk-with-microsoft-teams",
+      "https://www.virtualfrontdesk.com/post/remote-receptionists-empowering-your-team-with-virtual-front-desk",
+      "https://www.virtualfrontdesk.com/post/transforming-reception-how-virtual-front-desk-enhances-customer-engagement",
+      "https://www.virtualfrontdesk.com/post/unlock-new-opportunities-with-our-virtual-receptionist-app",
+      "https://www.virtualfrontdesk.com/post/why-virtual-front-desk-is-the-most-complete-visitor-management-tool-for-your-business",
+      "https://www.virtualfrontdesk.com/pricing",
+      "https://www.virtualfrontdesk.com/solutions/building-security-compliance",
+      "https://www.virtualfrontdesk.com/solutions/healthcare",
+      "https://www.virtualfrontdesk.com/solutions/retail",
+      "https://www.virtualfrontdesk.com/video-reception"
+  ];
+  // KNOWN_PAGES:end
+
   var STOP = ['a', 'an', 'the', 'for', 'and', 'or', 'of', 'to', 'in', 'on', 'at', 'is', 'how', 'what', 'with', 'your', 'you', 'it', 'its', 'by'];
 
   // ---------------------------------------------------------------------------
@@ -166,6 +304,15 @@
     if (hasAllTokens(text, phrase)) return 'partial';
     return 'none';
   }
+
+  function normUrl(u) {
+    return String(u || '').trim().replace(/[#?].*$/, '').replace(/\/+$/, '').replace(/^http:/i, 'https:')
+      .replace(/^https:\/\/virtualfrontdesk\.com/i, 'https://www.virtualfrontdesk.com').toLowerCase();
+  }
+  var KNOWN_SET = {};
+  KNOWN_PAGES.forEach(function (u) { KNOWN_SET[normUrl(u)] = true; });
+  function isKnownPage(href) { return !!KNOWN_SET[normUrl(href)]; }
+  function isAbsolute(href) { return /^https:\/\//i.test(String(href || '').trim()); }
 
   function isInternal(href) {
     if (!href) return false;
@@ -351,6 +498,15 @@
     return hits >= 2 ? meta : null;
   }
 
+  // One "Label: value" line from a metadata list.
+  function metaFromLine(label, value) {
+    var l = lower(label).replace(/[:*]/g, '').trim();
+    for (var i = 0; i < META_LABELS.length; i++) {
+      if (META_LABELS[i][0].test(l)) { var o = {}; o[META_LABELS[i][1]] = String(value).trim(); return o; }
+    }
+    return null;
+  }
+
   // Split the parsed blocks into: article body, metadata, and anything after
   // (interview sections and other leftovers that must not be published).
   function finalize(doc) {
@@ -365,6 +521,13 @@
       if (b.type === 'table') {
         var tm = metaFromTable(b.rows || []);
         if (tm) { Object.keys(tm).forEach(function (k) { if (!meta[k]) meta[k] = tm[k]; }); inTail = true; continue; }
+      }
+      if (inTail && (b.type === 'li' || b.type === 'p')) {
+        var kv = b.text.match(/^([^:]{2,40}):\s*(.+)$/);
+        if (kv) {
+          var lm = metaFromTable([[kv[1], kv[2]], ['', '']]) || metaFromLine(kv[1], kv[2]);
+          if (lm) Object.keys(lm).forEach(function (k) { if (!meta[k]) meta[k] = lm[k]; });
+        }
       }
       (inTail ? trailing : body).push(b);
     }
@@ -522,8 +685,9 @@
     add(C1, 'lists', 'Uses lists, including a numbered process', !lis.length ? 'fail' : ordered.length ? 'pass' : 'warn',
       lis.length + ' list items (' + ordered.length + ' numbered).', { fix: 'Turn any step-by-step explanation into a numbered list.' });
     var tables = m.content.filter(function (x) { return x.type === 'table'; });
-    add(C1, 'table', 'Has a comparison or summary table', tables.length ? 'pass' : 'warn',
-      tables.length + ' table(s). Tables are often lifted directly into AI answers.', { fix: 'Add a table comparing options, plans, licenses or steps.' });
+    add(C1, 'no_tables', 'No tables in the article body (Webflow)', tables.length ? 'fail' : 'pass',
+      tables.length ? tables.length + ' table(s) found. Webflow rich text does not support tables.' : 'No tables. Comparisons are written as lists.',
+      { weight: 2, items: tables.map(function (t) { return trimTo(t.text.split('\n')[0], 120); }), fix: 'Turn each table row into a bullet with a bold lead-in, e.g. "- **Essential, $29 per station:** sign-in only."' });
 
     // ---- AI visibility -------------------------------------------------------
     var C2 = 'AI visibility (GEO)';
@@ -621,9 +785,17 @@
       add(C3, 'keyword_density', 'Keyword density ' + LIMITS.density[0] + '–' + LIMITS.density[1] + '%', occ === 0 ? 'fail' : (density >= LIMITS.density[0] && density <= LIMITS.density[1]) ? 'pass' : 'warn',
         occ + ' exact use(s), ' + round(density, 2) + '% density.', { fix: density > LIMITS.density[1] ? 'Too repetitive. Use synonyms and related queries.' : 'Use the exact phrase in a heading and once more in the body.' });
     }
-    var internal = m.links.filter(function (l) { return isInternal(l.href); });
+    var relative = m.links.filter(function (l) { return !isAbsolute(l.href); });
+    add(C3, 'links_absolute', 'Every link uses the full URL', relative.length ? 'fail' : m.links.length ? 'pass' : 'warn',
+      relative.length ? relative.length + ' link(s) without a full https:// URL.' : m.links.length ? 'All links are full https:// URLs.' : 'No links found.',
+      { weight: 2, items: relative.map(function (l) { return '"' + l.text + '" → ' + l.href; }), fix: 'Paste the complete page address into each link, starting with https://.' });
+    var missingPages = m.links.filter(function (l) { return isAbsolute(l.href) && isInternal(l.href) && !isKnownPage(l.href); });
+    add(C3, 'links_exist', 'Links point to pages that exist', missingPages.length ? 'fail' : 'pass',
+      missingPages.length ? missingPages.length + ' link(s) to Virtual Front Desk pages that are not on the live site map.' : 'Every Virtual Front Desk link is a live page (' + KNOWN_PAGES.length + ' pages known).',
+      { weight: 3, items: missingPages.map(function (l) { return '"' + l.text + '" → ' + l.href; }), fix: 'Link only to published pages. Remove links to articles that are not live yet. If the page was just published, refresh the page list.' });
+    var internal = m.links.filter(function (l) { return isAbsolute(l.href) && isInternal(l.href) && isKnownPage(l.href); });
     var help = internal.filter(function (l) { return /help\.virtualfrontdesk/i.test(l.href); });
-    add(C3, 'internal_links', LIMITS.internalLinks + '+ internal links', internal.length >= LIMITS.internalLinks ? 'pass' : internal.length ? 'warn' : 'fail',
+    add(C3, 'internal_links', LIMITS.internalLinks + '+ links to live Virtual Front Desk pages', internal.length >= LIMITS.internalLinks ? 'pass' : internal.length ? 'warn' : 'fail',
       internal.length + ' internal link(s), ' + help.length + ' to the help center, ' + (m.links.length - internal.length) + ' external.',
       { weight: 2, items: internal.map(function (l) { return l.text + ' → ' + l.href; }), fix: 'Link to related blog posts, the pricing page and the matching help center article.' });
     var weak = m.links.filter(function (l) { return WEAK_ANCHORS.test(String(l.text).trim()) || /^https?:\/\//.test(String(l.text).trim()); });
@@ -729,7 +901,7 @@
     add(C5, 'plan_gating', 'Plan requirements stated for gated features', gates.length ? 'warn' : 'pass',
       gates.length ? gates.length + ' gated feature(s) without the plan named.' : 'Every plan-gated feature names its plan.',
       { items: gates, fix: 'Say which plan a feature needs the first time you mention it.' });
-    var sup = m.sentences.filter(function (s) { return /\b(the best|the most (powerful|advanced|complete)|industry[- ]leading|#1|number one|unmatched|unrivaled|the only)\b/i.test(s); });
+    var sup = m.sentences.filter(function (s) { return /\b(the best|the most (powerful|advanced|complete)|industry[- ]leading|#1|number one|unmatched|unrivaled|the only (\w+ )?(solution|platform|tool|product|system|company|vendor|software|app|one))\b/i.test(s); });
     add(C5, 'superlatives', 'No unproven superlatives', sup.length ? 'warn' : 'pass', sup.length + ' superlative claim(s).',
       { items: sup.map(function (s) { return trimTo(s, 140); }), fix: 'Replace "the best" with the specific thing it does better.' });
 

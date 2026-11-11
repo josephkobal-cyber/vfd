@@ -43,7 +43,7 @@ Buttons don't only place calls. A button can also start a sign-in form, show a P
 
 ## What can the receptionist do during the call?
 
-Almost anything they'd do at the counter. The call window in the dashboard includes:
+Almost anything they'd do at the counter. The call window in the dashboard includes these [live call features](https://help.virtualfrontdesk.com/en/article/live-call-features):
 
 - **ID capture:** the visitor holds their ID up to the station camera and the receptionist saves the image.
 - **Documents for signature:** send a PDF to the station screen and ask the visitor to add their name, email and signature.
@@ -58,7 +58,7 @@ Everything captured during a call is saved in the call log. One caveat: these to
 
 Your own people. Virtual Front Desk provides the software and the station, not the receptionists. Calls go to an in-house receptionist on another floor or working from home, a group of employees, or a remote reception service you already work with.
 
-When a button calls a group, you choose how it rings:
+When a button calls a group, you choose how it rings (the [groups and call queue guide](https://help.virtualfrontdesk.com/en/article/groups-and-call-queue) covers each setting):
 
 - **Broadcast:** everyone in the group rings at once, and the first person to answer takes the call.
 - **Queue:** members ring one after another, 30 seconds each by default.
@@ -76,7 +76,7 @@ On the Enterprise plan, live monitoring adds a view of the lobbies themselves. T
 
 Plenty of visitors don't need a conversation at all. They need to sign in and let their host know they've arrived. They do that on the station by themselves: name, any questions you ask, a selfie or a signed document if you require one. The host is notified automatically by video call, phone call, SMS, email or Microsoft Teams, and on the Enterprise plan a badge prints at the end of the form.
 
-Expected visitors can skip the form entirely with Express sign-in. They fill it in on their phone before arriving and check in at the station with a QR code in a few seconds. Our guide to [QR code visitor sign-in](/blog/qr-code-visitor-sign-in) explains the full flow.
+Expected visitors can skip the form entirely with Express sign-in. They fill it in on their phone before arriving and check in at the station with a QR code in a few seconds. The [help center guide to Express sign-in](https://help.virtualfrontdesk.com/en/article/visitor-sign-form-and-sign-out-option) explains the full flow.
 
 ## After hours and quiet times
 
@@ -86,17 +86,15 @@ Individual employees can set call hours too, so the station stops ringing them o
 
 ## Answering common questions before anyone picks up
 
-Many lobby questions are the same ones over and over: where to park, where the washroom is, which floor a department is on. The Virtual Front Desk AI Agent, a paid add-on available on every plan, greets visitors at the station, answers those questions out loud and starts sign-in for them. When it can't help, it calls reception through the station's buttons. Our article on [what an AI receptionist is](/blog/what-is-an-ai-receptionist) covers how it works and when it hands off.
+Many lobby questions are the same ones over and over: where to park, where the washroom is, which floor a department is on. The Virtual Front Desk AI Agent, a paid add-on available on every plan, greets visitors at the station, answers those questions out loud and starts sign-in for them. When it can't help, it calls reception through the station's buttons. The [AI receptionist overview](https://www.virtualfrontdesk.com/ai-receptionist) shows how it works and when it hands off.
 
 ## What does this cost a small business?
 
 Pricing is per active station, per month, and you choose the device yourself. Virtual Front Desk doesn't sell hardware but recommends the Neat Frame for most lobbies.
 
-| Plan | Price per station per month | What it covers |
-|---|---|---|
-| Essential | $29 | Visitor sign-in with SMS and email notifications. No video calls. |
-| Professional | $49, plus $0.07 per video call | Video and phone calls, Microsoft Teams, branding, five users included |
-| Enterprise | $109 | Unlimited video calls and users, live monitoring, badge printing, payments |
+- **Essential, $29 per station per month:** visitor sign-in with SMS and email notifications. No video calls.
+- **Professional, $49 per station per month plus $0.07 per video call:** video and phone calls, Microsoft Teams, branding, five users included.
+- **Enterprise, $109 per station per month:** unlimited video calls and users, live monitoring, badge printing and payments.
 
 For a small office with an unstaffed front desk, where walk-ins need to reach a person, Professional is the starting point, since video calls aren't part of Essential. Prepaid credit lowers the monthly price, and the [pricing page](https://www.virtualfrontdesk.com/pricing) has the full breakdown.
 
@@ -124,4 +122,4 @@ Yes. Every station can call the same receptionist or group, wherever they work. 
 
 ## Set up your first station
 
-You can test this in an afternoon: put a tablet or a Neat Frame in your lobby, add a "Reception" button that calls your own phone, and walk in as a visitor. Every new account gets a [30-day free trial](https://www.virtualfrontdesk.com/free-demo-trial) of the Enterprise plan, and the [video reception overview](https://www.virtualfrontdesk.com/video-reception) shows more setups. If you plan to answer in Teams, read how to [set up Microsoft Teams for front-desk reception](/blog/microsoft-teams-front-desk-reception-licensing) first.
+You can test this in an afternoon: put a tablet or a Neat Frame in your lobby, add a "Reception" button that calls your own phone, and walk in as a visitor. Every new account gets a [30-day free trial](https://www.virtualfrontdesk.com/free-demo-trial) of the Enterprise plan, and the [video reception overview](https://www.virtualfrontdesk.com/video-reception) shows more setups. If you plan to answer in Teams, read the [Microsoft Teams integration guide](https://help.virtualfrontdesk.com/en/article/ms-teams-integration-for-video-calls-call-queue-auto-attendant) first.

@@ -49,9 +49,11 @@ material, never quoted and never attributed in the body.
    options, FAQ, next step. At least two H2s are phrased as questions.
 6. **Write** to `content/blog/final/NN-<slug>.md` using the template in
    `article-spec.md`. Answer first. Name the plan for every gated feature.
-   Include one numbered process, one table, an evaluation checklist when the
-   question is "which tool / what's the best", an FAQ, and a short closing
-   section with one CTA (30-day free trial or pricing).
+   Include one numbered process, an evaluation checklist when the question
+   is "which tool / what's the best", an FAQ, and a short closing section
+   with one CTA (30-day free trial or pricing). No tables: write
+   comparisons as bulleted lists. Every link is a full https:// URL to a
+   page that is live today.
 7. **Check and fix until clean:**
    ```bash
    node tools/article-checker/cli.js content/blog/final/NN-<slug>.md
@@ -67,8 +69,9 @@ material, never quoted and never attributed in the body.
    ```bash
    node tools/export-docx.js content/blog/final/NN-<slug>.md
    ```
-   This writes a .docx beside the Markdown with the article, a publishing
-   metadata table and the JSON-LD block. Re-check the .docx with the CLI.
+   This writes a .docx beside the Markdown in black Times New Roman (no
+   colors, no tables), with the article, a publishing metadata list and the
+   JSON-LD block. Re-check the .docx with the CLI.
 10. **Hand off** with: the verdict, what changed from the draft and why,
     fact corrections, claims left out pending confirmation, and the internal
     links other articles should add. Add the notes to
@@ -81,14 +84,19 @@ material, never quoted and never attributed in the body.
 - No claim that isn't verified. No "SOC 2 Type II", no "HIPAA compliant",
   no "Head of Customer Success".
 - "Virtual Front Desk" in full in the body. Never "VFD".
+- No tables in the body. Full URLs in every link. No links to pages that
+  don't exist yet.
 - No em dashes, no exclamation marks, no hype words from the banned list.
 
 ## Tools
 
-- `tools/article-checker/cli.js`: the same 55 rules as the web checker.
+- `tools/article-checker/cli.js`: the same rules as the web checker.
   `--json` for the full report, `--schema` for JSON-LD only, `--all` to list
   passing checks too.
 - `tools/article-checker/index.html`: the upload checker, also published at
   https://claude.ai/artifact/FZVZTCvGJzf2LW6aqwigsY. Rebuild with `node tools/article-checker/build.js` after
   changing `checker-core.js` or `app.html`.
-- `tools/export-docx.js`: Markdown to .docx with metadata and schema.
+- `tools/export-docx.js`: Markdown to .docx with metadata and schema, using
+  `tools/docx/reference.docx` (rebuild with `python3 tools/docx/make-reference.py`).
+- `tools/article-checker/refresh-known-pages.js`: refresh the list of live
+  pages links may point to.

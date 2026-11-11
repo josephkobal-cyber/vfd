@@ -4,8 +4,8 @@
  *
  *   node tools/export-docx.js content/blog/final/*.md
  *
- * Each .docx holds the article, then a "Publishing metadata" table and the
- * JSON-LD schema block. Needs pandoc.
+ * Each .docx holds the article, then a "Publishing metadata" list and the
+ * JSON-LD schema block, in Times New Roman with black text. Needs pandoc.
  */
 'use strict';
 const fs = require('fs');
@@ -23,18 +23,20 @@ const LABELS = [
   ['publisher', 'Publisher'], ['date_published', 'Date published'], ['date_modified', 'Last updated'],
   ['ai_answer_summary', 'AI answer summary']
 ];
-const cell = (v) => String(Array.isArray(v) ? v.join('; ') : v || '').replace(/\|/g, '\\|').replace(/\n/g, ' ');
+const cell = (v) => String(Array.isArray(v) ? v.join('; ') : v || '').replace(/\n/g, ' ');
+// Plain Word styles: Times New Roman, black text, no colors (build with tools/docx/make-reference.py).
+const REFERENCE = path.join(__dirname, 'docx', 'reference.docx');
 
 for (const file of files) {
   const src = fs.readFileSync(file, 'utf8');
   const body = src.replace(/^---\s*\n[\s\S]*?\n---\s*\n/, '');
   const report = checker.check(src);
   const meta = report.meta;
-  const rows = LABELS.map(([k, label]) => '| ' + label + ' | ' + cell(meta[k]) + ' |').join('\n');
-  const md = body.trim() + '\n\n## Publishing metadata\n\n| Field | Value |\n|---|---|\n' + rows +
+  const rows = LABELS.map(([k, label]) => '- **' + label + ':** ' + cell(meta[k])).join('\n');
+  const md = body.trim() + '\n\n## Publishing metadata\n\n' + rows +
     '\n\n## Schema (JSON-LD)\n\nPaste into the page head.\n\n```html\n<script type="application/ld+json">\n' +
     JSON.stringify(report.schema, null, 2) + '\n</script>\n```\n';
   const out = file.replace(/\.md$/i, '.docx');
-  execFileSync('pandoc', ['-f', 'gfm-tex_math_dollars', '-o', out], { input: md });
+  execFileSync('pandoc', ['-f', 'gfm-tex_math_dollars', '--reference-doc', REFERENCE, '--no-highlight', '-o', out], { input: md });
   console.log(path.basename(out) + ': ' + report.verdict + ' (' + report.score + '/100)');
 }

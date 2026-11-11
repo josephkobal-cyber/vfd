@@ -46,8 +46,8 @@ It's also faster for your hosts. A visitor who pre-registered shows up already e
 
 Pre-registration doesn't need a receptionist in the middle. Hosts invite visitors from the tools they already have open.
 
-- **Outlook:** with the Virtual Front Desk for Outlook add-in, a host creates the meeting, opens the add-in, picks the location, host and sign-in form, and clicks Send Pre-Registrations. External attendees are selected automatically. An administrator installs the add-in once from the Microsoft 365 admin center. It works in the Outlook calendar, not in the Teams calendar.
-- **Google Calendar:** the Virtual Front Desk add-on works the same way from a saved event in Google Calendar on the web. The event organizer sends the pre-registrations.
+- **Outlook:** with the [Virtual Front Desk for Outlook add-in](https://help.virtualfrontdesk.com/en/article/outlook-calendar-add-in-for-pre-registration-or-express-qr-code-sign-in), a host creates the meeting, opens the add-in, picks the location, host and sign-in form, and clicks Send Pre-Registrations. External attendees are selected automatically. An administrator installs the add-in once from the Microsoft 365 admin center. It works in the Outlook calendar, not in the Teams calendar.
+- **Google Calendar:** the [Virtual Front Desk add-on for Google Calendar](https://help.virtualfrontdesk.com/en/article/google-calendar-add-on-for-pre-registration-and-express-qr-code-sign-in) works the same way from a saved event in Google Calendar on the web. The event organizer sends the pre-registrations.
 - **Dashboard:** create an invitation for one visitor, or use Bulk invitations when a group is coming in, such as a training day or a client delegation.
 
 A manager booking an interview sends the invitation in the same step as the meeting invite. The candidate arrives with the form done.
@@ -62,14 +62,14 @@ If a visitor loses the invitation or their phone battery dies, nothing breaks. T
 
 QR codes are only for pre-registered visitors. Walk-in visitors use the regular sign-in form on the station screen. Both run on the same station, so a lobby handles expected guests and unannounced visitors without separate hardware or a second queue.
 
-| | Walk-in sign-in | Express sign-in |
-|---|---|---|
-| Who uses it | Anyone who arrives unannounced | Visitors a host invited ahead of time |
-| Where the form is filled in | On the station screen | On the visitor's own phone or computer, before the visit |
-| What happens at the station | The visitor completes every field and photo | One scan of the QR code, or the 4-digit code |
-| Host notification | Automatic | Automatic |
-| Visitor badge (Enterprise) | Prints at the end of the form | Prints right after the scan |
-| Record in your sign-in logs | Yes, kept 12 months by default | Yes, kept 12 months by default |
+Here's how the two compare:
+
+- **Who uses it:** walk-in sign-in is for anyone who arrives unannounced. Express sign-in is for visitors a host invited ahead of time.
+- **Where the form is filled in:** walk-ins fill it in on the station screen. Pre-registered visitors fill it in on their own phone or computer before the visit.
+- **What happens at the station:** a walk-in completes every field and photo there. A pre-registered visitor scans the QR code or types the 4-digit code.
+- **Host notification:** automatic in both cases.
+- **Visitor badge (Enterprise):** prints at the end of the form for walk-ins, and right after the scan for pre-registered visitors.
+- **Record in your sign-in logs:** both are saved and kept 12 months by default.
 
 ## Keeping track of who's expected
 
@@ -130,4 +130,4 @@ Yes. Hosts can pre-register visitors from the Google Calendar add-on, the Outloo
 
 ## Try Express sign-in on your own lobby
 
-The quickest way to judge QR code sign-in is to invite yourself. Set up one station, turn on pre-registration, send an invite to your own phone and time the check-in. Every new account starts with a [30-day free trial](https://www.virtualfrontdesk.com/free-demo-trial) of the Enterprise plan, and the [pricing page](https://www.virtualfrontdesk.com/pricing) compares what each plan includes. If you're still replacing a paper logbook, start with our guide to [visitor management for safety and compliance](/blog/visitor-management-safety-compliance).
+The quickest way to judge QR code sign-in is to invite yourself. Set up one station, turn on pre-registration, send an invite to your own phone and time the check-in. Every new account starts with a [30-day free trial](https://www.virtualfrontdesk.com/free-demo-trial) of the Enterprise plan, and the [pricing page](https://www.virtualfrontdesk.com/pricing) compares what each plan includes. If you're still replacing a paper logbook, the [building security compliance overview](https://www.virtualfrontdesk.com/solutions/building-security-compliance) shows how sign-in, sign-out and visitor records fit together.

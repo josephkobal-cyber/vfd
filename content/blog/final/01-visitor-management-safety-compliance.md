@@ -36,14 +36,12 @@ There's a staffing cost too. The guard who keeps the log is usually the same per
 
 Before you compare tools, decide what a complete record looks like for your site. For most organizations, it covers six things.
 
-| What you need to know | Why it matters | How Virtual Front Desk captures it |
-|---|---|---|
-| Who the visitor is | Identification during and after the visit | Name (the only mandatory field), plus any fields you add, such as company |
-| Who they came to see | Accountability for every visitor | The visitor picks their host, or the form contacts one host directly |
-| When they arrived and left | An accurate count of who is onsite | Time-stamped sign-in and an optional sign-out button |
-| Proof of identity | Verification at higher-security sites | A selfie and a photo of the front and back of an ID card |
-| What they agreed to | Evidence of NDAs and safety briefings | PDFs signed on the station and stored with the visit |
-| Where they signed in | Reporting across buildings | Each station belongs to a location |
+- **Who the visitor is.** You need it to identify people during and after the visit. Virtual Front Desk asks for the name (the only mandatory field) plus any fields you add, such as company.
+- **Who they came to see.** Every visitor should be someone's responsibility. The visitor picks their host, or the form contacts one host directly.
+- **When they arrived and left.** This is what gives you an accurate count of who is onsite. Each sign-in is time-stamped, and an optional sign-out button records the departure.
+- **Proof of identity.** Higher-security sites need verification. The station can take a selfie and a photo of the front and back of an ID card.
+- **What they agreed to.** NDAs and safety briefings need evidence. Visitors sign PDFs on the station, and each signed copy is stored with the visit.
+- **Where they signed in.** Reporting across buildings depends on it. Each station belongs to a location.
 
 ## How visitor sign-in works at a Virtual Front Desk station
 
@@ -60,7 +58,7 @@ The native form keeps things simple: text fields, required or optional. If you n
 
 ## Who gets notified when a visitor signs in?
 
-The person the visitor came to see. Depending on each employee's settings and your plan, the notification arrives as a video call, a phone call, an SMS or an email. On the Essential plan, hosts are notified by SMS and email. Video and phone calls start on the Professional plan, and employees can take those calls in the Virtual Front Desk app or [directly in Microsoft Teams](/blog/microsoft-teams-front-desk-reception-licensing).
+The person the visitor came to see. Depending on each employee's settings and your plan, the notification arrives as a video call, a phone call, an SMS or an email. On the Essential plan, hosts are notified by SMS and email. Video and phone calls start on the Professional plan, and employees can take those calls in the Virtual Front Desk app or [directly in Microsoft Teams](https://help.virtualfrontdesk.com/en/article/ms-teams-integration-for-video-calls-call-queue-auto-attendant).
 
 On the Enterprise plan, the same step can print a visitor badge. You choose what goes on it: a header such as "Visitor", up to three fields from the form, your logo, the visitor's selfie, and the date and time.
 
@@ -76,7 +74,7 @@ That list is what you need when the alarm goes off. From the sign-in logs, owner
 
 ## Express sign-in for expected visitors
 
-For visitors you know are coming, the fastest sign-in is the one they finish before they arrive. Hosts pre-register visitors from the dashboard, from Outlook or from Google Calendar, and the visitor completes the form on their own phone, selfie and ID photos included. At the station, they scan a QR code or type a 4-digit code and they're in. Our guide to [QR code visitor sign-in](/blog/qr-code-visitor-sign-in) walks through the full flow.
+For visitors you know are coming, the fastest sign-in is the one they finish before they arrive. Hosts pre-register visitors from the dashboard, from Outlook or from Google Calendar, and the visitor completes the form on their own phone, selfie and ID photos included. At the station, they scan a QR code or type a 4-digit code and they're in. The [help center guide to Express sign-in](https://help.virtualfrontdesk.com/en/article/visitor-sign-form-and-sign-out-option) walks through the full flow.
 
 ## Keeping, finding and exporting visitor records
 

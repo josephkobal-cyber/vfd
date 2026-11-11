@@ -65,7 +65,7 @@ question directly. Names Virtual Front Desk. Contains the exact keyword.>
 | H1 | exactly one, 30–80 characters, contains the keyword |
 | Sections | 5–12 H2s, each 40–400 words; at least 2 H2s phrased as questions; one H2 contains the keyword |
 | Paragraphs | under 100 words (130 fails) |
-| Lists and tables | at least one list, one numbered list, one table |
+| Lists | at least one list and one numbered list. **No tables** (Webflow) |
 | Intro | 40–100 words, names Virtual Front Desk, contains the exact keyword, no warm-up opener |
 | FAQ | H2 "Frequently asked questions" with 4–8 H3 questions ending in "?", answers 20–100 words |
 | AI summary | 40–90 words, names Virtual Front Desk |
@@ -74,7 +74,7 @@ question directly. Names Virtual Front Desk. Contains the exact keyword.>
 | SEO title / meta | 30–60 / 120–160 characters, keyword in both |
 | Slug | lowercase, hyphenated, under 75 characters, contains the keyword words |
 | Keyword density | 0.3–2.5% |
-| Links | 3+ internal (virtualfrontdesk.com or relative), descriptive anchors, at least one help center link |
+| Links | full https:// URLs only; every Virtual Front Desk link must be a live page on the site map; 3+ links to live virtualfrontdesk.com or help center pages; descriptive anchors |
 | Metadata | 5+ related queries, target question, author, publisher, date |
 | Readability | Flesch 45+; average sentence 11–22 words; ≤10% of sentences over 30 words; sentence-length spread ±5 words or more |
 | Voice | contractions 3+ per 1,000 words; "you/your" 8+ per 1,000 words; passive ≤15%; no banned phrases; ≤1 stiff connector; no em dashes; no exclamation marks |
@@ -85,15 +85,19 @@ question directly. Names Virtual Front Desk. Contains the exact keyword.>
 "Ready to publish" means zero fails, a score of 95+ and at most two
 warnings. Aim for 100 with zero warnings before handing off.
 
-## Internal linking between the five launch articles
+## Linking rules
 
-| Article | Slug |
-|---|---|
-| Visitor management for safety and compliance | /blog/visitor-management-safety-compliance |
-| QR code visitor sign-in | /blog/qr-code-visitor-sign-in |
-| Greeting walk-ins at an unstaffed front desk | /blog/greet-visitors-unstaffed-front-desk |
-| Microsoft Teams reception and licensing | /blog/microsoft-teams-front-desk-reception-licensing |
-| What is an AI receptionist | /blog/what-is-an-ai-receptionist |
-
-Link each new article to at least two of these where relevant, and add a
-link back from the most related existing article.
+- Paste the full URL into every link.
+- Link only to pages that are live now. The checker holds a snapshot of
+  the website and help center site maps and fails any Virtual Front Desk
+  link that isn't on it.
+- Once a blog article is published, refresh the snapshot so later
+  articles can link to it:
+  `node tools/article-checker/refresh-known-pages.js && node tools/article-checker/build.js`
+- The five launch articles (slugs below) don't link to each other yet.
+  After they're live, add cross-links and re-run the checker:
+  - /blog/visitor-management-safety-compliance
+  - /blog/qr-code-visitor-sign-in
+  - /blog/greet-visitors-unstaffed-front-desk
+  - /blog/microsoft-teams-front-desk-reception-licensing
+  - /blog/what-is-an-ai-receptionist

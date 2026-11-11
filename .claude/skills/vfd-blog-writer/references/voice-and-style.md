@@ -94,8 +94,20 @@ These read as machine-written and weaken trust. The checker flags them.
 - Sentence case headings. H2 for sections, H3 only inside FAQ or for
   sub-steps.
 - At least two H2s phrased as the question a reader would type.
-- One numbered list for any process. One table when comparing options,
-  plans or licenses.
+- One numbered list for any process.
+- **No tables.** The blog runs on Webflow, where tables in rich text are
+  hard to implement. Write comparisons (plans, licenses, options) as a
+  bulleted list with a bold lead-in per item:
+  "- **Professional, $49 per station per month:** video calls, Teams…"
+- **Links use the full URL** (`https://www.virtualfrontdesk.com/pricing`),
+  never a relative path like `/pricing`.
+- **Only link to pages that exist today.** Never link to an article that
+  isn't published yet, even one from the same batch. Use the help center
+  or website page that covers the topic instead. Every URL you link must
+  be on the site map the checker knows (refresh it after new posts go
+  live).
+- No colored text, no highlighting. The Word export is plain black Times
+  New Roman; links are black and underlined.
 - Bold sparingly: the lead-in of a list item, or a single key term.
 - Links use descriptive anchor text ("set up the Microsoft Teams
   integration"), never "click here".
