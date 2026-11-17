@@ -25,3 +25,9 @@ Screens are rebuilt in `source/index.html` from the Figma "sign-in flow" compone
     ffmpeg -f lavfi -i color=c=black:s=1012x1388:r=30 -framerate 30 -i frames/f%05d.png \
       -filter_complex "[0][1]overlay=shortest=1,format=yuv420p" -c:v libx264 -crf 18 -movflags +faststart vfd-sign-in-flow.mp4
     ffmpeg -framerate 30 -i frames/f%05d.png -c:v libvpx-vp9 -pix_fmt yuva420p -b:v 0 -crf 30 vfd-sign-in-flow-transparent.webm
+
+## Safari
+Safari can't play the transparent WebM, so it shows nothing there. Use `vfd-sign-in-flow-safari.mp4`
+(H.264, 1012×1388, background #090909 = the hero background) as the website source for all
+browsers. The page CSS adds `mix-blend-mode: lighten` so the hero's dashed pattern still shows
+through around the iPad.
