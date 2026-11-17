@@ -1,111 +1,181 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
+  "@graph": [
     {
-      "@type": "Question",
-      "name": "What is visitor management software?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Visitor management software helps organizations register, identify, track, and assist visitors entering a workplace or facility. It replaces paper sign-in sheets with digital check-in, visitor records, documents, badges, host notifications, and other arrival workflows. A digital visitor process creates a more consistent arrival experience while giving teams better visibility into who has entered the site and what steps they completed."
+      "@type": "WebSite",
+      "@id": "https://www.virtualfrontdesk.com/#website",
+      "url": "https://www.virtualfrontdesk.com/",
+      "name": "Virtual Front Desk",
+      "inLanguage": "en"
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://www.virtualfrontdesk.com/visitor-management#webpage",
+      "url": "https://www.virtualfrontdesk.com/visitor-management",
+      "name": "Visitor Management & Sign-In Software | Virtual Front Desk",
+      "description": "Configurable visitor sign-in with pre-registration, QR check-in, NDAs, screening and audit-ready records, plus API export and live video help.",
+      "inLanguage": "en",
+      "isPartOf": {
+        "@id": "https://www.virtualfrontdesk.com/#website"
+      },
+      "about": {
+        "@id": "https://www.virtualfrontdesk.com/#software"
+      },
+      "breadcrumb": {
+        "@id": "https://www.virtualfrontdesk.com/visitor-management#breadcrumb"
       }
     },
     {
-      "@type": "Question",
-      "name": "How does Virtual Front Desk Visitor Management work?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Virtual Front Desk lets visitors pre-register or check in at a station, provide required information, complete documents, notify their host, print a badge, and continue to the next step of their visit. AI assistance and live video reception can also be added when visitors need help. Visitor management becomes part of a connected front-desk workflow rather than a standalone sign-in form."
+      "@type": "BreadcrumbList",
+      "@id": "https://www.virtualfrontdesk.com/visitor-management#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.virtualfrontdesk.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Visitor Management",
+          "item": "https://www.virtualfrontdesk.com/visitor-management"
+        }
+      ]
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://www.virtualfrontdesk.com/#software",
+      "name": "Virtual Front Desk",
+      "url": "https://www.virtualfrontdesk.com/",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "iPadOS, Android, Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "29",
+        "priceCurrency": "USD",
+        "url": "https://www.virtualfrontdesk.com/pricing",
+        "priceSpecification": {
+          "@type": "UnitPriceSpecification",
+          "price": "29",
+          "priceCurrency": "USD",
+          "unitText": "per station per month"
+        }
       }
     },
     {
-      "@type": "Question",
-      "name": "How much does Virtual Front Desk cost?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Virtual Front Desk plans start at $29 per station per month. Pricing depends on your plan and the number of stations, so you can start with one location and add stations as your organization grows."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What information can Virtual Front Desk collect during visitor check-in?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Virtual Front Desk can collect the visitor's name, company, email, mobile number, the person or department they are visiting, the purpose of the visit, and any custom fields your organization needs. It can also capture a selfie, a photo of the visitor's ID (front and back), and signed documents saved as PDFs. Different locations and visitor types may require different information, so the check-in process can be adapted to the workflow rather than forcing every visitor through the same form."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can one receptionist support multiple locations?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. Virtual Front Desk can support centralized reception models where one receptionist or team handles visitor calls from multiple locations. This helps organizations standardize reception coverage across offices, clinics, facilities, and entry points without staffing every location separately."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does Virtual Front Desk support touchless and QR-code visitor check-in?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. Virtual Front Desk supports visitor pre-registration and QR-based express check-in, allowing expected guests to complete much of the arrival process before reaching the front desk. QR check-in can reduce time at the station and create a faster arrival experience for returning or pre-registered visitors."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can visitors pre-register before arriving?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. Hosts can pre-register visitors one at a time, invite them in bulk, or send invitations directly from Outlook and Google Calendar. Pre-registration gives visitors a smoother arrival experience and helps the organization know who to expect before they reach the lobby."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can visitors sign documents and print badges during check-in?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. Virtual Front Desk can include NDAs, policies, waivers, and other required documents in the check-in workflow, capture visitor signatures digitally, and print visitor badges on supported printers such as the Brother QL-820NWBc. Signed documents are saved as PDFs with the visitor record, and photo and ID capture can be completed as part of the same arrival process."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does Virtual Front Desk notify employees when a visitor arrives?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Virtual Front Desk notifies the right employee or team the moment a visitor arrives, through Microsoft Teams, Slack, WhatsApp, SMS, email, or a phone call. Hosts can respond faster without needing to constantly monitor the lobby or a separate reception dashboard."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does Virtual Front Desk support multilingual visitor check-in?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. Virtual Front Desk supports multilingual station experiences so visitors can complete front-desk interactions in a language that is more comfortable for them. Multilingual workflows can make visitor arrival easier across international offices, public-facing locations, and diverse visitor populations."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can Virtual Front Desk track who is onsite?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. Virtual Front Desk records every visitor sign-in and sign-out and keeps a live list of everyone currently on site, so authorized teams always know who is in the building, including during an evacuation. Visitor records are kept for 12 months, are fully searchable, and can be exported to CSV to support security procedures, safety processes, reporting, and compliance requirements."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is Virtual Front Desk secure?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. Virtual Front Desk is SOC 2 Type I compliant and supports single sign-on (SSO), including Microsoft Entra ID. Visitor data is stored in your choice of four data regions, so organizations can keep records where their policies require."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How is Virtual Front Desk different from basic visitor management software?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Virtual Front Desk combines visitor management with AI-powered reception and live video. Visitors can check in, ask questions, complete front-desk tasks, and connect face-to-face with a real receptionist from the same station. Basic visitor management often ends after sign-in and host notification. Virtual Front Desk can continue supporting the visitor when they need directions, assistance, reception help, or another front-desk action."
-      }
+      "@type": "FAQPage",
+      "@id": "https://www.virtualfrontdesk.com/visitor-management#faq",
+      "isPartOf": {
+        "@id": "https://www.virtualfrontdesk.com/visitor-management#webpage"
+      },
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is visitor management software?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Visitor management software helps organizations register, identify, track, and assist visitors entering a workplace or facility. It replaces paper sign-in sheets with digital check-in, visitor records, documents, badges, host notifications, and other arrival workflows. A digital visitor process creates a more consistent arrival experience while giving teams better visibility into who has entered the site and what steps they completed."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does Virtual Front Desk Visitor Management work?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Virtual Front Desk lets visitors pre-register or check in at a station, provide required information, complete documents, notify their host, print a badge, and continue to the next step of their visit. AI assistance and live video reception can also be added when visitors need help. Visitor management becomes part of a connected front-desk workflow rather than a standalone sign-in form."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How much does Virtual Front Desk cost?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Virtual Front Desk plans start at $29 per station per month. Pricing depends on your plan and the number of stations, so you can start with one location and add stations as your organization grows."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What information can Virtual Front Desk collect during visitor check-in?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Virtual Front Desk can collect the visitor's name, company, email, mobile number, the person or department they are visiting, the purpose of the visit, and any custom fields your organization needs. It can also capture a selfie, a photo of the visitor's ID (front and back), and signed documents saved as PDFs. Different locations and visitor types may require different information, so the check-in process can be adapted to the workflow rather than forcing every visitor through the same form."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can one receptionist support multiple locations?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Virtual Front Desk can support centralized reception models where one receptionist or team handles visitor calls from multiple locations. This helps organizations standardize reception coverage across offices, clinics, facilities, and entry points without staffing every location separately."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does Virtual Front Desk support touchless and QR-code visitor check-in?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Virtual Front Desk supports visitor pre-registration and QR-based express check-in, allowing expected guests to complete much of the arrival process before reaching the front desk. QR check-in can reduce time at the station and create a faster arrival experience for returning or pre-registered visitors."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can visitors pre-register before arriving?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Hosts can pre-register visitors one at a time, invite them in bulk, or send invitations directly from Outlook and Google Calendar. Pre-registration gives visitors a smoother arrival experience and helps the organization know who to expect before they reach the lobby."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can visitors sign documents and print badges during check-in?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Virtual Front Desk can include NDAs, policies, waivers, and other required documents in the check-in workflow, capture visitor signatures digitally, and print visitor badges on supported printers such as the Brother QL-820NWBc. Signed documents are saved as PDFs with the visitor record, and photo and ID capture can be completed as part of the same arrival process."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does Virtual Front Desk notify employees when a visitor arrives?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Virtual Front Desk notifies the right employee or team the moment a visitor arrives, through Microsoft Teams, Slack, WhatsApp, SMS, email, or a phone call. Hosts can respond faster without needing to constantly monitor the lobby or a separate reception dashboard."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does Virtual Front Desk support multilingual visitor check-in?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Virtual Front Desk supports multilingual station experiences so visitors can complete front-desk interactions in a language that is more comfortable for them. Multilingual workflows can make visitor arrival easier across international offices, public-facing locations, and diverse visitor populations."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can Virtual Front Desk track who is onsite?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Virtual Front Desk records every visitor sign-in and sign-out and keeps a live list of everyone currently on site, so authorized teams always know who is in the building, including during an evacuation. Visitor records are kept for 12 months, are fully searchable, and can be exported to CSV to support security procedures, safety processes, reporting, and compliance requirements."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is Virtual Front Desk secure?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Virtual Front Desk is SOC 2 Type I compliant and supports single sign-on (SSO), including Microsoft Entra ID. Visitor data is stored in your choice of four data regions, so organizations can keep records where their policies require."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How is Virtual Front Desk different from basic visitor management software?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Virtual Front Desk combines visitor management with AI-powered reception and live video. Visitors can check in, ask questions, complete front-desk tasks, and connect face-to-face with a real receptionist from the same station. Basic visitor management often ends after sign-in and host notification. Virtual Front Desk can continue supporting the visitor when they need directions, assistance, reception help, or another front-desk action."
+          }
+        }
+      ]
     }
   ]
 }
